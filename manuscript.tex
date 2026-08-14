@@ -9,7 +9,8 @@
 
 \begin{document}
 
-\title{Adaptive agents in a coupled queueing model}
+\title{Absorbing phase transition in a queueing model\\
+of coupled adaptive agents}
 
 \author{A. Vazquez}
 \affiliation{%TODO: affiliation
@@ -63,12 +64,8 @@ critical phenomena to be decisive for universality~\cite{stanley1971}. A minimal
 two-agent extension~\cite{oliveira2009} gives each agent one \emph{interacting}
 task $I$, executable only when both agents select it in the same step, and one
 aggregate \emph{non-interacting} task $O$ standing for $L_j-1$ private tasks.
-That model predicts a countable family of exponents
-\begin{equation}
-  \alpha = 1 + \frac{1}{\max_j (L_j-1)},
-  \label{eq:alpha_iid}
-\end{equation}
-interpolating between $2$ and $1$: the more distracted agent sets the exponent.
+That model predicts a countable family of exponents, $\alpha=1+1/\max_j(L_j-1)$, interpolating
+between $2$ and $1$: the more distracted agent sets the exponent.
 
 \begin{figure*}[t]
 \includegraphics[width=\textwidth]{fig_schematic.pdf}
@@ -241,7 +238,7 @@ and $\ge 10^5$ steps after a $20\%$ burn-in. We quantify the phase by the
 \subsection{Validation}
 
 Reproducing Ref.~\cite{oliveira2009} with i.i.d.\ priorities recovers
-Eq.~\eqref{eq:alpha_iid}. Asymmetric pairs sit on the prediction:
+$\alpha=1+1/\max_j(L_j-1)$. Asymmetric pairs sit on the prediction:
 $(L_A,L_B)=(2,3)$ gives $\alpha=1.500$ and $(2,5)$ gives $\alpha=1.250$, both
 stable across four decades of the tail. Symmetric pairs approach from below
 --- $L=2$ gives $1.82$ at the $90$th percentile, drifting to $1.94$ deeper in
@@ -255,8 +252,8 @@ possesses no characteristic timescale.
 Level-2 agents remain coupled well below the level-1 threshold. At $L=3$ a
 level-1 pair collapses to the solitary phase for every $R_I\le 0.99$, whereas a
 level-2 pair remains coupled down to $R_I=0.90$. The effect is markedly
-asymmetric in a way that inverts the $\max_j$ rule of
-Eq.~\eqref{eq:alpha_iid}: at $L=3$ and $R_I\in\{0.94,0.96,0.98\}$, pairs of
+asymmetric in a way that inverts the $\max_j$ rule of the non-adaptive
+model: at $L=3$ and $R_I\in\{0.94,0.96,0.98\}$, pairs of
 level-1 agents collapse while a level-2/level-1 pair remains coupled
 (Table~\ref{tab:asym}). In the non-adaptive model the more distracted agent sets
 the exponent; in the adaptive model the more sophisticated agent sets the phase.
@@ -333,12 +330,12 @@ absorbing, the pair falls once and never returns, and no value of $R_I$ produces
 a heavy tail.
 
 Crucially, the exponent measured in the window is \emph{not} given by
-Eq.~\eqref{eq:alpha_iid}. Because the transition is sharp, $\phi$ cannot be
+$\alpha=1+1/\max_j(L_j-1)$. Because the transition is sharp, $\phi$ cannot be
 tuned through $R_I$; varying only the noise realisation at a fixed operating
 point, however, spreads $\phi$ over a wide range, and $\alpha$ tracks it
 (Table~\ref{tab:occ}). The correlation between $\phi$ and $\alpha$ is $+0.70$ at
 $L=2$ and $+0.76$ at $L=6$; the two $\alpha(\phi)$ curves nearly coincide,
-while Eq.~\eqref{eq:alpha_iid} would require $2.00$ and $1.20$ respectively.
+while the non-adaptive prediction would require $2.00$ and $1.20$ respectively.
 
 \begin{table}[b]
 \caption{Tail index versus occupancy at fixed operating points, varying only the
@@ -349,7 +346,7 @@ their fitted indices are reported for completeness only.}
 \begin{tabular}{lcc}
  & $L=2$, $c=0.35$ & $L=6$, $c=0.10$ \\
 \colrule
-Eq.~\eqref{eq:alpha_iid} & 2.00 & 1.20 \\
+$1+1/\max_j(L_j{-}1)$ & 2.00 & 1.20 \\
 ${\rm corr}(\phi,\alpha)$ & $+0.70$ & $+0.76$ \\
 $\alpha$ at $\phi\simeq0.22$ & 1.79 & --- \\
 $\alpha$ at $\phi\simeq0.68$ & 4.59 & 4.32 \\
@@ -844,7 +841,7 @@ family $\alpha=1+1/\max_j(L_j-1)$ does not survive. We therefore propose phase
 occupancy, bounded and directly measurable, in place of $\alpha$ as the order
 parameter, with scale-free interevent statistics as a symptom of sitting
 mid-window rather than as the object of study. Read the other way, exponents
-close to Eq.~\eqref{eq:alpha_iid} in correspondence data are evidence that the
+close to $\alpha=1+1/\max_j(L_j-1)$ in correspondence data are evidence that the
 priority assignment there is close to exogenous; where participation is
 genuinely strategic, the same measurement should not reproduce them.
 
