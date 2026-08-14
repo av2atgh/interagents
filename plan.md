@@ -871,6 +871,93 @@ network is maximally vulnerable to this form of collapse**, and the reason is
 mechanical rather than topological: what one competes for is the partner's
 attention, so being well connected is a liability.
 
+---
+
+## 6B. Wider perspective (literature search, 2026-08-14)
+
+Three results turn out to have close counterparts elsewhere, one of them
+strikingly close; one is known mathematics reached by a new route; and the
+central modelling move appears to be open ground.
+
+**(1) k_c has a measured empirical counterpart.** Miritello, Lara, Cebrián and
+Moro, *Limited communication capacity unveils strategies for human interaction*,
+Sci. Rep. **3**, 1950 (2013), find from ~20 million mobile users over 19 months
+that individuals have a **finite communication capacity limiting the number of
+ties they can keep active**, that it varies with age and sex, and that people
+with large networks do not spend proportionally more time communicating — they
+hold weaker ties. That is the content of
+k_c = a^a(R_I+c)^{a+1}/[c(a+1)^{a+1}] − a. Our contribution is that we do not
+*posit* a capacity: it derives from attention dividing as 1/(k+a) in a queue.
+Related: Dunbar's number (J. Hum. Evol. **22**, 469 (1992)); and Saramäki et al.,
+PNAS **111**, 942 (2014), where "social signatures" — the distribution of effort
+across alters — persist even as the alters themselves turn over. That last point
+matches R15: the *arrangement* of coupled relations reorganises while the
+aggregate does not.
+
+**(2) The τ_mem results have an unnervingly close empirical counterpart.**
+Navarro, Miritello, Canales and Moro, *Temporal patterns behind the strength of
+persistent ties*, EPJ Data Sci. **6**, 31 (2017): temporal features predict tie
+persistence better than intensity or structure, ties burstier than average decay
+preferentially, and **"if communication is halted for more than ~8 times the
+previous communication frequency, most likely the tie will decay."** That is a
+measured memory-time-constant criterion for tie death. It is the empirical form
+of R5 (silence read as rejection kills the coupled phase unless the partner
+model is *held* across gaps) and R13 (recovery costs 0.74 τ_mem; an agent adopts
+it only with horizon > 1.5 τ_mem). The constants are not directly comparable —
+theirs is in units of a tie's own rhythm, ours of an EMA constant — but they
+measure the same thing, and **this is the most promising place to confront the
+model with data.**
+
+**(3) The percolation result is Cohen–Havlin targeted attack, reached
+backwards.** The truncated-second-moment criterion is formally the
+intentional-attack calculation of Cohen, Erez, ben-Avraham and Havlin, PRL
+**86**, 3682 (2001), companion to their random-breakdown result PRL **85**, 4626
+(2000) and to Albert, Jeong and Barabási, Nature **406**, 378 (2000). Nothing
+mathematical here is new. What is new is *who performs the attack*:
+
+> In the standard setting an adversary removes hubs. Here **the attack is
+> self-generated** — nobody removes anything, and the attention constraint
+> deletes high-degree relations on its own. The familiar statement that
+> scale-free networks are robust to failure but fragile to targeted attack
+> acquires an endogenous version: a scale-free social network under attention
+> scarcity **attacks itself**, precisely along the axis it is least able to
+> withstand.
+
+**(4) The mean-field discrepancy is expected and has a name.** Absorbing-state
+transitions in noisy spatial coordination games fall in the directed-percolation
+class (Hinrichsen, Adv. Phys. **49**, 815 (2000)), whose upper critical dimension
+is 4; mean-field systematically overestimates the ordered phase below it. Our
+factor ≈2.3 overestimate of c_c is therefore the expected behaviour of the
+approximation rather than a mistake in it — though we have measured no exponents
+and cannot claim DP membership.
+
+**(5) The central move looks open.** Strategic queueing is established, from
+Naor, Econometrica **37**, 15 (1969) onward, but concerns customers choosing to
+join, balk, or buy priority in a *service* queue. Human-dynamics queueing
+(Barabási 2005; Vazquez 2005, 2006; Oliveira–Vazquez 2009) keeps priorities
+exogenous throughout. The nearest adaptive work found (arXiv:1007.4104) is
+empirical, single-queue and population-level, with no strategic choice of
+priority. **An agent choosing the priority of a task that requires simultaneous
+execution by another agent** — a queueing model that is also a coordination game
+— did not turn up. If that survives a proper search it is the main claim to
+novelty, and the destruction of the α = 1 + 1/max(L_j−1) classes is its main
+consequence.
+
+**(6) The theory-of-mind ladder has an empirical ceiling.** The recursive-ToM
+literature reports that humans rarely exceed ~2 levels, and that ToM-k agents
+coordinate best with ToM-(k±1) partners. Both bear on results here: R4 (one
+level-2 agent stabilises a level-1 partner) is the second statement, and §6.1's
+question of whether tractable recursion depth is the graded measure the theory
+lacks now has an anchor to test against rather than a free parameter.
+
+**Caveat.** These references were assembled from a web search; bibliographic
+details have not been checked against the originals. Verify volumes, pages and
+years before any of this reaches a submission.
+
+---
+
+## 7. Testable predictions
+
 1. **Ablating recurrence abolishes consciousness while leaving competent
    behavior intact.** A purely feedforward system can be arbitrarily capable and
    is predicted to be dark.

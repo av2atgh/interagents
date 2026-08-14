@@ -76,7 +76,8 @@ individual's to-do list as a priority queue with highest-priority-first
 execution produces power-law interevent time distributions
 $P(\tau)\sim\tau^{-\alpha}$, with $\alpha=1$ and $\alpha=3/2$ identified as
 universality classes and corroborated by electronic and postal correspondence
-data~\cite{barabasi2005,oliveira2005,vazquez2006}.
+data~\cite{barabasi2005,oliveira2005,vazquez2006}, the $\alpha=3/2$ class
+going back to the single-server analysis of Cobham~\cite{cobham1954}.
 
 Single-queue models describe an isolated individual. Many activities, however,
 require two or more people at once, and interaction is known from the theory of
@@ -99,6 +100,28 @@ interacting-task priority a decision variable. The agents estimate each other's
 participation rate from observation and set their priority accordingly. This
 changes the object from a stochastic process into a coupled inference problem
 and, as we show, changes its phenomenology substantially.
+
+Strategic queueing is of course an established subject, from
+Naor~\cite{naor1969} onward, but it concerns customers deciding whether to join,
+balk, or purchase priority in a service queue. What is at issue here is
+different: the priority of a task that cannot be executed unilaterally, so that
+the queueing model is simultaneously a coordination game with an absorbing
+failure state. The resulting phenomenology connects to two literatures that have
+so far had little contact with the queueing account of human dynamics. The
+capacity constraint we derive below has been measured directly: mobile-phone
+records show that individuals possess a finite communication capacity limiting
+the number of ties they can hold active, and that people with larger networks do
+not communicate proportionally more but maintain weaker
+ties~\cite{miritello2013,dunbar1992}, while the distribution of effort across
+alters persists even as the alters themselves turn over~\cite{saramaki2014}.
+The timescale condition we obtain has likewise been measured: ties whose
+communication is interrupted for much longer than their established rhythm
+decay, and temporal features predict tie persistence better than intensity or
+topology~\cite{navarro2017}. On the network side, the percolation criterion we
+derive is formally that of intentional
+attack~\cite{cohen2001,cohen2000,albert2000}, with the difference that no
+adversary is present: attention scarcity removes high-degree relations on its
+own.
 
 \section{Model}
 
@@ -160,7 +183,8 @@ We distinguish three policies by what each agent represents.
 \end{description}
 
 Level 2 is the minimal policy that requires an agent to represent itself as an
-object in another agent's model.
+object in another agent's model; the ladder is that of the cognitive-hierarchy
+and level-$k$ literature~\cite{camerer2004}.
 
 \subsection{Exploration}
 
@@ -201,7 +225,7 @@ line.
 Below $R_c$ only the solitary fixed point $p=0$ exists. Above it there are two
 stable phases, coupled and solitary, separated by an unstable point whose
 position rises with $a$: more private tasks enlarge the basin of solitude. The
-structure is that of a stag hunt, with the solitary phase risk-dominant and
+structure is that of a stag hunt~\cite{skyrms2004}, with the solitary phase risk-dominant and
 absorbing at $\epsilon=0$.
 
 \begin{figure*}[t]
@@ -308,7 +332,8 @@ apparent tail indices in the range $4$--$40$. Heavy tails reappear only in a
 narrow window above $R_c$, where the two fixed points nearly coincide and belief
 noise drives intermittent switching. Inside that window the interevent
 coefficient of variation reaches $8$--$50$ and the tail is favoured over an
-exponential by log-likelihood differences of $10^{3}$ to $10^{5}$.
+exponential by log-likelihood differences of $10^{3}$ to $10^{5}$, using the
+tail-comparison procedure of Ref.~\cite{clauset2009}.
 
 The window exists only for $\epsilon>0$. At $\epsilon=0$ the solitary phase is
 absorbing, the pair falls once and never returns, and no value of $R_I$ produces
@@ -498,6 +523,12 @@ reciprocated. Redrawing only on execution freezes the choice: agent $i$ offers
 to the same partner indefinitely, and if that partner's best is not $i$ the pair
 deadlocks with no mechanism for change.
 
+The topology is fixed here and only the state of each edge evolves, but the
+coupled subgraph is itself an effective network that grows and fragments, so the
+setting is adjacent to the literature on adaptive
+networks~\cite{gross2008}, where the interplay of node dynamics with topology
+generates discontinuous transitions and bistability of the kind seen below.
+
 We take the growth rules from Refs.~\cite{lng,vazquez2001}: triadic closure
 $LS(\ell=1)$, the undirected local-search rule in which a newcomer links to a
 random node and to one of its neighbours, closing a triangle at every step; its
@@ -577,7 +608,8 @@ belief: attention is divided $k$ ways, $\hat p \sim 1/k$, and it falls below the
 collapse threshold $c/(R_I+c)$.
 
 An edge is live only if sustained from both ends, so the process is
-degree-targeted site percolation and the Molloy--Reed criterion applies with the
+degree-targeted site percolation~\cite{stauffer1994} and the Molloy--Reed
+criterion applies with the
 second moment truncated at $k_c$,
 \begin{equation}
   \sum_{k\le k_c} k(k-1)\,p_k > \langle k\rangle .
@@ -622,7 +654,17 @@ removal, but the removal here is targeted at high degree --- the one attack to
 which such networks are most fragile. A scale-free contact structure is
 therefore maximally vulnerable to this form of collapse, for a mechanical rather
 than a topological reason: what an agent competes for is its partner's
-attention, so high degree is a liability.
+attention, so high degree is a liability. The mathematics is that of intentional
+attack~\cite{cohen2001}, but the attack is self-generated: no adversary removes
+hubs, and the familiar contrast between robustness to failure and fragility to
+targeted attack acquires an endogenous form.
+
+The overestimate is also the expected behaviour of the approximation rather than
+a defect peculiar to this model. Absorbing-state transitions in noisy spatial
+coordination games belong to the directed-percolation class, whose upper
+critical dimension is four~\cite{hinrichsen2000}, and mean-field treatments
+systematically overestimate the extent of the ordered phase below it. We have
+measured no exponents and make no claim of membership in that class.
 
 We report the transition location but claim no exponent: $n=600$ with three
 realisations is too small, and the agents here are all level 1, the network
@@ -708,6 +750,34 @@ Structure} (Cambridge University Press, Cambridge, 2004).
 
 \bibitem{stauffer1994} D. Stauffer and A. Aharony, \emph{Introduction to
 Percolation Theory}, 2nd ed. (Taylor \& Francis, London, 1994).
+
+\bibitem{naor1969} P. Naor, Econometrica \textbf{37}, 15 (1969).
+
+\bibitem{miritello2013} G. Miritello, R. Lara, M. Cebri\'an, and E. Moro,
+Sci. Rep. \textbf{3}, 1950 (2013).
+
+\bibitem{dunbar1992} R. I. M. Dunbar, J. Hum. Evol. \textbf{22}, 469 (1992).
+
+\bibitem{saramaki2014} J. Saram\"aki, E. A. Leicht, E. L\'opez, S. G. B.
+Roberts, F. Reed-Tsochas, and R. I. M. Dunbar, Proc. Natl. Acad. Sci. U.S.A.
+\textbf{111}, 942 (2014).
+
+\bibitem{navarro2017} H. Navarro, G. Miritello, A. Canales, and E. Moro,
+EPJ Data Sci. \textbf{6}, 31 (2017).
+
+\bibitem{cohen2000} R. Cohen, K. Erez, D. ben-Avraham, and S. Havlin,
+Phys. Rev. Lett. \textbf{85}, 4626 (2000).
+
+\bibitem{cohen2001} R. Cohen, K. Erez, D. ben-Avraham, and S. Havlin,
+Phys. Rev. Lett. \textbf{86}, 3682 (2001).
+
+\bibitem{albert2000} R. Albert, H. Jeong, and A.-L. Barab\'asi, Nature (London)
+\textbf{406}, 378 (2000).
+
+\bibitem{hinrichsen2000} H. Hinrichsen, Adv. Phys. \textbf{49}, 815 (2000).
+
+\bibitem{gross2008} T. Gross and B. Blasius, J. R. Soc. Interface \textbf{5},
+259 (2008).
 
 \bibitem{camerer2004} C. F. Camerer, T.-H. Ho, and J.-K. Chong, Q. J. Econ.
 \textbf{119}, 861 (2004).
