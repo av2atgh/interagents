@@ -13,6 +13,8 @@ dynamics*, arXiv:0710.4916v3. Results are recorded in `../plan.md` §6A (R0–R8
 | `run_universality.py` | R9, first attempt. **Its L=4/L=5 rows are invalid** — see caveat below. Kept for the record. | ~12 min |
 | `run_universality2.py` | R9 corrected (c=0.1). Its bisection also fails, for a documented reason: occupancy is not tunable via R_I. | ~7 min |
 | `run_occupancy.py` | R10, the test that works: vary the seed at a fixed operating point and correlate α with phase occupancy. | ~5 min |
+| `hypergraph.py` | Group meetings: hyperedges of size m requiring all members. Analytic critical group degree `d_crit(m)` and maximum group size. | library |
+| `run_hypergraph.py` | R17: validates d_c(m), and shows why m>=3 fails despite the fixed point existing. | ~4 min |
 | `run_lottery.py` | R11: bimodal outcomes at identical parameters; how early the outcome is predictable; whether a mid-run upgrade to level 2 reverses a collapse. | ~12 min |
 
 ```bash

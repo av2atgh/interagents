@@ -531,7 +531,8 @@ generates discontinuous transitions and bistability of the kind seen below.
 
 We take the growth rules from Refs.~\cite{lng,vazquez2001}: triadic closure
 $LS(\ell=1)$, the undirected local-search rule in which a newcomer links to a
-random node and to one of its neighbours, closing a triangle at every step; its
+random node and to one of its neighbours, closing a triangle at every step in
+the manner long argued to organise social ties~\cite{granovetter1973}; its
 degree-preserving randomization; and $BA(m=2)$ as a non-local control. The first is local and has a finite Ramsey number
 $r_\kappa=81$, so communities are certain beyond a few hundred nodes; the other
 two have none. Randomizing $LS$ preserves the degree sequence exactly, so any
@@ -670,6 +671,74 @@ We report the transition location but claim no exponent: $n=600$ with three
 realisations is too small, and the agents here are all level 1, the network
 analogue of the self-model being left for future work.
 
+\section{Groups: agents meeting as hyperedges}
+
+Many joint activities are not pairwise. A meeting takes place only if everybody
+turns up, which makes the interacting task a hyperedge rather than an edge. We
+therefore let agent $i$ hold one interacting task per hyperedge it belongs to,
+write $d_i$ for that number, and require a hyperedge $e$ of size $m$ to execute
+only when all $m$ of its members select it in the same step. Everything else is
+as before.
+
+Selection is unchanged, so Eq.~\eqref{eq:select} still gives $X^{a}/(d+a)$, but
+an agent now needs the other $m-1$ members rather than one, so
+$\hat p = [X^{a}/(d+a)]^{m-1}$ and self-consistency yields
+\begin{equation}
+  X^{n+1}-BX^{n}+c\,(d+a)^{m-1}=0,\qquad n=a(m-1),
+  \label{eq:hyper}
+\end{equation}
+with $B=R_I+c$. This has the same form as the pairwise case with $a$ replaced by
+$n$, so the tangency argument carries over and gives a critical group degree
+\begin{equation}
+  d_c(m)=\left[\frac{n^{n}B^{\,n+1}}{c\,(n+1)^{n+1}}\right]^{1/(m-1)}-a ,
+  \label{eq:dc}
+\end{equation}
+which reduces to Eq.~\eqref{eq:kc} at $m=2$. The exponent $1/(m-1)$ carries the
+content: the coordination requirement enters multiplicatively in the number of
+people who must coincide, so $d_c$ falls very steeply with group size. At
+$R_I=0.95$ it drops from $10.76$ to $1.60$ to $0.67$ for $m=2,3,4$ at $c=0.020$,
+and from $112$ to $6.99$ to $2.51$ at $c=0.002$.
+
+Because $d_c$ can fall below one, Eq.~\eqref{eq:dc} implies a \emph{maximum
+group size} even for an agent that belongs to nothing else. Requiring
+$d_c(m)\ge1$ gives $m_{\max}=2,3,4,5$ at $c=0.050,0.020,0.010,0.002$. It is
+worth noting that freely forming conversational groups are observed to cap at
+about four participants and to fission beyond five~\cite{dunbar1995}. Two
+capacity arguments have been offered for that limit, one acoustic and
+attentional~\cite{dunbar1995} and one based on a bound on the number of other
+minds a participant can model at once~\cite{krems2016}. The present mechanism is
+a third of the same character --- attention as a scarce resource in a queue ---
+and we make no claim that it is the operative one.
+
+Simulation confirms Eq.~\eqref{eq:dc} at $m=2$: the fraction of groups that
+remain coupled falls from $1.000$ at $d=1$ to $0.309$ at $d=16$, straddling
+$d_c=10.76$. At $m=3$ it fails. Equation~\eqref{eq:dc} gives $d_c=1.60$ and so
+permits $d=1$, and the fixed point is genuinely there --- solving
+\eqref{eq:hyper} at $m=3$, $d=1$, $c=0.020$ gives a stable root $X=0.862$
+against an unstable one at $X=0.363$, and the simulation begins exactly on it,
+with a measured meeting rate of $0.14$ against the predicted
+$(X/2)^3=0.11$. Within a few thousand steps it nevertheless collapses to zero.
+
+The reason is that a group fails if \emph{any single member's} belief drifts
+below threshold, whereupon that member withdraws, the remaining members observe
+no meeting, and their estimates follow. Escape from the coupled state is
+therefore available through $m$ independent routes rather than one, while the
+coordination probability itself falls as the $m$th power. Both effects push the
+same way, and neither is visible to a mean-field treatment that asks only
+whether a fixed point exists. The diagnosis is confirmed by suppressing the
+noise: lengthening $\tau_{\rm mem}$, which reduces the variance of the belief
+estimate, restores a nonzero meeting rate ($0$ at $\tau_{\rm mem}=200$ rising to
+$0.006$ at $2\times10^4$ for $c=0.020$, and surviving already at
+$\tau_{\rm mem}=10^3$ for $c=0.005$, where $d_c=4.08$ leaves a wider margin).
+
+The rescue is only partial --- the recovered rates remain an order of magnitude
+below the mean-field value --- so the conclusion is qualitative rather than
+quantitative. The $\sim2.3$ discrepancy found in the pairwise network case
+becomes, for $m\ge3$, a failure of kind: Eq.~\eqref{eq:dc} predicts viable
+groups that the dynamics destroys. Group coordination is fragile not because
+coordinated states fail to exist, but because the absorbing state is reachable
+through any one participant.
+
 \section{Discussion}
 
 Making the shared-task priority a decision variable converts the two-agent
@@ -778,6 +847,12 @@ Phys. Rev. Lett. \textbf{86}, 3682 (2001).
 
 \bibitem{gross2008} T. Gross and B. Blasius, J. R. Soc. Interface \textbf{5},
 259 (2008).
+
+\bibitem{dunbar1995} R. I. M. Dunbar, N. D. C. Duncan, and D. Nettle,
+Hum. Nat. \textbf{6}, 67 (1995).
+
+\bibitem{krems2016} J. A. Krems, R. I. M. Dunbar, and S. L. Neuberg,
+Evol. Hum. Behav. \textbf{37}, 423 (2016).
 
 \bibitem{camerer2004} C. F. Camerer, T.-H. Ho, and J.-K. Chong, Q. J. Econ.
 \textbf{119}, 861 (2004).

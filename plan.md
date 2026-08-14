@@ -873,6 +873,53 @@ attention, so being well connected is a liability.
 
 ---
 
+**R17 — Groups (hyperedges): coordination cost enters multiplicatively, and
+group coupling fails qualitatively, not quantitatively.** (`hypergraph.py`,
+`run_hypergraph.py`.)
+
+A meeting happens only if everybody turns up, so the interacting task becomes a
+hyperedge of size m requiring all m members to select it. Selection is
+unchanged, X^a/(d+a) with d the number of groups an agent belongs to, but now
+p̂ = [X^a/(d+a)]^{m−1}, giving X^{n+1} − BX^n + c(d+a)^{m−1} = 0 with
+n = a(m−1) — the same form with a → n. Tangency gives a **critical group
+degree**
+
+  **d_c(m) = [ n^n B^{n+1} / (c (n+1)^{n+1}) ]^{1/(m−1)} − a**
+
+reducing to k_c at m = 2. The exponent 1/(m−1) is the content: coordination cost
+enters multiplicatively in the number who must coincide, so d_c collapses fast.
+At R_I = 0.95: 10.76 → 1.60 → 0.67 for m = 2,3,4 at c = 0.020.
+
+*A maximum group size follows.* Requiring d_c ≥ 1 — an agent devoted to a single
+group and nothing else — gives m_max = 2, 3, 4, 5 at c = 0.050, 0.020, 0.010,
+0.002. Freely forming conversations are observed to cap near four and fission
+beyond five (Dunbar, Duncan & Nettle, Hum. Nat. **6**, 67 (1995)), a limit
+attributed either to acoustics or to a bound on how many other minds one can
+model at once (Krems, Dunbar & Neuberg, Evol. Hum. Behav. **37**, 423 (2016)).
+Ours is a third capacity argument of the same character. No claim that it is the
+operative one.
+
+*But m ≥ 3 fails in a new way.* Simulation tracks d_c at m = 2 (coupled fraction
+1.000 → 0.309 as d goes 1 → 16, straddling d_c = 10.76). At m = 3 it does not:
+d_c = 1.60 permits d = 1, the fixed point demonstrably exists (stable root
+X = 0.862, unstable X = 0.363), and the simulation *starts on it* — measured
+meeting rate 0.14 against a predicted (X/2)³ = 0.11 — then collapses to zero
+within a few thousand steps.
+
+> **A group dies if any single member's belief drifts below threshold.** Escape
+> from the coupled state is available through m independent routes while the
+> coordination probability falls as the m-th power. Both push the same way, and
+> neither is visible to a criterion that asks only whether a fixed point exists.
+
+Confirmed by suppressing the noise: lengthening τ_mem restores a nonzero rate
+(0 → 0.006 at τ_mem = 2×10⁴ for c = 0.020; already surviving at τ_mem = 10³ for
+c = 0.005, where d_c = 4.08 leaves a wider margin). The rescue is partial —
+recovered rates stay an order of magnitude below mean-field — so **the ~2.3×
+discrepancy of the pairwise case becomes, at m ≥ 3, a failure of kind: the
+theory predicts viable groups the dynamics destroys.**
+
+---
+
 ## 6B. Wider perspective (literature search, 2026-08-14)
 
 Three results turn out to have close counterparts elsewhere, one of them
