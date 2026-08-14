@@ -216,8 +216,9 @@ line.
 Below $R_c$ only the solitary fixed point $p=0$ exists. Above it there are two
 stable phases, coupled and solitary, separated by an unstable point whose
 position rises with $a$: more private tasks enlarge the basin of solitude. The
-structure is that of a stag hunt~\cite{skyrms2004}, with the solitary phase risk-dominant and
-absorbing at $\epsilon=0$.
+structure is that of a stag hunt~\cite{skyrms2004}, whose behaviour on growing
+and structured networks has been studied in its own right~\cite{starnini2011},
+with the solitary phase risk-dominant and absorbing at $\epsilon=0$.
 
 \begin{figure*}[t]
 \includegraphics[width=\textwidth]{fig_phase.pdf}
@@ -520,6 +521,17 @@ setting is adjacent to the literature on adaptive
 networks~\cite{gross2008}, where the interplay of node dynamics with topology
 generates discontinuous transitions and bistability of the kind seen below.
 
+A capacity limit on the number of interactions a node may sustain has been
+imposed before in a game-theoretic setting: restricting the associative capacity
+of nodes in a prisoner's dilemma on scale-free networks changes the level of
+cooperation and admits an optimal capacity~\cite{poncela2011}. The distinction
+here is that no capacity is imposed. It follows from Eq.~\eqref{eq:select},
+because an agent executing one task per step divides its attention as
+$1/(k+a)$, and the resulting $k_c$ is a property of the queue rather than a
+parameter. The game is also different --- coordination with an absorbing
+failure state rather than a dilemma --- so the two capacities are not the same
+quantity, but they act on the same variable.
+
 We take the growth rules from Refs.~\cite{lng,vazquez2001}: triadic closure
 $LS(\ell=1)$, the undirected local-search rule in which a newcomer links to a
 random node and to one of its neighbours, closing a triangle at every step in
@@ -679,7 +691,11 @@ analogue of the self-model being left for future work.
 \label{sec:groups}
 
 Many joint activities are not pairwise. A meeting takes place only if everybody
-turns up, which makes the interacting task a hyperedge rather than an edge. We
+turns up, which makes the interacting task a hyperedge rather than an edge.
+Encoding group interactions on hypergraphs is by now a standard device for
+evolutionary games, where it changes the replicator dynamics and supplies a
+mechanism for the survival of cooperation~\cite{alvarez2021,perc2013}; what
+follows applies it to a coordination requirement inside a queue. We
 therefore let agent $i$ hold one interacting task per hyperedge it belongs to,
 write $d_i$ for that number, and require a hyperedge $e$ of size $m$ to execute
 only when all $m$ of its members select it in the same step. Everything else is
@@ -981,6 +997,18 @@ Hum. Nat. \textbf{6}, 67 (1995).
 
 \bibitem{krems2016} J. A. Krems, R. I. M. Dunbar, and S. L. Neuberg,
 Evol. Hum. Behav. \textbf{37}, 423 (2016).
+
+\bibitem{starnini2011} M. Starnini, A. S\'anchez, J. Poncela, and Y. Moreno,
+J. Stat. Mech. (2011) P05008.
+
+\bibitem{poncela2011} J. Poncela, J. G\'omez-Garde\~nes, and Y. Moreno,
+Phys. Rev. E \textbf{83}, 057101 (2011).
+
+\bibitem{alvarez2021} U. Alvarez-Rodriguez, F. Battiston, G. Ferraz de Arruda,
+Y. Moreno, M. Perc, and V. Latora, Nat. Hum. Behav. \textbf{5}, 586 (2021).
+
+\bibitem{perc2013} M. Perc, J. G\'omez-Garde\~nes, A. Szolnoki, L. M. Flor\'ia,
+and Y. Moreno, J. R. Soc. Interface \textbf{10}, 20120997 (2013).
 
 \bibitem{camerer2004} C. F. Camerer, T.-H. Ho, and J.-K. Chong, Q. J. Econ.
 \textbf{119}, 861 (2004).

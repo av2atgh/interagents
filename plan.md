@@ -1043,6 +1043,32 @@ level-2 agent stabilises a level-1 partner) is the second statement, and §6.1's
 question of whether tractable recursion depth is the graded measure the theory
 lacks now has an anchor to test against rather than a free parameter.
 
+**Moreno group, added 2026-08-14 (all verified).** Four are relevant and now
+cited:
+
+- **Starnini, Sánchez, Poncela & Moreno**, J. Stat. Mech. (2011) P05008 — the
+  stag hunt on growing/structured networks. Cited where we identify the fixed
+  point structure as a stag hunt.
+- **Poncela, Gómez-Gardeñes & Moreno**, PRE **83**, 057101 (2011),
+  *Cooperation in scale-free networks with limited associative capacities* —
+  **the closest prior art to R15/R16.** They *impose* a cap on how many
+  interactions a node sustains per round in a prisoner's dilemma on scale-free
+  networks, and find an optimal capacity. Ours is not imposed: it follows from
+  attention dividing as 1/(k+a) in a queue, so k_c is a property of the process.
+  Different game too (coordination with an absorbing state, not a dilemma). But
+  it acts on the same variable and must be cited, which it now is.
+- **Alvarez-Rodriguez, Battiston, Ferraz de Arruda, Moreno, Perc & Latora**,
+  Nat. Hum. Behav. **5**, 586 (2021) — evolutionary games encoded on
+  hypergraphs. The standard device our R17/R18 applies to a queueing
+  coordination requirement.
+- **Perc, Gómez-Gardeñes, Szolnoki, Floría & Moreno**, J. R. Soc. Interface
+  **10**, 20120997 (2013) — review of group interactions on structured
+  populations.
+
+Not cited: Battiston et al., Phys. Rep. **874**, 1 (2020) — the standard
+higher-order review, but Moreno is not an author of that one (he is on the
+Nature Physics 2021 companion).
+
 **Verification status (2026-08-14).** All 26 references have now been checked
 against originals or authoritative records. Sources used: the user's curated
 `LocalNetworkGrowth/references.bib` (vazquez2001, albert2000, granovetter1973,
