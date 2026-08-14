@@ -45,8 +45,8 @@ into a coupled inference problem and changes the phenomenology substantially.
   at `k_c`. The truncation acts at the top of the degree distribution, so
   scale-free contact structures are maximally vulnerable.
 
-Network growth rules follow A. Vazquez, Phys. Rev. E **111**, 064314 (2025) and
-*Local Network Growth*.
+Network growth rules: triadic closure (local search at ℓ=1), its
+degree-preserving randomization, and Barabási–Albert as a non-local control.
 
 ## Reproducing
 

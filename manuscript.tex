@@ -532,14 +532,16 @@ parameter. The game is also different --- coordination with an absorbing
 failure state rather than a dilemma --- so the two capacities are not the same
 quantity, but they act on the same variable.
 
-We take the growth rules from Refs.~\cite{lng,bianconi2014}: triadic closure
-$LS(\ell=1)$, the undirected local-search rule in which a newcomer links to a
-random node and to one of its neighbours, closing a triangle at every step in
-the manner long argued to organise social ties~\cite{granovetter1973}; its
-degree-preserving randomization; and $BA(m=2)$ as a non-local control. The first is local and has a finite Ramsey number
-$r_\kappa=81$, so communities are certain beyond a few hundred nodes; the other
-two have none. Randomizing $LS$ preserves the degree sequence exactly, so any
-difference between the two is attributable to local structure alone.
+We use three growth rules. Triadic closure $LS(\ell=1)$ is the undirected
+local-search rule in which a newcomer links to a random node and to one of its
+neighbours, closing a triangle at every step in the manner long argued to
+organise social ties~\cite{granovetter1973}; growth by triadic closure
+generates community structure spontaneously, and randomising the attachment
+destroys it~\cite{bianconi2014}. Against it we set the degree-preserving
+randomization of $LS$, and preferential attachment
+$BA(m=2)$~\cite{barabasi1999} as a non-local control. Randomizing $LS$
+preserves the degree sequence exactly, so any difference between the two is
+attributable to local structure alone.
 
 We use $c$, the cost of an unreciprocated offer, as the control parameter, and
 call an edge coupled when its interaction rate exceeds ten times the solitary
@@ -591,8 +593,8 @@ does not determine which relations survive; it determines how their failure is
 arranged. Under triadic closure the coupled phase fragments into separated
 clusters, whereas at identical degrees without local structure it thins while
 staying connected. The split between local and non-local rules that governs the
-emergence of communities in Ref.~\cite{lng} thus reappears as a split in the way
-the solitary phase invades.
+emergence of communities~\cite{bianconi2014} thus reappears as a split in the
+way the solitary phase invades.
 
 Survival falls monotonically with degree --- the fraction of a node's relations
 that remain coupled at $c=0.020$ is $0.856$, $0.704$, $0.539$ and $0.346$ for
@@ -991,14 +993,14 @@ J. Stat. Mech. (2011) P05008.
 \bibitem{poncela2011} J. Poncela, J. G\'omez-Garde\~nes, and Y. Moreno,
 Phys. Rev. E \textbf{83}, 057101 (2011).
 
-\bibitem{lng} A. Vazquez, Phys. Rev. E \textbf{111}, 064314 (2025); and
-\emph{Local Network Growth} (in preparation).
+\bibitem{granovetter1973} M. S. Granovetter, Am. J. Sociol. \textbf{78}, 1360
+(1973).
 
 \bibitem{bianconi2014} G. Bianconi, R. K. Darst, J. Iacovacci, and
 S. Fortunato, Phys. Rev. E \textbf{90}, 042806 (2014).
 
-\bibitem{granovetter1973} M. S. Granovetter, Am. J. Sociol. \textbf{78}, 1360
-(1973).
+\bibitem{barabasi1999} A.-L. Barab\'asi and R. Albert, Science \textbf{286},
+509 (1999).
 
 \bibitem{stauffer1994} D. Stauffer and A. Aharony, \emph{Introduction to
 Percolation Theory}, revised 2nd ed. (Taylor \& Francis, London, 1994).
