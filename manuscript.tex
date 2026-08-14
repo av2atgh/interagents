@@ -50,35 +50,40 @@ of ties whose rhythm is interrupted.
 
 \section{Introduction}
 
-Queueing theory has become a standard framework for the timing of human
-activity~\cite{barabasi2005,vazquez2005,vazquez2006}. Representing an
-individual's to-do list as a priority queue with highest-priority-first
-execution produces power-law interevent time distributions
-$P(\tau)\sim\tau^{-\alpha}$, with $\alpha=1$ and $\alpha=3/2$ identified as
-universality classes and corroborated by electronic and postal correspondence
-data~\cite{barabasi2005,oliveira2005,vazquez2006}, the $\alpha=3/2$ class
-going back to the single-server analysis of Cobham~\cite{cobham1954}.
+Human dynamics asks how people allocate their time among the things they might
+do, and what the timing of the resulting activity reveals about the decision
+process behind it. Its standard framework is queueing
+theory~\cite{barabasi2005,vazquez2005,vazquez2006}: an individual's to-do list
+is a priority queue executed highest-priority-first, which produces power-law
+interevent time distributions $P(\tau)\sim\tau^{-\alpha}$, with $\alpha=1$ and
+$\alpha=3/2$ identified as universality classes and corroborated by electronic
+and postal correspondence data~\cite{barabasi2005,oliveira2005,vazquez2006},
+the $\alpha=3/2$ class going back to the single-server analysis of
+Cobham~\cite{cobham1954}.
 
-Single-queue models describe an isolated individual. Many activities, however,
-require two or more people at once, and interaction is known from the theory of
-critical phenomena to be decisive for universality~\cite{stanley1971}. A minimal
-two-agent extension~\cite{oliveira2009} gives each agent one \emph{interacting}
-task $I$, executable only when both agents select it in the same step, and one
-aggregate \emph{non-interacting} task $O$ standing for $L_j-1$ private tasks.
-That model predicts a countable family of exponents, $\alpha=1+1/\max_j(L_j-1)$, interpolating
-between $2$ and $1$: the more distracted agent sets the exponent.
+The question we address is one this framework leaves open. A person's list is
+not made only of things that can be done alone. A meeting, a conversation, a
+shared meal happen only if somebody else chooses them at the same moment. How
+should such an activity be ranked against the private tasks competing for the
+same hour, and what becomes of the timing statistics when everyone ranks that
+way?
+
+The first half of the question has been posed. A minimal two-agent
+extension~\cite{oliveira2009} gives each agent one \emph{interacting} task $I$,
+executable only when both agents select it in the same step, and one aggregate
+\emph{non-interacting} task $O$ standing for $L_j-1$ private tasks, predicting a
+countable family of exponents, $\alpha=1+1/\max_j(L_j-1)$, interpolating between
+$2$ and $1$: the more distracted agent sets the exponent.
 
 \begin{figure*}[t]
 \includegraphics[width=\textwidth]{fig_schematic.pdf}
-\caption{The three settings. In each, an agent holds one interacting task per
-shared activity together with an aggregate private task $O$ standing for $L-1$
-individual tasks, and executes the single highest-priority item per step.
-(a) A pair: the shared task $I$ executes only if both agents select it in the
-same step. (b) A network: an agent holds one interacting task per neighbour, so
-attention must be divided; solid links are relations in the coupled phase,
-dashed ones have collapsed to the solitary phase. (c) A hypergraph: an activity
-of size $m$ executes only if all $m$ members select it, and an agent may belong
-to $d$ such groups.}
+\caption{The three settings. An agent holds one interacting task per shared
+activity plus an aggregate private task $O$ standing for $L-1$ individual tasks,
+and executes one item per step. (a) A pair: $I$ executes only if both select it.
+(b) A network: one interacting task per neighbour, so attention is divided;
+solid links are coupled relations, dashed ones have collapsed. (c) A hypergraph:
+an activity of size $m$ executes only if all $m$ members select it, and an agent
+may belong to $d$ groups.}
 \label{fig:schematic}
 \end{figure*}
 
@@ -91,60 +96,92 @@ participation rate from observation and set their priority accordingly. This
 changes the object from a stochastic process into a coupled inference problem
 and, as we show, changes its phenomenology substantially.
 
+Once participation is chosen rather than imposed, the object of study changes.
+The question is no longer the shape of one distribution but the collective state
+of a set of agents, and the natural instrument for it is statistical mechanics.
+Human dynamics already borrows from that apparatus at the level of exponents and
+universality classes, and interaction is known from the theory of critical
+phenomena to be decisive for universality~\cite{stanley1971}. We argue that here
+the informative structure lies one level up. The model has two phases, an order
+parameter that separates them, and a transition of definite character; the
+exponents turn out to be a property of where the system sits relative to that
+transition rather than the object of study. Phases and transitions, not
+exponents, are what the model has to say about human activity.
+
 Strategic queueing is of course an established subject, from
 Naor~\cite{naor1969} onward, but it concerns customers deciding whether to join,
 balk, or purchase priority in a service queue. What is at issue here is
 different: the priority of a task that cannot be executed unilaterally, so that
 the queueing model is simultaneously a coordination game with an absorbing
-failure state. The resulting phenomenology connects to two literatures that have
-so far had little contact with the queueing account of human dynamics. The
-capacity constraint we derive below has been measured directly: mobile-phone
-records show that individuals possess a finite communication capacity limiting
-the number of ties they can hold active, and that people with larger networks do
-not communicate proportionally more but maintain weaker
-ties~\cite{miritello2013,dunbar1992}, while the distribution of effort across
-alters persists even as the alters themselves turn over~\cite{saramaki2014}.
-The timescale condition we obtain has likewise been measured: ties whose
-communication is interrupted for much longer than their established rhythm
-decay, and temporal features predict tie persistence better than intensity or
-topology~\cite{navarro2017}. On the network side, the percolation criterion we
-derive is formally that of intentional
-attack~\cite{cohen2000,cohen2001,albert2000}, with the difference that no
-adversary is present: attention scarcity removes high-degree relations on its
-own.
+failure state. The resulting phenomenology
+connects to two literatures with little contact so far with the queueing account
+of human dynamics. The capacity constraint derived below has been measured
+directly: mobile-phone records show a finite communication capacity limiting how
+many ties an individual holds active, with larger networks maintaining weaker
+ties rather than more communication~\cite{miritello2013,dunbar1992,saramaki2014}.
+So has the timescale condition: ties interrupted for much longer than their
+established rhythm decay~\cite{navarro2017}. And the percolation criterion we
+obtain is formally that of intentional
+attack~\cite{cohen2000,cohen2001,albert2000}, with no adversary present ---
+attention scarcity removes high-degree relations by itself.
 
 \section{Model}
 \label{sec:model}
 
-\subsection{Substrate}
+\subsection{Definition}
 
-We retain the structure of Ref.~\cite{oliveira2009}. Agent $j\in\{A,B\}$ holds
-one interacting task $I$ and one aggregate task $O$ representing $a_j \equiv
-L_j-1$ private tasks. The private-task priority is the maximum of $a_j$
-independent uniform variates,
-\begin{equation}
-  f_{O_j}(x) = a_j\, x^{a_j-1}, \qquad x\in[0,1],
-\end{equation}
-redrawn whenever $O$ is executed. Each agent selects the higher-priority task.
-$I$ executes only if both agents select it.
+We state the model in full, so that it can serve as a reference point. It
+retains the substrate of Ref.~\cite{oliveira2009} and adds rule (vi).
+
+\begin{enumerate}
+\item[(i)] \emph{Tasks.} Agent $j$ holds one aggregate private task $O$ standing
+for $a_j\equiv L_j-1$ individual tasks, and one interacting task $I$ for each
+shared activity it belongs to.
+\item[(ii)] \emph{Priorities.} The private-task priority is the largest of $a_j$
+independent uniform variates, of density $f_{O_j}(x)=a_j x^{a_j-1}$ on $[0,1]$,
+redrawn whenever $O$ is executed. The interacting-task priority is $x_{I_j}$,
+held until the task is acted on.
+\item[(iii)] \emph{Selection.} Each agent executes the single highest-priority
+item in its list per step.
+\item[(iv)] \emph{Execution.} A shared activity executes only if every one of
+its members selects it in the same step.
+\item[(v)] \emph{Payoffs.} Each participant receives $R_I$ when the activity
+executes; an agent whose offer is not reciprocated receives $x_{O_j}-c$, the
+step being wasted; otherwise an agent receives $x_{O_j}$, the realised value of
+its private task.
+\item[(vi)] \emph{Policy.} $x_{I_j}$ is set by Eq.~\eqref{eq:policy} from an
+estimate $\hat p$ of the probability that the others participate, maintained as
+an exponential moving average with retention $\lambda=e^{-1/\tau_{\rm mem}}$
+over observed selections. Independently, an agent offers regardless of belief
+with probability $\epsilon$ per step.
+\end{enumerate}
+
+Rules (i)--(v) are those of Ref.~\cite{oliveira2009}, in which $x_{I_j}$ is
+drawn from a fixed density; rule (vi) replaces that draw by a decision and is
+the whole of what we add. The pair, network and hypergraph settings of
+Fig.~\ref{fig:schematic} differ only in how many interacting tasks an agent
+holds and how many members an activity requires. Two amendments are needed once
+an agent holds more than one interacting task, and are given in
+Sec.~\ref{sec:networks}.
+
+The exploration rate $\epsilon$ in (vi) is not a numerical convenience. At
+$\epsilon=0$ the state $p=0$ is strictly absorbing: an agent that stops
+participating never observes its partner participating and therefore never
+revises. Escape requires two agents to explore in the same step, at rate
+$\epsilon^2$.
 
 \subsection{Priority as a decision}
 
-Let $x_{I_j}$ be the priority agent $j$ assigns to the interacting task. Since
-$O$ is drawn afresh each step, the probability that $j$ selects $I$ is
+Since $O$ is drawn afresh each step, the probability that $j$ selects $I$ is
 \begin{equation}
-  p_j = \Pr\!\left(x_{O_j} < x_{I_j}\right) = x_{I_j}^{\,a_j}.
+  p_j = \Pr\!\left(x_{O_j} < x_{I_j}\right) = x_{I_j}^{\,a_j},
   \label{eq:reachprob}
 \end{equation}
-The agent controls a propensity, not a decision: with many private tasks, $a_j$
-large, even a high $x_{I_j}$ yields a small participation probability.
+so the agent controls a propensity, not a decision: with $a_j$ large, even a
+high $x_{I_j}$ yields little participation.
 
-Payoffs per step: both agents select $I$, each receives $R_I$; an agent selects
-$I$ while its partner does not, it receives $x_{O_j}-c$, the step being wasted
-and $c>0$ the cost of an unreciprocated offer; otherwise it receives $x_{O_j}$,
-the realised value of its private task. The cost $c$ is what makes a model of
-the partner necessary; at $c=0$ the optimal policy is $x_{I_j}=1$ regardless of
-the partner.
+The cost $c$ of an unreciprocated offer is what makes a model of the partner
+necessary; at $c=0$ the optimal policy is $x_{I_j}=1$ whatever the partner does.
 
 Writing $\hat p$ for the agent's estimate of its partner's participation
 probability, selecting $I$ is preferable whenever
@@ -174,17 +211,9 @@ We distinguish three policies by what each agent represents.
   the myopic choice.
 \end{description}
 
-Level 2 is the minimal policy that requires an agent to represent itself as an
-object in another agent's model; the ladder is that of the cognitive-hierarchy
-and level-$k$ literature~\cite{camerer2004}.
-
-\subsection{Exploration}
-
-Each agent additionally participates with probability $\epsilon$ per step
-irrespective of belief. This is not a numerical convenience. At $\epsilon=0$
-the state $p=0$ is strictly absorbing: an agent that stops participating never
-observes its partner participating and therefore never revises. Escape requires
-both agents to explore in the same step, at rate $\epsilon^2$.
+Level 2 is the minimal policy requiring an agent to represent itself as an
+object in another's model; the ladder is that of the cognitive-hierarchy and
+level-$k$ literature~\cite{camerer2004}.
 
 \section{Fixed points}
 
@@ -223,12 +252,11 @@ with the solitary phase risk-dominant and absorbing at $\epsilon=0$.
 
 \begin{figure*}[t]
 \includegraphics[width=\textwidth]{fig_phase.pdf}
-\caption{(a) Return map $\mathcal{F}(p)$ for $L=2$, $c=0.35$ at several $R_I$,
-with the diagonal in grey. The two nontrivial fixed points are born in a
-saddle-node at $R_c=0.8332$, $p^*=0.5916$ (circle). (b) Critical line $R_c(L)$
-from Eq.~\eqref{eq:rcrit} for several costs $c$; crosses mark the validity
-boundary $a=1/c$, Eq.~\eqref{eq:validity}, beyond which no interior bifurcation
-exists.}
+\caption{(a) Return map $\mathcal{F}(p)$ for $L=2$, $c=0.35$, with the diagonal
+in grey; the two nontrivial fixed points are born in a saddle-node at
+$R_c=0.8332$, $p^*=0.5916$ (circle). (b) Critical line $R_c(L)$ from
+Eq.~\eqref{eq:rcrit}; crosses mark the validity boundary $a=1/c$,
+Eq.~\eqref{eq:validity}.}
 \label{fig:phase}
 \end{figure*}
 
@@ -241,16 +269,15 @@ and $\ge 10^5$ steps after a $20\%$ burn-in. We quantify the phase by the
 \subsection{Validation}
 
 Reproducing Ref.~\cite{oliveira2009} with i.i.d.\ priorities recovers
-$\alpha=1+1/\max_j(L_j-1)$. Asymmetric pairs sit on the prediction:
-$(L_A,L_B)=(2,3)$ gives $\alpha=1.500$ and $(2,5)$ gives $\alpha=1.250$, both
-stable across four decades of the tail. Symmetric pairs approach from below
---- $L=2$ gives $1.82$ at the $90$th percentile, drifting to $1.94$ deeper in
-the tail --- consistent with the logarithmic correction expected when
-$a_A=a_B$. We also confirm that the mean interevent time diverges with the
-observation window as $T^{2-\alpha}$, so that for $\alpha\le 2$ the interaction
-possesses no characteristic timescale.
+$\alpha=1+1/\max_j(L_j-1)$. Asymmetric pairs sit on the prediction,
+$(L_A,L_B)=(2,3)$ giving $\alpha=1.500$ and $(2,5)$ giving $1.250$, both stable
+across four decades of the tail; symmetric pairs approach from below ($L=2$
+gives $1.82$ at the $90$th percentile, drifting to $1.94$ deeper in), as the
+logarithmic correction at $a_A=a_B$ requires. The mean interevent time diverges
+with the observation window as $T^{2-\alpha}$, so for $\alpha\le2$ the
+interaction has no characteristic timescale.
 
-\subsection{Modelling the partner's model shifts the critical line}
+\subsection{Modelling the partner's model}
 
 Level-2 agents remain coupled well below the level-1 threshold. At $L=3$ a
 level-1 pair collapses to the solitary phase for every $R_I\le 0.99$, whereas a
@@ -279,7 +306,7 @@ $R_I$ & levels $(A,B)$ & phase & occupancy \\
 \end{ruledtabular}
 \end{table}
 
-\subsection{Rare interaction requires a persistent partner model}
+\subsection{Persistence across silence}
 
 We next decouple the rate of \emph{opportunity} from willingness by allowing an
 interaction to be possible only with probability $\nu$ per step, and by making
@@ -317,7 +344,7 @@ $1/\nu$ & $\tau_{\rm mem}=50$ & $5000$ & $\tau_{\rm mem}=50$ & $5000$ \\
 \end{ruledtabular}
 \end{table}
 
-\subsection{Adaptation destroys the universality classes}
+\subsection{Loss of universality}
 
 Away from $R_c$ the adaptive system is not scale-free: it polarises to
 $\tau=1$ in the coupled phase and $\tau\to\infty$ in the solitary one, with
@@ -364,7 +391,7 @@ monotone in $R_I$, $L$ and modelling level, with the scale-free interevent
 statistics appearing as a symptom of intermediate $\phi$ rather than as its
 definition.
 
-\subsection{Bimodality, irreversibility, and the asymmetry of prevention}
+\subsection{Bimodality and irreversibility}
 
 At fixed parameters ($L=2$, $c=0.35$, $R_I=0.8428$, $\epsilon=10^{-2}$) the
 outcome over $140$ realisations is strongly bimodal: $45$ end with $\phi<0.25$,
@@ -386,7 +413,7 @@ Promoting both agents is worth nothing over promoting one: recovery is driven by
 a single agent participating against the advice of its own estimate, and the
 partner need only be able to respond.
 
-\subsection{The recovery cap is a limit of patience, not of reachability}
+\subsection{Patience, not reachability}
 
 The partial recovery in Table~\ref{tab:rescue} might indicate states from which
 no policy in this family can return. It does not. As specified above, the
@@ -425,22 +452,20 @@ $k$ & $\gamma=0.97$ & $\gamma=0.999$ & $\gamma=0.97$ & $\gamma=0.999$ \\
 \end{ruledtabular}
 \end{table}
 
-The residual $48.5\%$ is not policy-driven: it is the fraction of realisations in
-which exploration happens to lift $\hat p$ above the participation threshold, at
-which point the agent latches. No state is therefore beyond recovery. What the
-cap measures is the reluctance of a short-horizon agent to persist without
-evidence. Note that the baselines in Tables~\ref{tab:rescue}
-and~\ref{tab:noreturn} ($35.6\%$ and $48.5\%$) come from runs of different
+The residual $48.5\%$ is not policy-driven: it is the fraction of realisations
+in which exploration lifts $\hat p$ above the participation threshold and the
+agent latches. No state is beyond recovery; the cap measures the reluctance of a
+short-horizon agent to persist without evidence. The baselines in
+Tables~\ref{tab:rescue} and~\ref{tab:noreturn} come from runs of different
 length with different collapsed subsets and are not directly comparable.
 
-\subsection{Endogenous commitment: the price of recovery is a memory time}
+\subsection{Endogenous commitment}
 
-The commitment length above is imposed. We now let the agent evaluate its
-rollout at each candidate length and latch onto the argmax, so that the length
-becomes a property of its beliefs. The argmax is uninformative --- it pins to
-the largest candidate, since once the partner participates further length is
-free --- so we characterise the policy by the minimum patience that beats not
-persisting,
+The commitment length above is imposed. Letting the agent evaluate its rollout
+at each candidate length and latch onto the argmax makes it a property of its
+beliefs. The argmax is uninformative, pinning to the largest candidate since
+further length is free once the partner participates, so we characterise the
+policy by the minimum patience that beats not persisting,
 \begin{equation}
   k_{\min}(\hat p) = \min\{\,k:\ \mathcal{R}(k) > \mathcal{R}(0)\,\},
 \end{equation}
@@ -451,11 +476,10 @@ First, $k_{\min}$ does not diverge as $\hat p \to 0$; it saturates, and bisectin
 at $\hat p = 10^{-6}$ gives $k_{\min}/\tau_{\rm mem} = 0.740, 0.740, 0.740,
 0.738$ for $\tau_{\rm mem} = 50, 100, 200, 400$. The price of recovery is
 therefore a fixed multiple of a memory time and is independent of how
-unfavourable the current estimate is. The related constant $0.347\,\tau_{\rm
-mem}$ is where the partner begins to respond: its myopic priority turns positive
-at $s > c/(R_I+c) = 0.293$, reached at $-\tau_{\rm mem}\ln(1-0.293)$. Persistence
-must continue about twice that long before the accumulated gain covers the
-commitment.
+unfavourable the current estimate is. The partner begins to respond earlier, at
+$0.347\,\tau_{\rm mem}$, where its myopic priority turns positive at
+$s>c/(R_I+c)=0.293$; persistence must continue about twice that long before the
+gain covers the commitment.
 
 Second, whether the agent will pay that price is set by its horizon in the same
 units: the smallest $H^{*} = 1/(1-\gamma)$ at which an agent with $\hat p =
@@ -466,19 +490,15 @@ is an upper bound set by the resolution of the $H$ ladder).
 These predict the simulation. At $\tau_{\rm mem}=200$, so $H^{*}\simeq300$, an
 agent choosing its own commitment length recovers $48.5\%$ of collapsed
 realisations at $\gamma \le 0.995$ ($H \le 200$) and $100\%$ at $\gamma=0.999$
-($H=1000$), while the fixed $k=1$ control stays at $48.5\%$ throughout. Judging
-recovery instead by interaction rate --- an unbiased measure, since the
-occupancy $\phi$ exceeds $1/2$ whenever one agent is latched irrespective of its
-partner --- moves the baseline to $72.7\%$ but leaves the contrast unchanged, at
-$100\%$ for the same single condition, with the mean interaction rate rising
-from $0.368$ to $0.639$ and the partner's payoff from $0.642$ to $0.734$ against
-a solitary baseline of $\langle x_O\rangle = 0.5$. The recoveries are genuine
-couplings.
+($H=1000$), while the fixed $k=1$ control stays at $48.5\%$ throughout. Judging recovery by interaction rate instead --- unbiased, since $\phi$ exceeds
+$1/2$ whenever one agent is latched whatever its partner does --- moves the
+baseline to $72.7\%$ but leaves the contrast unchanged, with the mean rate
+rising from $0.368$ to $0.639$ and the partner's payoff from $0.642$ to $0.734$
+against a solitary $\langle x_O\rangle=0.5$. The recoveries are genuine.
 
 The agent that restores the interaction is not the one that gains most from it:
-on recovered realisations the committing agent earns $0.62$--$0.70$ against its
-partner's $0.68$--$0.76$, the difference being the cost $c$ of the
-unreciprocated offers it absorbs on the way.
+the committing agent earns $0.62$--$0.70$ against its partner's $0.68$--$0.76$,
+the difference being the unreciprocated offers it absorbs.
 
 \begin{table}[t]
 \caption{Intervention on the $45$ realisations that collapsed as level-1 pairs,
@@ -496,7 +516,8 @@ level 2 from $t=0$        & $100\%$   & 1.000 \\
 \end{ruledtabular}
 \end{table}
 
-\section{Networks: percolation of the solitary phase}
+\section{Percolation on networks}
+\label{sec:networks}
 
 The two-agent model extends to a network by giving agent $i$ one interacting
 task per neighbour alongside its solitary aggregate, with a single item selected
@@ -505,16 +526,15 @@ leaves $k-1$ offers unanswered at every step, and each relation must compete
 with the others as well as with the private queue. An edge executes, as before,
 only when both endpoints select it.
 
-Two features of the queueing substrate turn out to be essential here and are
-worth stating, since abandoning either produces an artefact. First, a task's
-priority must be \emph{drawn} from a distribution the policy controls and held
-until execution, rather than being a deterministic function of $\hat p$. With a
-deterministic priority each agent locks onto its single best partner and every
-other relation starves, so the coupled subgraph is forced to be a perfect
-matching. Second, an \emph{offer} must consume the attempt whether or not it is
-reciprocated. Redrawing only on execution freezes the choice: agent $i$ offers
-to the same partner indefinitely, and if that partner's best is not $i$ the pair
-deadlocks with no mechanism for change.
+Two amendments to rule (ii) are needed, since abandoning either produces an
+artefact. First, the interacting-task priority must be \emph{drawn} from a
+density the policy controls, $u\,x_{I_j}$ with $u$ uniform, rather than being a
+deterministic function of $\hat p$; otherwise each agent locks onto its single
+best partner, every other relation starves, and the coupled subgraph is forced
+to be a perfect matching. Second, an \emph{offer} must consume the attempt
+whether or not it is reciprocated. Redrawing only on execution freezes the
+choice: $i$ offers to the same partner indefinitely, and if that partner's best
+is not $i$ the pair deadlocks.
 
 The topology is fixed here and only the state of each edge evolves, but the
 coupled subgraph is itself an effective network that grows and fragments, so the
@@ -553,13 +573,11 @@ component of the coupled subgraph as a fraction of $n$
 \begin{figure*}[t]
 \includegraphics[width=\textwidth]{fig_percolation.pdf}
 \caption{Percolation of the solitary phase. (a) Giant component $S$ of the
-coupled subgraph against the cost $c$ of an unreciprocated offer, for triadic
-closure, its degree-preserving randomization and a non-local control
-($n=600$, $\langle k\rangle=4$, three realisations, $4\times10^4$ steps).
-At $c=0.020$ all three carry the same coupled edge fraction but only the local
-rule fragments. (b) Converged runs ($4\times10^5$ steps) on the randomized
-network place the transition between $c=0.020$ and $c=0.030$; the mean-field
-criterion of Eq.~\eqref{eq:cavity} predicts $c_c\simeq0.062$.}
+coupled subgraph against the cost $c$ of an unreciprocated offer
+($n=600$, $\langle k\rangle=4$, three realisations, $4\times10^4$ steps). At
+$c=0.020$ all three carry the same coupled edge fraction but only the local rule
+fragments. (b) Converged runs ($4\times10^5$ steps) place the transition between
+$c=0.020$ and $c=0.030$; Eq.~\eqref{eq:cavity} predicts $c_c\simeq0.062$.}
 \label{fig:percolation}
 \end{figure*}
 
@@ -583,15 +601,14 @@ $c$ & edges & $S$ & edges & $S$ & edges & $S$ \\
 \end{ruledtabular}
 \end{table}
 
-The solitary phase percolates between $c=0.02$ and $c=0.03$, and the interesting
-behaviour is at the lower edge of that window. There the two networks have
+The solitary phase percolates between $c=0.02$ and $c=0.03$, and the
+interesting behaviour is at the lower edge. There the two networks have
 statistically identical coupled edge fractions, $0.686$ against $0.689$, and
 identical degree-resolved survival, yet entirely different connectivity: the
 triadic-closure network has $S=0.569$, thirteen components of size three or
-more, and a second component of $99$ nodes, while its randomization remains
-essentially intact at $S=0.976$ with a second component of $4$. Local structure
-does not determine which relations survive; it determines how their failure is
-arranged. Under triadic closure the coupled phase fragments into separated
+more and a second of $99$ nodes, while its randomization is essentially intact
+at $S=0.976$. Local structure does not determine which relations survive; it
+determines how their failure is arranged. Under triadic closure the coupled phase fragments into separated
 clusters, whereas at identical degrees without local structure it thins while
 staying connected. The split between local and non-local rules that governs the
 emergence of communities~\cite{bianconi2014} thus reappears as a split in the
@@ -607,7 +624,7 @@ protection, because what an agent competes for is its partner's attention, and
 the coincidence of the two curves shows the effect to be independent of
 topology.
 
-\subsection{Analytic threshold for arbitrary degree distribution}
+\subsection{Analytic percolation threshold}
 
 The transition admits a closed-form treatment. Since priorities are $uX$ with
 $u\sim U(0,1)$ drawn per offer and the solitary task has $F_O(t)=t^{a}$, the
@@ -663,12 +680,12 @@ the runaway in which a falling $\hat p$ lowers $X$, which reduces the offers
 received, which lowers $\hat p$ again. Relations that \eqref{eq:kc} declares
 viable are destroyed by it.
 
-Two practical points follow. Convergence is slow and, near the transition,
-directional: over $2\times10^4$ to $3.2\times10^5$ steps the coupled fraction
-\emph{rises} from $0.488$ to $0.802$ at $c=0.020$ while \emph{falling} from
-$0.165$ to $0.082$ at $c=0.030$, so a threshold read from short runs is biased
-toward the initial condition. And the truncation in \eqref{eq:mr} acts at the
-\emph{top} of the degree distribution. For $p_k\sim k^{-\gamma}$ with
+Two points follow. Convergence near the transition is slow and directional:
+over $2\times10^4$ to $3.2\times10^5$ steps the coupled fraction \emph{rises}
+from $0.488$ to $0.802$ at $c=0.020$ while \emph{falling} from $0.165$ to
+$0.082$ at $c=0.030$, so thresholds from short runs are biased toward the
+initial condition. And the truncation in \eqref{eq:mr} acts at the \emph{top}
+of the degree distribution. For $p_k\sim k^{-\gamma}$ with
 $2<\gamma<3$ the second moment diverges and the network is robust to random
 removal, but the removal here is targeted at high degree --- the one attack to
 which such networks are most fragile. A scale-free contact structure is
@@ -690,7 +707,7 @@ We report the transition location but claim no exponent: $n=600$ with three
 realisations is too small, and the agents here are all level 1, the network
 analogue of the self-model being left for future work.
 
-\section{Groups: agents meeting as hyperedges}
+\section{Groups and hypergraphs}
 \label{sec:groups}
 
 Many joint activities are not pairwise. A meeting takes place only if everybody
@@ -767,35 +784,32 @@ through any one participant.
 
 \subsection{Reward proportional to group size}
 
-The premise so far is that a joint activity is worth the same however many take
-part. Often it is not: the value of the occasion grows with the number present.
-We therefore replace the constant $R_I$ by $R_I(m)=r\,m$ and ask whether a
-reward that grows with the group can offset a coordination requirement that
-tightens with it.
+A joint activity need not be worth the same however many take part: often the
+value of the occasion grows with the number present. Replacing $R_I$ by
+$R_I(m)=r\,m$ asks whether a reward growing with the group can offset a
+coordination requirement that tightens with it.
 
-The first consequence is that the interior tangency disappears. Since $rm>1$
-already at $m=2$ for any $r$ of order unity, the optimal priority saturates at
-the clipping bound, $x_I^{*}=1$, and Eq.~\eqref{eq:dc} no longer applies: the
-coupled state is created at the boundary rather than in a saddle-node. Viability
-is then simply the condition that the bound be attained,
+The interior tangency disappears. Since $rm>1$ already at $m=2$ for $r$ of order
+unity, the priority saturates at the clipping bound $x_I^{*}=1$ and
+Eq.~\eqref{eq:dc} no longer applies: the coupled state is created at the
+boundary, not in a saddle-node. Viability is the condition that the bound be
+attained,
 $c(1-\hat p)/\hat p \le R_I(m)-1$ with $\hat p=[1/(d+a)]^{m-1}$, giving
 \begin{equation}
   d_c(m)=\left[\frac{r m-1+c}{c}\right]^{1/(m-1)}-a .
   \label{eq:dclin}
 \end{equation}
 A numerical solution of the full fixed-point map agrees with
-Eq.~\eqref{eq:dclin} exactly, returning $X^{*}=1$ for every $m$ it admits and
-$X^{*}=0$ beyond.
+Eq.~\eqref{eq:dclin} exactly, returning $X^{*}=1$ for every $m$ it admits.
 
-Equation~\eqref{eq:dclin} raises the ceiling substantially. At $r=0.95$ the
-maximum group size for a singly-committed agent rises from $2,3,4,5$ to
-$8,9,10,13$ at $c=0.050,0.020,0.010,0.002$. It does not, however, remove it:
-$d_c\to0$ as $m$ grows, because the requirement $(d+a)^{m-1}\le(R_I(m)-1+c)/c$
-pits an exponential against a linear function. Sustaining arbitrarily large
-groups would require the reward to grow at least as
-$R_I(m)\gtrsim c\,(1+a)^{m-1}$ --- exponentially in group size. No polynomial
-increase in the value of an occasion can compensate for the cost of getting
-everybody free at the same moment.
+This raises the ceiling substantially: at $r=0.95$ the maximum group size for a
+singly-committed agent rises from $2,3,4,5$ to $8,9,10,13$ at
+$c=0.050,0.020,0.010,0.002$. It does not remove it. Since
+$(d+a)^{m-1}\le(R_I(m)-1+c)/c$ pits an exponential against a linear function,
+$d_c\to0$ as $m$ grows, and arbitrarily large groups would need
+$R_I(m)\gtrsim c\,(1+a)^{m-1}$ --- exponential in group size. No polynomial
+increase in the value of an occasion compensates for the cost of getting
+everybody free at once.
 
 The simulations show a smaller gain still, and the discrepancy is instructive.
 Equation~\eqref{eq:select} was obtained assuming that the priority of each task
@@ -819,15 +833,13 @@ of five. Replacing $\hat p$ by $q^{m-1}$ in the viability condition moves the
 ceiling to $m_{\max}=4$, and the simulations have $m=2$ robust, $m=3$ marginal
 at a rate of $10^{-3}$, and $m\ge4$ extinct.
 
-The correction matters here because a singly-committed agent has only one
-priority to refresh. An agent holding many tasks selects the largest of them,
-which is refreshed often, so Eq.~\eqref{eq:select} is accurate where it was used
-in Secs.~\ref{sec:model}--V and worst in precisely the case examined here. The
-conclusion is unaffected in direction: a reward proportional to group size
+The correction matters here because a singly-committed agent has one priority to
+refresh; an agent holding many selects the largest, which is refreshed often, so
+Eq.~\eqref{eq:select} is accurate where it was used above and worst in precisely
+this case. The direction is unaffected: a reward proportional to group size
 raises the largest sustainable group but does not abolish the limit, and raises
 it by less than the existence criterion promises. What bounds the group is not
-the worth of the occasion but the rate at which everybody is simultaneously
-free.
+the worth of the occasion but the rate at which everybody is free at once.
 
 \section{Conclusions}
 
@@ -897,13 +909,8 @@ from a fixed menu, the recovery constants use a memory time that agents
 attribute to their partners, and the network analogue of the partner-modelling
 agent is not implemented.
 
-\section*{Code availability}
-
-All code, together with a working document recording the full result log
-including retracted results, is available at
-\url{https://github.com/av2atgh/interagents}.
-
 \begin{acknowledgments}
+All code is available at \url{https://github.com/av2atgh/interagents}.
 The calculations were assisted by Claude Opus~5, an AI assistant developed by
 Anthropic. Nodes \& Links Ltd provided support in the form of salary for Alexei
 Vazquez but did not have any additional role in the conceptualization of the
@@ -926,11 +933,11 @@ I. Kondor, and A.-L. Barab\'asi, Phys. Rev. E \href{https://doi.org/10.1103/Phys
 
 \bibitem{cobham1954} A. Cobham, J. Oper. Res. Soc. Am. \href{https://doi.org/10.1287/opre.2.1.70}{\textbf{2}, 70 (1954)}.
 
-\bibitem{stanley1971} H. E. Stanley, \emph{Introduction to Phase Transitions and
-Critical Phenomena} (Oxford University Press, New York, 1971).
-
 \bibitem{oliveira2009} J. G. Oliveira and A. Vazquez, Physica A \href{https://doi.org/10.1016/j.physa.2008.08.022}{\textbf{388},
 187 (2009)}.
+
+\bibitem{stanley1971} H. E. Stanley, \emph{Introduction to Phase Transitions and
+Critical Phenomena} (Oxford University Press, New York, 1971).
 
 \bibitem{naor1969} P. Naor, Econometrica \href{https://doi.org/10.2307/1909200}{\textbf{37}, 15 (1969)}.
 

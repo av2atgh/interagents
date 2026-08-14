@@ -36,7 +36,7 @@ def queue(ax, x, y, label, n_priv=4, h=0.085, w=0.30):
             va="center", fontsize=7, color=DARK)
 
 
-fig = plt.figure(figsize=(7.0, 2.55))
+fig = plt.figure(figsize=(7.0, 2.20))
 gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1, 1], wspace=0.28)
 
 # --- (a) two agents
@@ -158,7 +158,7 @@ c_long = np.array([0.020, 0.030, 0.045, 0.060, 0.080])
 S_long = np.array([0.997, 0.007, 0.000, 0.000, 0.000])
 E_long = np.array([0.825, 0.106, 0.000, 0.000, 0.000])
 
-fig, ax = plt.subplots(1, 2, figsize=(7.0, 2.5))
+fig, ax = plt.subplots(1, 2, figsize=(7.0, 2.15))
 ax[0].plot(c_short, S_ls, "o-", ms=3.5, lw=1.1, label=r"$LS(\ell=1)$")
 ax[0].plot(c_short, S_cf, "s--", ms=3.5, lw=1.1, label="randomized")
 ax[0].plot(c_short, S_ba, "^:", ms=3.5, lw=1.1, label=r"$BA(m=2)$")
