@@ -150,11 +150,12 @@ Writing $\hat p$ for the agent's estimate of its partner's participation
 probability, selecting $I$ is preferable whenever
 $\hat p R_I + (1-\hat p)(x_{O_j}-c) > x_{O_j}$, giving the optimal priority
 \begin{equation}
-  x_{I_j}^{*} = \left[\, R_I - c\,\frac{1-\hat p}{\hat p} \,\right]_0^1 ,
+  x_{I_j}^{*} = \min\!\left\{1,\;\max\!\left\{0,\;
+              R_I - c\,\frac{1-\hat p}{\hat p}\right\}\right\},
   \label{eq:policy}
 \end{equation}
-where $[\cdot]_0^1$ denotes clipping to $[0,1]$: \emph{the value of the
-interaction discounted by the risk that the partner will not participate}.
+clipped to the unit interval: \emph{the value of the interaction discounted by
+the risk that the partner will not participate}.
 Estimates are maintained by an exponential moving average with retention
 $\lambda=e^{-1/\tau_{\rm mem}}$ over the partner's observed selections.
 
@@ -190,7 +191,7 @@ both agents to explore in the same step, at rate $\epsilon^2$.
 For a symmetric pair the participation probability obeys $p \mapsto
 \mathcal{F}(p)$ with
 \begin{equation}
-  \mathcal{F}(p) = \Bigl(\left[\, R_I - c\,\frac{1-p}{p} \,\right]_0^1\Bigr)^{a}.
+  \mathcal{F}(p) = \Bigl(\min\bigl\{1,\max\{0,\,R_I - c(1-p)/p\}\bigr\}\Bigr)^{a}.
 \end{equation}
 Setting $\mathcal{F}(p)=p$ and requiring tangency gives the saddle-node in
 closed form,
