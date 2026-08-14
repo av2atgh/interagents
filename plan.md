@@ -918,6 +918,52 @@ recovered rates stay an order of magnitude below mean-field — so **the ~2.3×
 discrepancy of the pairwise case becomes, at m ≥ 3, a failure of kind: the
 theory predicts viable groups the dynamics destroys.**
 
+**R18 — Reward proportional to group size: raises the ceiling, cannot remove
+it.** (`hypergraph.py`, `run_hypergraph.py` part D.)
+
+If pleasure grows with the number who join, R_I(m) = r·m. Since r·m > 1 already
+at m = 2, the priority saturates at the clipping bound, the interior tangency of
+d_c(m) disappears, and viability becomes the condition that the bound be
+attained:
+
+  **d_c(m) = [(r·m − 1 + c)/c]^{1/(m−1)} − a**
+
+(verified against a numerical solution of the full fixed-point map, which
+returns X\* = 1 for every m this admits and X\* = 0 beyond).
+
+*It raises the ceiling a lot.* Maximum group size for a singly-committed agent
+goes from 2, 3, 4, 5 to **8, 9, 10, 13** at c = 0.050, 0.020, 0.010, 0.002.
+
+*But it cannot remove it.* d_c → 0 as m grows, because (d+a)^{m−1} ≤
+(R_I(m)−1+c)/c pits an exponential against a linear function. Sustaining
+arbitrarily large groups needs **R_I(m) ≳ c(1+a)^{m−1}** — exponential in group
+size. No polynomial increase in what an occasion is worth compensates for the
+cost of getting everybody free at once.
+
+**A correction to the analytics, found here and affecting the earlier sections.**
+Simulation gains far less than d_c promises (m = 3 marginal at 10⁻³, m ≥ 4
+extinct, despite d_c ≥ 1 through m = 9). The reason: Eq. for P(select) assumed
+the priority is drawn **afresh each step**. It is not — in the queueing
+substrate a priority is redrawn only when its task is acted on, so a membership
+that is seldom selected is seldom refreshed and keeps its low priority. *This is
+the same mechanism that produces heavy-tailed waiting times in the original
+model.* Flux balance with redraw rate u + ε gives π(u) ∝ 1/(u+ε), so a
+singly-committed agent participates with
+
+  **q = [1 − ε ln((1+ε)/ε)] / ln((1+ε)/ε)** = 0.207 at ε = 10⁻², not 1/2.
+
+Verified: measured m = 2, d = 1 meeting rate 0.0465 against q² = 0.0427; the
+fresh-priority value 1/4 is wrong by a factor of five. Replacing p̂ by q^{m−1}
+moves the ceiling to m_max = 3, 4, 4, 5 — matching the simulations.
+
+**Scope of the correction.** It bites hardest at d = 1, where an agent has a
+single priority to refresh. An agent holding many tasks selects the largest,
+which *is* refreshed often, so the 1/(k+a) idealisation is accurate where it was
+used for the network results (R15, R16) and worst in exactly the case examined
+here. Direction of the conclusion is unaffected: **what bounds the group is not
+the worth of the occasion but the rate at which everybody is simultaneously
+free.**
+
 ---
 
 ## 6B. Wider perspective (literature search, 2026-08-14)

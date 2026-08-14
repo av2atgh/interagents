@@ -8,7 +8,9 @@ Reproduces the hypergraph section:
 """
 
 import numpy as np
-from hypergraph import d_crit, max_group_size, regular_hypergraph, run_hyper
+from hypergraph import (d_crit, d_crit_linear, max_group_size,
+                        max_group_size_linear, q_stationary,
+                        regular_hypergraph, run_hyper)
 
 R = 0.95
 CS = (0.002, 0.010, 0.020, 0.050)
@@ -61,3 +63,33 @@ for c in (0.020, 0.005):
 print("\n  Rates remain far below the mean-field value (~0.08 at c=0.020), so the")
 print("  rescue is partial: groups of three or more are qualitatively more")
 print("  fragile than the existence criterion allows.")
+
+
+hdr("D  REWARD PROPORTIONAL TO GROUP SIZE, R_I(m) = r*m.\n"
+    "   Does a reward that grows with the group offset a coordination\n"
+    "   requirement that tightens with it?")
+r = 0.95
+print(f"  {'m':>3} {'d_c const':>10} {'d_c prop':>9} | {'rate const':>11} {'rate prop':>10}")
+for m in (2, 3, 4, 6, 8, 10):
+    na = 240
+    while (na % m):
+        na += 1
+    ma, me, ne = regular_hypergraph(na, m, 1, seed=1)
+    a1 = run_hyper(ma, me, na, ne, m, R_I=0.95, c=0.020, n_steps=40_000, seed=1).mean()
+    a2 = run_hyper(ma, me, na, ne, m, R_I=r * m, c=0.020, n_steps=40_000, seed=1).mean()
+    print(f"  {m:>3} {d_crit(m, 0.95, 0.020):>10.2f} {d_crit_linear(m, r, 0.020):>9.2f} "
+          f"| {a1:>11.4f} {a2:>10.4f}")
+
+q = q_stationary(0.01)
+print(f"\n  Maximum group size for a singly-committed agent:")
+print(f"  {'c':>7} {'constant':>9} {'prop (ideal)':>13} {'prop (corrected)':>17}")
+for c in (0.050, 0.020, 0.010, 0.002):
+    print(f"  {c:>7.3f} {max_group_size(0.95, c):>9} "
+          f"{max_group_size_linear(r, c):>13} {max_group_size_linear(r, c, epsilon=0.01):>17}")
+print(f"\n  A priority is refreshed only when its task is acted on, so a rarely")
+print(f"  selected membership keeps a low priority: pi(u) ~ 1/(u+eps) and a")
+print(f"  singly-committed agent participates with q = {q:.4f}, not 1/2.")
+print(f"  Check: measured m=2 rate 0.0465 vs q^2 = {q**2:.4f} (fresh-priority 1/4).")
+print(f"\n  Proportional reward raises the ceiling but cannot remove it: the")
+print(f"  requirement is exponential in m and the reward only linear. Arbitrarily")
+print(f"  large groups would need R_I(m) >~ c(1+a)^(m-1).")

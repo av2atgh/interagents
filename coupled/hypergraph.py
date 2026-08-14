@@ -123,3 +123,55 @@ def run_hyper(mem_agent, mem_edge, n_agents, n_edges, m,
             u = np.where(sel, rng.random(P), u)
 
     return counts / (n_steps - burn)
+
+
+def d_crit_linear(m, r, c, a=1):
+    """Critical group degree when the reward grows with the group, R_I(m) = r*m.
+
+    r*m > 1 already at m = 2, so the optimal priority saturates at the clipping
+    bound and the interior tangency of d_crit() no longer applies. Viability is
+    then the condition that the bound be attained, giving
+
+        d_c(m) = [ (r m - 1 + c) / c ]^{1/(m-1)} - a.
+
+    This raises the ceiling a great deal but does not remove it: the left side
+    grows exponentially in m and the right side only linearly, so d_c -> 0.
+    Sustaining arbitrarily large groups needs R_I(m) >~ c (1+a)^{m-1}.
+    """
+    R = r * m
+    if m < 2 or R - 1 + c <= 0:
+        return -a
+    return ((R - 1 + c) / c) ** (1.0 / (m - 1)) - a
+
+
+def q_stationary(epsilon):
+    """Participation probability of a singly-committed agent.
+
+    Eq. (H1)'s selection probability assumes the priority is redrawn every step.
+    It is not: a priority is refreshed only when its task is acted on, so a
+    membership that is rarely selected keeps a low priority. With redraw rate
+    u + epsilon the stationary density is pi(u) ~ 1/(u+epsilon), giving the
+    value below -- 0.207 at epsilon = 0.01, against the naive 1/2. Verified
+    against the measured m=2, d=1 meeting rate (0.0465 vs q^2 = 0.0427).
+    """
+    Z = np.log((1.0 + epsilon) / epsilon)
+    return (1.0 - epsilon * Z) / Z
+
+
+def max_group_size_linear(r, c, a=1, d=1, epsilon=None, mmax=60):
+    """Largest sustainable m under R_I(m) = r*m.
+
+    With epsilon given, uses the corrected participation q_stationary(epsilon)
+    in place of the fresh-priority 1/(d+a); otherwise uses Eq. (H2)'s idealisation.
+    """
+    ok = []
+    for m in range(2, mmax):
+        R = r * m
+        if R - 1 + c <= 0:
+            continue
+        thresh = c / (R - 1 + c)
+        p_hat = (q_stationary(epsilon) ** (m - 1) if epsilon
+                 else (1.0 / (d + a)) ** (m - 1))
+        if p_hat >= thresh:
+            ok.append(m)
+    return max(ok) if ok else 0

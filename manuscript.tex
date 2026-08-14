@@ -746,6 +746,70 @@ groups that the dynamics destroys. Group coordination is fragile not because
 coordinated states fail to exist, but because the absorbing state is reachable
 through any one participant.
 
+\subsection{Reward proportional to group size}
+
+The premise so far is that a joint activity is worth the same however many take
+part. Often it is not: the value of the occasion grows with the number present.
+We therefore replace the constant $R_I$ by $R_I(m)=r\,m$ and ask whether a
+reward that grows with the group can offset a coordination requirement that
+tightens with it.
+
+The first consequence is that the interior tangency disappears. Since $rm>1$
+already at $m=2$ for any $r$ of order unity, the optimal priority saturates at
+the clipping bound, $x_I^{*}=1$, and Eq.~\eqref{eq:dc} no longer applies: the
+coupled state is created at the boundary rather than in a saddle-node. Viability
+is then simply the condition that the bound be attained,
+$c(1-\hat p)/\hat p \le R_I(m)-1$ with $\hat p=[1/(d+a)]^{m-1}$, giving
+\begin{equation}
+  d_c(m)=\left[\frac{r m-1+c}{c}\right]^{1/(m-1)}-a .
+  \label{eq:dclin}
+\end{equation}
+A numerical solution of the full fixed-point map agrees with
+Eq.~\eqref{eq:dclin} exactly, returning $X^{*}=1$ for every $m$ it admits and
+$X^{*}=0$ beyond.
+
+Equation~\eqref{eq:dclin} raises the ceiling substantially. At $r=0.95$ the
+maximum group size for a singly-committed agent rises from $2,3,4,5$ to
+$8,9,10,13$ at $c=0.050,0.020,0.010,0.002$. It does not, however, remove it:
+$d_c\to0$ as $m$ grows, because the requirement $(d+a)^{m-1}\le(R_I(m)-1+c)/c$
+pits an exponential against a linear function. Sustaining arbitrarily large
+groups would require the reward to grow at least as
+$R_I(m)\gtrsim c\,(1+a)^{m-1}$ --- exponentially in group size. No polynomial
+increase in the value of an occasion can compensate for the cost of getting
+everybody free at the same moment.
+
+The simulations show a smaller gain still, and the discrepancy is instructive.
+Equation~\eqref{eq:select} was obtained assuming that the priority of each task
+is drawn afresh at every step. In the queueing substrate it is not: a priority
+is redrawn only when its task is acted on, so a membership that is seldom
+selected is seldom refreshed and its low priority persists. This is the same
+mechanism that generates heavy-tailed waiting times in the original
+model~\cite{barabasi2005,oliveira2009}, and here it depresses participation.
+Balancing the flux with a redraw rate $u+\epsilon$ gives a stationary density
+$\pi(u)\propto(u+\epsilon)^{-1}$, so a singly-committed agent participates with
+probability
+\begin{equation}
+  q=\frac{1-\epsilon\ln\!\left[(1+\epsilon)/\epsilon\right]}
+         {\ln\!\left[(1+\epsilon)/\epsilon\right]} ,
+  \label{eq:qstat}
+\end{equation}
+equal to $0.207$ at $\epsilon=10^{-2}$ rather than the $1/2$ that a freshly
+drawn priority would give. The measured meeting rate at $m=2$, $d=1$ is $0.0465$
+against $q^2=0.0427$, where the fresh-priority value $1/4$ is wrong by a factor
+of five. Replacing $\hat p$ by $q^{m-1}$ in the viability condition moves the
+ceiling to $m_{\max}=4$, and the simulations have $m=2$ robust, $m=3$ marginal
+at a rate of $10^{-3}$, and $m\ge4$ extinct.
+
+The correction matters here because a singly-committed agent has only one
+priority to refresh. An agent holding many tasks selects the largest of them,
+which is refreshed often, so Eq.~\eqref{eq:select} is accurate where it was used
+in Secs.~\ref{sec:model}--V and worst in precisely the case examined here. The
+conclusion is unaffected in direction: a reward proportional to group size
+raises the largest sustainable group but does not abolish the limit, and raises
+it by less than the existence criterion promises. What bounds the group is not
+the worth of the occasion but the rate at which everybody is simultaneously
+free.
+
 \section{Conclusions}
 
 Letting agents choose the priority of a task that requires someone else turns a
