@@ -1,6 +1,6 @@
 # interagents
 
-**Choosing activities that require others: a phase transition in human dynamics.**
+**Adaptive agents in a coupled queueing model.**
 
 What decides whether people do things together or separately? Many activities
 cannot be carried out alone, and an individual must rank them against the
