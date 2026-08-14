@@ -1065,8 +1065,10 @@ cited:
   **10**, 20120997 (2013) — review of group interactions on structured
   populations.
 
-Not cited: Battiston et al., Phys. Rep. **874**, 1 (2020) — the standard
-higher-order review, but Moreno is not an author of that one (he is on the
+Also cited: **Battiston, Cencetti, Iacopini, Latora, Lucas, Patania, Young &
+Petri**, Phys. Rep. **874**, 1 (2020) — the standard review of structures and
+dynamics beyond pairwise interactions. Cited on its own merits at the head of
+the group section; note Moreno is *not* an author of this one (he is on the
 Nature Physics 2021 companion).
 
 **Verification status (2026-08-14).** All 26 references have now been checked
