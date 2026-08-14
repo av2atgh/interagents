@@ -9,8 +9,8 @@
 
 \begin{document}
 
-\title{Adaptive agents in a coupled queueing model:\\
-phase separation, theory of mind, and the loss of universality}
+\title{Choosing activities that require others:\\
+a phase transition in human dynamics}
 
 \author{A. Vazquez}
 \affiliation{%TODO: affiliation
@@ -19,51 +19,30 @@ phase separation, theory of mind, and the loss of universality}
 \date{\today}
 
 \begin{abstract}
-Queueing models of human dynamics predict heavy-tailed interevent times, and
-extending them to two agents sharing a task that requires simultaneous execution
-yields a family of exponents $\alpha = 1 + 1/\max_j(L_j-1)$ set by the queue
-lengths [Oliveira and Vazquez, Physica A \textbf{388}, 187 (2009)]. In those
-models the priority assigned to the shared task is drawn from a fixed
-distribution. Here we let the agents \emph{choose} it. Each agent assigns the
-interacting task a priority equal to its value discounted by the estimated risk
-that the partner will not participate, and estimates that risk from observation.
-The resulting system is a stag hunt with a saddle-node bifurcation: a coupled
-phase and an absorbing solitary phase, separated by a critical line
-$R_c(L)$ that we obtain in closed form, valid only for $L-1 \le 1/c$. We
-report five results. (i) Agents that additionally model \emph{the partner's
-model of themselves} shift the critical line substantially, and a single such
-agent suffices to hold a non-modelling partner in the coupled phase. (ii) When
-the interaction opportunity is rare, coupling survives only if the partner model
-is held across silent intervals rather than decaying; a model maintained without
-input is what makes rare interaction viable. (iii) The scale-free interevent
-statistics of the non-adaptive model survive adaptation only inside a narrow
-window near the bifurcation, and only when agents retain a nonzero rate of
-uninformed exploration, without which the solitary phase is strictly absorbing.
-(iv) Inside that window the measured exponent is controlled by the fraction of
-time spent coupled and not by $L$: adaptation destroys the universality classes,
-and phase occupancy replaces $\alpha$ as the natural order parameter.
-(v) At fixed parameters the outcome is bimodal but is not determined by early
-noise; collapse into the solitary phase is irreversible without intervention,
-and the partner-modelling capability that prevents collapse with certainty
-reverses it in only about a third of cases unless the agent is also willing to
-persist unilaterally for intervals far longer than a myopic evaluation
-sanctions, in which case recovery becomes complete. Allowing the agent to choose
-its own commitment length shows this policy to be optimal rather than imposed,
-and fixes its price: recovery requires persisting for $0.74\,\tau_{\rm mem}$
-independently of how unfavourable the current estimate is, and an agent adopts
-it only if its horizon exceeds $1.5\,\tau_{\rm mem}$.
-(vi) On a network, where each agent holds one interacting task per neighbour and
-attention is scarce, the solitary phase percolates as the cost of an
-unreciprocated offer grows, and high-degree nodes lose their relations first.
-Comparing a triadic-closure network with its degree-preserving randomization at
-matched coupled-edge fraction, local structure does not change \emph{which}
-relations survive but does change how their failure is arranged: the coupled
-phase fragments into clusters under triadic closure while remaining connected
-without it. The transition is tractable analytically: attention divides as
-$1/(k+a)$, which fixes a critical degree $k_c$ beyond which no coupled state
-exists, and percolation follows the Molloy--Reed criterion with the second moment
-truncated at $k_c$. Because the truncation acts at the top of the degree
-distribution, scale-free contact structures are maximally vulnerable.
+What decides whether people do things together or separately? Many activities
+cannot be carried out alone, and an individual must rank them against the
+private tasks competing for the same time. We address this within the
+priority-queue description of human activity by letting each agent \emph{choose}
+the priority of a shared task rather than drawing it from a fixed distribution:
+the value of the joint activity, discounted by the estimated risk that the
+partner will not take part. Participation becomes strategic, and the model
+acquires a phase transition. A coupled phase, in which joint activity is
+sustained, is separated from an absorbing solitary phase by a saddle-node
+bifurcation that we obtain in closed form. The transition is discontinuous and
+the solitary phase is absorbing, so collapse is irreversible unless an agent
+persists unilaterally for of order one memory time, a cost we also compute. The
+heavy-tailed interevent statistics that motivate queueing models of human
+dynamics survive only in a narrow window at the transition, and there the
+exponent is fixed by the fraction of time spent coupled rather than by queue
+length: the universality classes of the non-strategic model do not survive the
+introduction of choice. On a network, attention divides as $1/(k+a)$ and fixes a
+critical degree beyond which no coupled state exists, so the solitary phase
+percolates according to the Molloy--Reed criterion with the second moment
+truncated at that degree --- formally an attack on hubs, with no attacker. For
+group activities the critical degree falls as the $(m-1)$th root, implying a
+maximum group size. The transition organises two quantities already measured in
+communication records: a finite capacity for keeping ties active, and the decay
+of ties whose rhythm is interrupted.
 \end{abstract}
 
 \maketitle
@@ -91,6 +70,20 @@ That model predicts a countable family of exponents
   \label{eq:alpha_iid}
 \end{equation}
 interpolating between $2$ and $1$: the more distracted agent sets the exponent.
+
+\begin{figure*}[t]
+\includegraphics[width=\textwidth]{fig_schematic.pdf}
+\caption{The three settings. In each, an agent holds one interacting task per
+shared activity together with an aggregate private task $O$ standing for $L-1$
+individual tasks, and executes the single highest-priority item per step.
+(a) A pair: the shared task $I$ executes only if both agents select it in the
+same step. (b) A network: an agent holds one interacting task per neighbour, so
+attention must be divided; solid links are relations in the coupled phase,
+dashed ones have collapsed to the solitary phase. (c) A hypergraph: an activity
+of size $m$ executes only if all $m$ members select it, and an agent may belong
+to $d$ such groups.}
+\label{fig:schematic}
+\end{figure*}
 
 In that treatment the priority of the interacting task is drawn independently
 from a fixed density. This is the natural assumption if the shared activity is
@@ -124,6 +117,7 @@ adversary is present: attention scarcity removes high-degree relations on its
 own.
 
 \section{Model}
+\label{sec:model}
 
 \subsection{Substrate}
 
@@ -544,6 +538,19 @@ baseline $\epsilon^2$. The order parameter $S$ is the largest connected
 component of the coupled subgraph as a fraction of $n$
 (Table~\ref{tab:percolation}).
 
+\begin{figure*}[t]
+\includegraphics[width=\textwidth]{fig_percolation.pdf}
+\caption{Percolation of the solitary phase. (a) Giant component $S$ of the
+coupled subgraph against the cost $c$ of an unreciprocated offer, for triadic
+closure, its degree-preserving randomization and a non-local control
+($n=600$, $\langle k\rangle=4$, three realisations, $4\times10^4$ steps).
+At $c=0.020$ all three carry the same coupled edge fraction but only the local
+rule fragments. (b) Converged runs ($4\times10^5$ steps) on the randomized
+network place the transition between $c=0.020$ and $c=0.030$; the mean-field
+criterion of Eq.~\eqref{eq:cavity} predicts $c_c\simeq0.062$.}
+\label{fig:percolation}
+\end{figure*}
+
 \begin{table}[t]
 \caption{Coupled edge fraction and giant component $S$ of the coupled subgraph,
 at $R_I=0.95$, $n=600$, $\langle k\rangle = 4$, averaged over three
@@ -672,6 +679,7 @@ realisations is too small, and the agents here are all level 1, the network
 analogue of the self-model being left for future work.
 
 \section{Groups: agents meeting as hyperedges}
+\label{sec:groups}
 
 Many joint activities are not pairwise. A meeting takes place only if everybody
 turns up, which makes the interacting task a hyperedge rather than an edge. We
@@ -739,45 +747,94 @@ groups that the dynamics destroys. Group coordination is fragile not because
 coordinated states fail to exist, but because the absorbing state is reachable
 through any one participant.
 
-\section{Discussion}
+\section{Conclusions}
 
-Making the shared-task priority a decision variable converts the two-agent
-queueing model into a coordination game with an absorbing failure mode, and the
-consequences are not confined to the transition region. The countable
-universality classes of Eq.~\eqref{eq:alpha_iid} do not survive: heavy tails
-persist only in a narrow window near the saddle-node, and there the exponent is
-governed by phase occupancy rather than by queue length. The exponents reported
-for correspondence data should therefore be read as evidence that the underlying
-priority assignment is close to exogenous. Where participation is itself
-strategic, the same measurement is not expected to yield $1+1/\max_j(L_j-1)$.
+Letting agents choose the priority of a task that requires someone else turns a
+stochastic process into a system with a phase transition, and the transition
+organises everything else.
 
-Two structural results appear robust. First, the capacity to represent a
-partner's representation of oneself enlarges the coupled phase, and a single
-such agent stabilises a pair. Second, in a system whose failure mode is
-absorbing, the same capacity is far more effective as prevention than as cure
-unless it is combined with a willingness to persist unilaterally over intervals
-much longer than a myopic evaluation would sanction; recovery then becomes
-complete, but it requires acting against one's own current estimate.
+\emph{Its nature.} The coupled and solitary phases are separated by a
+saddle-node bifurcation, Eqs.~\eqref{eq:rcrit}, \eqref{eq:kc} and
+\eqref{eq:dc}, obtained in closed form in all three settings. The transition is
+discontinuous: at $R_c$ a pair of fixed points is created at finite
+participation $p^{*}$ rather than continuously from zero, so the coupled state
+appears already fully formed. The solitary phase is absorbing, since an agent
+that stops offering never observes an offer and so never revises. Discontinuity
+and absorption together give the transition its asymmetry, and that asymmetry is
+the paper's practical content: the conditions that sustain joint activity are
+not the conditions that restore it. None of our collapsed pairs recovered
+spontaneously; recovery required unilateral persistence for $0.74\,\tau_{\rm
+mem}$, and an agent adopts that policy only if it values the future beyond
+$1.5\,\tau_{\rm mem}$. A relation is cheap to keep and expensive to rebuild, and
+the price of rebuilding is set by how long it takes to be forgotten rather than
+by how bad things currently look.
 
-Both results, together with the requirement that a partner model be sustained
-through intervals containing no observations, were reached in the course of
-examining a specific hypothesis: that experience is a property of systems whose
-preferred states can only be reached through another system they do not fully
-control. Under that reading the coupled phase is the object of interest, the
-solitary phase is its absence, and $\phi$ measures the distance between them.
-We record the motivation for transparency; nothing in
-Secs.~II--IV depends on it, and we do not claim the model bears on the
-question.
+\emph{What it costs the established picture.} Heavy-tailed interevent times, the
+observation that motivates queueing models of human dynamics, are not generic
+once participation is chosen. Away from the transition the dynamics polarises to
+$\tau=1$ or $\tau\to\infty$; scale-free statistics survive only in a narrow
+window near the bifurcation, and only if agents retain a nonzero rate of
+uninformed exploration, without which the solitary phase is strictly absorbing
+and no window exists at all. Within the window the measured exponent tracks the
+fraction of time spent coupled and not the queue lengths, so the countable
+family $\alpha=1+1/\max_j(L_j-1)$ does not survive. We therefore propose phase
+occupancy, bounded and directly measurable, in place of $\alpha$ as the order
+parameter, with scale-free interevent statistics as a symptom of sitting
+mid-window rather than as the object of study. Read the other way, exponents
+close to Eq.~\eqref{eq:alpha_iid} in correspondence data are evidence that the
+priority assignment there is close to exogenous; where participation is
+genuinely strategic, the same measurement should not reproduce them.
 
-Several directions remain. The two constants $0.74$ and $1.5$ are expressed in
-units of $\tau_{\rm mem}$, but the agent propagates its partner's estimate using
-its own memory constant, and all runs reported here use $\tau_A=\tau_B$; whether
-the partner's true constant or the agent's assumption about it governs recovery
-requires asymmetric memory and a per-agent diagnostic. Whether deeper recursion
-continues to enlarge the coupled phase, or saturates at finite depth, would
-determine whether modelling depth is a useful graded quantity. Finally, the
-extension to $N$ agents on a network is immediate in principle, and the question
-of whether the solitary phase percolates is well posed.
+\emph{Where it goes on a network.} With one shared task per neighbour, attention
+divides as $1/(k+a)$ and fixes a critical degree $k_c$ beyond which no coupled
+state exists. The solitary phase then percolates by the Molloy--Reed criterion
+with the second moment truncated at $k_c$, which is formally the
+intentional-attack calculation~\cite{cohen2001} with no attacker: scarcity
+removes hubs by itself. High degree is a liability, because what one competes
+for is the partner's attention, and a scale-free contact structure is therefore
+maximally exposed to a collapse it generates internally. Local structure does not
+change \emph{which} relations survive --- survival is degree-controlled and
+indistinguishable between a triadic-closure network and its randomization --- but
+it changes how their failure is arranged, fragmenting the coupled phase into
+clusters rather than thinning it uniformly. For activities requiring $m$
+participants the same construction gives a critical group degree falling as the
+$(m-1)$th root, hence a maximum group size; there the existence criterion fails
+outright, because a group dies through any one of its $m$ members while
+coordination falls as the $m$th power.
+
+\emph{Relevance for human dynamics.} The transition makes contact with
+quantities that have already been measured rather than only with exponents. A
+finite capacity for keeping ties active is exactly $k_c$, and is observed in
+communication records~\cite{miritello2013,dunbar1992,saramaki2014}; here it is
+derived rather than posited. The decay of ties whose rhythm is interrupted
+beyond a characteristic multiple of their own frequency~\cite{navarro2017} is
+the empirical form of our memory-timescale condition, and is the most promising
+place to test the model quantitatively. Both are statements about the coupled
+phase and its boundary, not about the tail of an interevent distribution, which
+suggests that the phase structure rather than the exponent is what the data have
+been describing.
+
+\emph{Provenance.} Several of these results --- in particular the requirement
+that a partner model be sustained through intervals containing no observations,
+and the asymmetry between preventing and reversing collapse --- were reached
+while examining a different hypothesis, that experience is a property of systems
+whose preferred states can be reached only through another system they do not
+fully control. We record this for transparency. Nothing in
+Secs.~\ref{sec:model}--\ref{sec:groups} depends on it, and we make no claim that
+the model bears on that question.
+
+\emph{Limitations.} The critical points are mean-field. The percolation
+threshold overestimates the measured one by a factor $\simeq2.3$, and for group
+sizes $m\ge3$ it fails qualitatively, predicting viable groups that fluctuations
+destroy; both are the expected failure of a mean-field treatment of an
+absorbing-state transition~\cite{hinrichsen2000}, but we have measured no
+exponents and place the model in no universality class. Convergence near the
+transition is slow and directional, so thresholds read from short runs are
+biased toward the initial condition. The commitment length is chosen by the
+agent but from a fixed menu; the two recovery constants are expressed in units
+of a memory time that agents attribute to their partners and that all our runs
+took to be shared; and the network analogue of the partner-modelling agent has
+not been implemented.
 
 \begin{acknowledgments}
 %TODO

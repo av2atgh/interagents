@@ -1,7 +1,10 @@
 # interagents
 
-Coupled adaptive agents in a queueing model of human dynamics: phase separation,
-theory of mind, and the loss of universality.
+**Choosing activities that require others: a phase transition in human dynamics.**
+
+What decides whether people do things together or separately? Many activities
+cannot be carried out alone, and an individual must rank them against the
+private tasks competing for the same time.
 
 Built on the two-agent queueing model of J. G. Oliveira and A. Vazquez,
 *Impact of interactions on human dynamics*, Physica A **388**, 187 (2009)
