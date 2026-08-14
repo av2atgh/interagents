@@ -1,7 +1,7 @@
 # coupled/ — two coupled agents
 
 Substrate: J. G. Oliveira and A. Vazquez, *Impact of interactions on human
-dynamics*, arXiv:0710.4916v3. Results are recorded in `../plan.md` §6A (R0–R8).
+dynamics*, arXiv:0710.4916v3. Results are reported in `../manuscript.tex`.
 
 | file | what it does | runtime |
 |---|---|---|

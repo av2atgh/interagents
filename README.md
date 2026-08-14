@@ -21,7 +21,6 @@ into a coupled inference problem and changes the phenomenology substantially.
 | path | what |
 |---|---|
 | `manuscript.tex` | the paper (RevTeX, PRE format) |
-| `plan.md` | working document: the motivating hypothesis, its successive revisions, and the full result log R0–R16 including retractions |
 | `coupled/` | all code, with its own README |
 
 ## Main results
@@ -63,8 +62,9 @@ Requires numpy, scipy, matplotlib.
 
 ## Status
 
-Working repository, not a finished paper. `plan.md` records what has been
-verified, what was retracted (R6, and the α universality claim), and what is
-still open — notably which agent's memory constant sets the recovery
-constants, and the factor ~2.3 by which the mean-field percolation threshold
-overestimates the measured one.
+Working repository for the manuscript, not a finished paper. Known limitations
+are stated in the manuscript itself: the mean-field percolation threshold
+overestimates the measured one by a factor ~2.3 and fails qualitatively for
+group sizes m >= 3; convergence near the transition is slow and directional; and
+the network analogue of the partner-modelling agent is not implemented.
+
