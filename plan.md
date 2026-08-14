@@ -1043,9 +1043,23 @@ level-2 agent stabilises a level-1 partner) is the second statement, and §6.1's
 question of whether tractable recursion depth is the graded measure the theory
 lacks now has an anchor to test against rather than a free parameter.
 
-**Caveat.** These references were assembled from a web search; bibliographic
-details have not been checked against the originals. Verify volumes, pages and
-years before any of this reaches a submission.
+**Verification status (2026-08-14).** All 26 references have now been checked
+against originals or authoritative records. Sources used: the user's curated
+`LocalNetworkGrowth/references.bib` (vazquez2001, albert2000, granovetter1973,
+PRE **111** 064314); the reference list of arXiv:0710.4916 itself
+(barabasi2005, oliveira2005, vazquez2005, vazquez2006, stanley1971, cobham1954);
+Crossref (navarro2017 = EPJ Data Sci. **6**, 31); and publisher/ADS records for
+the rest.
+
+**One error found and fixed:** Stauffer & Aharony was given as "2nd ed. (1994)".
+The 2nd edition is 1992; 1994 is the *revised* 2nd edition. Corrected to
+"revised 2nd ed. (1994)".
+
+**One earlier error, already fixed:** the conversation-size constraint was first
+written with guessed authors; it is Krems, Dunbar & Neuberg, Evol. Hum. Behav.
+**37**, 423 (2016).
+
+The remaining 24 entries were correct as written.
 
 ---
 
