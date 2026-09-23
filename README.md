@@ -22,6 +22,7 @@ into a coupled inference problem and changes the phenomenology substantially.
 |---|---|
 | `manuscript.tex` | the paper (RevTeX, PRE format) |
 | `coupled/` | all code, with its own README |
+| `supplementary.tex` | Supplementary Tables I and II: the full parameter scans, submitted as a separate PDF |
 
 ## Main results
 
@@ -53,18 +54,46 @@ degree-preserving randomization, and Barabási–Albert as a non-local control.
 cd coupled
 python3 queueing_baseline.py    # validates against the 2009 paper
 python3 run_experiments.py      # phase diagram, theory-of-mind levels
-python3 run_percolation.py      # network percolation
+python3 run_percolation.py      # network percolation, first pass
 python3 make_figures.py         # regenerates fig_phase.pdf
 cd .. && pdflatex manuscript.tex && pdflatex manuscript.tex
+pdflatex supplementary.tex && pdflatex supplementary.tex
 ```
 
-Requires numpy, scipy, matplotlib.
+The full campaign behind the published numbers — replicates, error bars,
+collapse times, finite size, robustness and sensitivity — is
+
+```bash
+cd coupled
+python3 run_survival.py                 # pair collapse times and survival
+python3 run_replicates.py               # pair tables, 40 realisations each
+python3 run_hyper_replicates.py         # group tables, 12 hypergraphs each
+python3 run_bimodality.py               # bimodality, predictability, recovery
+python3 run_noreturn2.py                # recovery vs commitment and discount
+python3 run_boundary.py                 # measured phase boundary vs Eq. (5)
+python3 run_occupancy2.py               # tail index vs occupancy
+for t in main length sensitivity finitesize; do
+  python3 run_netsweep.py $t            # network: one .npz per run
+done
+python3 analyze_survival.py             # pair analysis
+python3 analyze_net.py                  # network analysis
+python3 analyze_theory.py               # mean-field thresholds
+python3 emit_tables.py <name>           # LaTeX table bodies
+python3 emit_net.py <name>
+python3 make_figures_rev.py             # fig_survival, fig_finitesize, fig_percolation
+python3 make_supplementary.py           # ../supplementary.tex
+```
+
+Requires numpy, scipy, matplotlib; numba is optional but makes the network
+sweep about seven times faster (`check_kernel.py` verifies the two paths agree).
 
 ## Status
 
-Working repository for the manuscript, not a finished paper. Known limitations
-are stated in the manuscript itself: the mean-field percolation threshold
+Working repository for the manuscript. Known limitations are stated in the
+manuscript itself, and Table I of the paper labels every result as exact,
+mean-field, numerical or analogy: the mean-field percolation threshold
 overestimates the measured one by a factor ~2.3 and fails qualitatively for
-group sizes m >= 3; convergence near the transition is slow and directional; and
-the network analogue of the partner-modelling agent is not implemented.
+group sizes m >= 3; no critical exponent is measured and no scaling collapse is
+attempted; and the network analogue of the partner-modelling agent is not
+implemented.
 

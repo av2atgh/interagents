@@ -25,6 +25,11 @@ alone, which is the control the book uses.
 
 import numpy as np
 
+try:
+    from network_kernel import run_kernel as _run_kernel
+except Exception:                                    # numba unavailable
+    _run_kernel = None
+
 
 # ----------------------------------------------------------------- growth
 def grow_ls(n, ell=1, seed=0):
@@ -115,8 +120,18 @@ def directed_index(adj):
 
 # ----------------------------------------------------------------- dynamics
 def run_network(adj, R_I=0.90, c=0.35, L=2, tau_mem=200.0, epsilon=0.01,
-                n_steps=60_000, burn_frac=0.3, seed=0, p_init=None):
-    """Level-1 agents on a fixed network. Returns per-edge interaction rates."""
+                n_steps=60_000, burn_frac=0.3, seed=0, p_init=None,
+                record=False, silence_hold=None, window=None):
+    """Level-1 agents on a fixed network. Returns per-edge interaction rates.
+
+    record: also return (i) the first-passage time of each directed edge to
+      sustained silence -- the first step at which it has gone `silence_hold`
+      consecutive steps without executing, which is the edge-level analogue of
+      the collapse time of a pair -- and (ii) the executed-edge count binned in
+      windows of `window` steps, so the approach to the stationary state can be
+      seen rather than assumed. Defaults: silence_hold = ceil(tau_mem),
+      window = 10 * silence_hold.
+    """
     n = len(adj)
     src, dst, rev = directed_index(adj)
     a = L - 1
@@ -132,6 +147,44 @@ def run_network(adj, R_I=0.90, c=0.35, L=2, tau_mem=200.0, epsilon=0.01,
     counts = np.zeros(src.size)
     burn = int(n_steps * burn_frac)
 
+    if record:
+        hold = int(np.ceil(tau_mem)) if silence_hold is None else int(silence_hold)
+        win = 10 * hold if window is None else int(window)
+        silence = np.zeros(src.size, dtype=np.int32)
+        fpt = np.full(src.size, -1, dtype=np.int64)
+        n_win = int(np.ceil(n_steps / win))
+        series = np.zeros(n_win)
+        n_unset = src.size
+
+    # Node offsets into the directed-edge arrays. directed_index builds them in
+    # node order, so each node's edges are contiguous and the per-node maximum
+    # is a reduceat rather than a scatter-max.
+    deg = np.bincount(src, minlength=n)
+    if (deg == 0).any():
+        raise ValueError("isolated nodes are not supported")
+    starts = np.concatenate(([0], np.cumsum(deg)[:-1]))
+    inv_n = 1.0 / a
+
+    if _run_kernel is not None:
+        # Compiled inner loop. Same model, scalar loops; see network_kernel.py.
+        hold_k = (int(np.ceil(tau_mem)) if silence_hold is None
+                  else int(silence_hold))
+        win_k = 10 * hold_k if window is None else int(window)
+        u0 = rng.random(src.size)
+        cnt, fpt_k, series_k = _run_kernel(
+            src.astype(np.int64), dst.astype(np.int64), rev.astype(np.int64),
+            starts.astype(np.int64), deg.astype(np.int64), n, src.size,
+            float(a), float(R_I), float(c), float(lam), float(epsilon),
+            int(n_steps), int(burn), hold_k, win_k,
+            p_hat.astype(np.float64), u0, int(seed))
+        out = dict(rate=cnt / (n_steps - burn), src=src, dst=dst, rev=rev, n=n)
+        if record:
+            out["fpt"] = fpt_k
+            out["series"] = series_k / (win_k * src.size)
+            out["window"] = win_k
+            out["silence_hold"] = hold_k
+        return out
+
     # Faithful to the queueing substrate: a task's priority is DRAWN from a
     # distribution the policy controls, and held until that task executes. With
     # one relation this is immaterial, but with several it is what lets an agent
@@ -140,23 +193,29 @@ def run_network(adj, R_I=0.90, c=0.35, L=2, tau_mem=200.0, epsilon=0.01,
     # coupled subgraph to be a matching.
     u = rng.random(src.size)
 
+    E = src.size
     for t in range(n_steps):
         # policy: value of the relation discounted by the risk of no response
-        xstar = np.clip(R_I - c * (1.0 - p_hat) / np.maximum(p_hat, 1e-9), 0.0, 1.0)
+        # (p_hat is kept >= 1e-9 below, so no further guard is needed here)
+        xstar = np.clip(R_I - c * (1.0 / p_hat - 1.0), 0.0, 1.0)
         x = u * xstar
-        expl = rng.random(src.size) < epsilon
-        x = np.where(expl, 1.0, x)
+        # Exploration sets x = 1 on a Binomial(E, epsilon) subset. Drawing the
+        # count and then the indices costs O(#explorers) instead of O(E).
+        n_expl = rng.binomial(E, epsilon) if epsilon > 0.0 else 0
+        if n_expl:
+            expl_idx = rng.integers(0, E, n_expl)
+            x[expl_idx] = 1.0
 
         # each node's best relation, and its solitary alternative
-        best = np.zeros(n)
-        np.maximum.at(best, src, x)
-        x_O = rng.random(n) ** (1.0 / a)
+        best = np.maximum.reduceat(x, starts)
+        x_O = rng.random(n) ** inv_n
         # a node participates only if its best relation beats its private task
         active = best > x_O
-        # select the argmax edge (ties are measure-zero)
+        # select the argmax edge (ties are measure-zero unless two of a node's
+        # relations were both explored on the same step)
         sel = (x >= best[src]) & active[src]
         # guard against a node selecting two edges on an exact tie
-        if sel.sum() > active.sum():
+        if n_expl and sel.sum() > active.sum():
             first = np.full(n, -1)
             order = np.argsort(-x, kind="stable")
             for e in order[sel[order]]:
@@ -168,21 +227,44 @@ def run_network(adj, R_I=0.90, c=0.35, L=2, tau_mem=200.0, epsilon=0.01,
         both = sel & sel[rev]
         if t >= burn:
             counts += both
+        if record:
+            series[t // win] += both.sum()
+            silence += 1
+            silence[both] = 0
+            if n_unset:
+                # silence increments by one and resets to zero, so it passes
+                # through `hold` exactly once per silent run
+                hit = np.flatnonzero(silence == hold)
+                if hit.size:
+                    hit = hit[fpt[hit] < 0]
+                    if hit.size:
+                        fpt[hit] = t - hold + 1
+                        n_unset -= hit.size
 
         # An OFFER consumes the attempt, whether or not it was reciprocated, so
         # the priority is redrawn on selection rather than only on execution.
         # Redrawing only on execution freezes the choice: agent i would offer to
         # the same partner forever, and if that partner's best is not i the pair
         # deadlocks with no mechanism to ever change.
-        if sel.any():
-            u = np.where(sel, rng.random(src.size), u)
+        # An OFFER consumes the attempt, so only the selected edges are
+        # redrawn; at most one per node, so this is O(n) rather than O(E).
+        sel_idx = np.flatnonzero(sel)
+        if sel_idx.size:
+            u[sel_idx] = rng.random(sel_idx.size)
 
         # i learns whether j selected i on this relation
-        p_hat = lam * p_hat + (1 - lam) * sel[rev].astype(float)
-        p_hat = np.clip(p_hat, 1e-9, 1.0)
+        p_hat *= lam
+        p_hat[sel[rev]] += 1.0 - lam
+        np.maximum(p_hat, 1e-9, out=p_hat)
 
     rate = counts / (n_steps - burn)
-    return dict(rate=rate, src=src, dst=dst, rev=rev, n=n)
+    out = dict(rate=rate, src=src, dst=dst, rev=rev, n=n)
+    if record:
+        out["fpt"] = fpt                      # -1 = never silent for `hold`
+        out["series"] = series / (win * src.size)
+        out["window"] = win
+        out["silence_hold"] = hold
+    return out
 
 
 # ----------------------------------------------------------------- analysis

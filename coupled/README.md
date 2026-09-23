@@ -16,6 +16,34 @@ dynamics*, arXiv:0710.4916v3. Results are reported in `../manuscript.tex`.
 | `hypergraph.py` | Group meetings: hyperedges of size m requiring all members. Analytic critical group degree `d_crit(m)` and maximum group size. | library |
 | `run_hypergraph.py` | R17: validates d_c(m), and shows why m>=3 fails despite the fixed point existing. | ~4 min |
 | `run_lottery.py` | R11: bimodal outcomes at identical parameters; how early the outcome is predictable; whether a mid-run upgrade to level 2 reverses a collapse. | ~12 min |
+| `network.py` | The model on a fixed network: one interacting task per neighbour, attention divided as 1/(k+a). Also records edge-level collapse times and the coarse-grained time series. Uses the compiled kernel when numba is present and the NumPy path otherwise. | library |
+| `network_kernel.py` | numba inner loop for `run_network`, ~7x faster than the NumPy path. Same model; exploration uses geometric gaps and the edge collapse time is derived from the last execution, both exact. | library |
+| `check_kernel.py` | Ensemble equivalence check between the compiled and NumPy paths, with the reference output in its docstring. | ~6 min |
+| `theory.py` | Analytic percolation: critical degree `k_crit`, cavity equation, Molloy–Reed limit. | library |
+| `run_percolation.py` | R15, first pass: three growth rules, 3 realisations, 4·10⁴ steps. Superseded by `run_netsweep.py`. | ~15 min |
+
+### Added for the revision (referee-requested numerics)
+
+| file | what it does | runtime |
+|---|---|---|
+| `run_bimodality.py` | Bimodal outcomes, prefix predictability and recovery at the operating point of the first submission, over 1000 realisations, with Wilson intervals and a split-sample estimate of the classifier accuracy. | ~12 min |
+| `run_noreturn2.py` | Recovery versus commitment length and discount over a collapsed set several times larger than the first submission's. | ~10 min |
+| `run_noexplore.py` | Whether the network coupled phase survives at epsilon = 0. It does not, at any cost -- the reason the mean-field threshold is wrong. | ~4 min |
+| `run_patience.py` | Lookahead sweep and endogenous commitment on the *same* collapsed set as `run_noreturn2.py`, so the two experiments are directly comparable. | ~14 min |
+| `analyze_patience.py` | Wilson intervals on both. | ~2 s |
+| `run_boundary.py` | Measured phase boundary in R_I against Eq. (5), for six (L, c) -- the sensitivity to c and L, neither of which enters except through R_c. | ~7 min |
+| `run_occupancy2.py` | Tail index versus phase occupancy over 60 realisations per operating point, with a bootstrap interval on the correlation. | ~3 min |
+| `emit_tables.py` | Emits the LaTeX table bodies from the stored results, so nothing is transcribed by hand. | ~5 s |
+| `run_survival.py` | Pair collapse times: first-passage distribution at the reference point, and the dependence of the mean collapse time on τ_mem, R_I, ε, the initial belief, and the run length. 500 realisations at the reference point. | ~25 min |
+| `analyze_bimodality.py` | Wilson intervals, split-sample classifier accuracy. | ~10 s |
+| `analyze_survival.py` | Censored-exponential MLE of the mean collapse time, survival curves, bimodality fractions. | ~2 s |
+| `run_replicates.py` | Replicates with error bars for the pair tables that the first submission reported at a single seed (asymmetric levels, held-vs-decaying beliefs, the level-1/level-2 phase boundary). 40 realisations per point. | ~25 min |
+| `run_hyper_replicates.py` | Same for the hypergraph tables. 12 realisations per point. | ~20 min |
+| `run_netsweep.py` | Network sweep, one `.npz` per run (per-edge rates, degrees, edge collapse times, time series). Job sets: `main` (n=600, three rules, 20 realisations, 4·10⁵ steps), `finitesize` (n=300…2400), `length` (run length and initial condition), `sensitivity` (ε, τ_mem, R_I, L). Restartable — existing files are skipped. | ~3 h total |
+| `analyze_net.py` | All network analysis offline from the stored runs: error bars, component-size distributions, robustness of the coupled-edge cut, degree-resolved survival, finite size, run-length and initial-condition dependence, edge collapse times. | ~1 min |
+| `analyze_theory.py` | Mean-field thresholds (cavity and Molloy–Reed) for the degree distributions actually used, at each size. | ~2 min |
+| `make_supplementary.py` | Builds `../supplementary.tex`: the two widest parameter scans, reported in full outside the main text and submitted as a separate PDF. | ~20 s |
+| `make_figures_rev.py` | `fig_survival.pdf`, `fig_finitesize.pdf`, and the data-driven `fig_percolation.pdf`. | ~1 min |
 
 ```bash
 python3 queueing_baseline.py

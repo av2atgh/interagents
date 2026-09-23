@@ -3,7 +3,28 @@
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[normalem]{ulem}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+% Supplementary tables, supplied as a separate PDF with the submission.
+\newcommand{\supptab}[1]{Supp.~Tab.~#1}
+
+% ---------------------------------------------------------------------------
+% Revision markup for the resubmission. Text added or rewritten in response to
+% the referees is set in blue with \rev{...}; text removed is struck through
+% with \del{...}. Redefining \rev as {#1} and \del as {} gives the clean copy,
+% which is what make_clean.sh does.
+%
+% \long\def rather than \newcommand, and a colour switch rather than
+% \textcolor, so that a revision block may span several paragraphs. RevTeX
+% sets section headings through \MakeTextUppercase, which turns the colour
+% name `blue' into `BLUE'; the \colorlet below defines that alias so that
+% coloured headings work.
+% ---------------------------------------------------------------------------
+\colorlet{BLUE}{blue}
+\long\def\rev#1{{\color{blue}#1}}
+\long\def\del#1{{\color{blue}\sout{#1}}}
 
 \graphicspath{{coupled/}}
 
@@ -41,7 +62,11 @@ critical degree beyond which no coupled state exists, so the solitary phase
 percolates according to the Molloy--Reed criterion with the second moment
 truncated at that degree --- formally an attack on hubs, with no attacker. For
 group activities the critical degree falls as the $(m-1)$th root, implying a
-maximum group size. The transition organises two quantities already measured in
+maximum group size. \rev{The pair results are analytic and reproduced by
+simulation; the network and group thresholds are mean-field predictions, tested
+against simulations that locate the transition and characterise the fluctuations
+that displace it, but that do not resolve its critical behaviour.} The transition
+organises two quantities already measured in
 communication records: a finite capacity for keeping ties active, and the decay
 of ties whose rhythm is interrupted.
 \end{abstract}
@@ -49,6 +74,7 @@ of ties whose rhythm is interrupted.
 \maketitle
 
 \section{Introduction}
+\label{sec:intro}
 
 Human dynamics asks how people allocate their time among the things they might
 do, and what the timing of the resulting activity reveals about the decision
@@ -94,14 +120,23 @@ agent who is repeatedly stood up should stop offering. Here we make the
 interacting-task priority a decision variable. The agents estimate each other's
 participation rate from observation and set their priority accordingly. This
 changes the object from a stochastic process into a coupled inference problem
-and, as we show, changes its phenomenology substantially.
+and, as we show, changes its phenomenology substantially. \rev{Letting a
+strategic variable respond to the state it helps to produce is the defining move
+of coevolutionary games, in which strategies, payoffs, interaction network or
+reputation adapt alongside one another and typically generate cooperative states
+the static game does not possess~\cite{perc2010}. What coevolves here is
+narrower: the priority a task is given inside a queue, and the estimate of
+somebody else's behaviour that sets it.}
 
 Once participation is chosen rather than imposed, the object of study changes.
 The question is no longer the shape of one distribution but the collective state
 of a set of agents, and the natural instrument for it is statistical mechanics.
 Human dynamics already borrows from that apparatus at the level of exponents and
 universality classes, and interaction is known from the theory of critical
-phenomena to be decisive for universality~\cite{stanley1971}. We argue that here
+phenomena to be decisive for universality~\cite{stanley1971}. \rev{The
+statistical-physics treatment of human activity, communication, collective
+behaviour and social interaction patterns is by now a field in its own right,
+reviewed in Ref.~\cite{jusup2022}, and the present model sits inside it.} We argue that here
 the informative structure lies one level up. The model has two phases, an order
 parameter that separates them, and a transition of definite character; the
 exponents turn out to be a property of where the system sits relative to that
@@ -124,6 +159,23 @@ established rhythm decay~\cite{navarro2017}. And the percolation criterion we
 obtain is formally that of intentional
 attack~\cite{cohen2000,cohen2001,albert2000}, with no adversary present ---
 attention scarcity removes high-degree relations by itself.
+
+\rev{Here we investigate models of human dynamics when the priority of the
+shared task becomes a choice rather than a draw. The paper is laid out as
+follows.
+Section~\ref{sec:model} defines the model, derives the policy that replaces the
+fixed priority density, and reads its parameters as statements about behaviour.
+Section~\ref{sec:fixedpoints} solves the symmetric pair and gives the phase
+boundary in closed form. Section~\ref{sec:methods} states the simulation protocol
+and classifies every result as exact, mean-field or measured.
+Section~\ref{sec:results} reports the pair: the loss of the universality classes,
+the bimodality and irreversibility of the outcome, the statistics of escape, the
+phase boundary in $c$ and $L$, and the price of recovery.
+Section~\ref{sec:networks} puts the
+agents on a network, where attention divides as $1/(k+a)$ and the solitary phase
+percolates, and Sec.~\ref{sec:groups} on a hypergraph, where an activity
+requires all of its members and a maximum group size follows.
+Section~\ref{sec:conclusions} collects what the transition organises.}
 
 \section{Model}
 \label{sec:model}
@@ -196,6 +248,48 @@ the risk that the partner will not participate}.
 Estimates are maintained by an exponential moving average with retention
 $\lambda=e^{-1/\tau_{\rm mem}}$ over the partner's observed selections.
 
+\subsection[Behavioural reading of the assumptions]{\rev{Behavioural reading of the assumptions}}
+\label{sec:behavioural}
+
+\rev{Four elements of rule (vi) and of Eq.~\eqref{eq:policy} carry the
+conclusions below, so it is worth stating what each asserts about behaviour.}
+
+\rev{\emph{The cost $c$ of an unreciprocated offer} is the price of turning up
+and finding nobody there: the hour is spent, the private task that would have
+filled it is not done, and no joint activity takes place. It is what makes a
+model of the partner necessary rather than ornamental, since at $c=0$ offering is
+free, $x_{I_j}=1$ is optimal whatever the partner does, and the absorbing state
+disappears along with the incentive to infer. Read empirically, $c$ is the
+asymmetry between a missed appointment and a quiet evening, and the model's claim
+is that this asymmetry, rather than the value of the activity, is what makes
+joint activity precarious.}
+
+\rev{\emph{The memory time $\tau_{\rm mem}$} is the horizon over which a
+relation is judged: a short one describes a partner assessed on the last few
+encounters, a long one a partner assessed on a long history. It fixes the
+variance of the estimate, of order $1/\tau_{\rm mem}$ for an exponential moving
+average, and hence the rate at which fluctuations carry a coupled pair across
+the unstable fixed point. It is also the natural unit for the price of recovery,
+since what a returning agent must overcome is an accumulated record of not
+interacting.}
+
+\rev{\emph{The exploration rate $\epsilon$} is the probability of offering
+with no expectation of reciprocation --- calling somebody one has not heard from,
+proposing something that will probably be declined. It is the only route back,
+because an agent that offers only when its own estimate recommends it never
+acquires evidence against that estimate. Its role is structural rather than
+quantitative: the intermittent window of Sec.~\ref{sec:universality} exists for
+$\epsilon>0$ and not at all at $\epsilon=0$.}
+
+\rev{\emph{Holding rather than decaying beliefs during silence} is the
+difference between reading no news as no information and reading it as refusal.
+An agent that decays its estimate through an interval in which nothing could
+have been observed treats absence of evidence as evidence of absence; one that
+holds it maintains a representation of its partner with no input at all. These
+are distinct attitudes to a quiet period, and Sec.~\ref{sec:silence} shows that
+which one is adopted decides whether a rarely repeated joint activity is
+viable.}
+
 \subsection{Levels of modelling}
 
 We distinguish three policies by what each agent represents.
@@ -216,6 +310,7 @@ object in another's model; the ladder is that of the cognitive-hierarchy and
 level-$k$ literature~\cite{camerer2004}.
 
 \section{Fixed points}
+\label{sec:fixedpoints}
 
 For a symmetric pair the participation probability obeys $p \mapsto
 \mathcal{F}(p)$ with
@@ -260,11 +355,155 @@ Eq.~\eqref{eq:validity}.}
 \label{fig:phase}
 \end{figure*}
 
-\section{Results}
+\section[Simulation protocol and status of the results]{\rev{Simulation protocol and status of the results}}
+\label{sec:methods}
 
-Unless stated otherwise, simulations use $\tau_{\rm mem}=200$, symmetric agents,
-and $\ge 10^5$ steps after a $20\%$ burn-in. We quantify the phase by the
-\emph{occupancy} $\phi$, the fraction of time with $p>p^*/2$.
+\rev{This section states the numerical procedure in full and then labels every
+quantitative claim in the paper by the kind of evidence behind it. All the code
+is at the repository given in the acknowledgments, and each result below names
+the script that produces it.}
+
+\subsection[Protocol]{\rev{Protocol}}
+
+\rev{\emph{Update.} Time is discrete and agents are updated in parallel, so
+their order is immaterial. At each step every agent draws its private-task
+priority as $x_{O_j}=u^{1/a_j}$ with $u$ uniform on $[0,1]$, realising the
+density $f_{O_j}$ of rule~(ii); sets the priority of each interacting task by
+rule~(vi); and selects its single highest-priority item. A shared activity
+executes if all of its members selected it, and beliefs are then updated by the
+exponential moving average of rule~(vi) from what each agent observed. A
+private-task priority is redrawn every step, because $O$ is executed whenever
+$I$ is not selected; an interacting-task priority is held until the task is
+acted on, which on a network means until an offer is made
+(Sec.~\ref{sec:networks}).}
+
+\rev{\emph{Initial conditions.} Unless stated otherwise all beliefs start at
+$\hat p=\hat s=0.85$, inside the basin of the coupled state, and $x_I$ starts at
+$R_I$. Runs therefore begin coupled, and a collapse is an escape from the
+coupled state rather than a failure to reach it. Because the transition is
+discontinuous and the solitary state absorbing, the initial condition matters
+and we report its effect explicitly, for the pair in
+\supptab{I} and for the network in \supptab{II}.}
+
+\rev{\emph{Length and burn-in.} Pair runs are $2\times10^5$ steps with the
+first $20\%$ discarded, except where a different length is the point of the
+measurement: $1.2\times10^6$ steps for the tail indices of
+Table~\ref{tab:occ}, which need four decades of interevent times, and the
+ladder $2.5\times10^4$ to $8\times10^5$ steps in \supptab{I}.
+Network runs are $4\times10^5$ steps with the first half discarded; the shorter
+runs used to establish that this is long enough are reported separately in
+\supptab{II}. Hypergraph runs are $4\times10^4$ steps
+($6\times10^4$ for the memory-time scan) with the first half discarded.}
+
+\rev{\emph{Realisations.} A realisation is one run with an independent random
+seed, which independently randomises the private-task priorities, the
+interacting-task draws, the exploration events and, on a network or hypergraph,
+the graph itself, since the growth rule draws from the same seeded stream. Every
+number reported as $x\pm y$ is the mean over realisations and the standard error
+of that mean, $y=\sigma/\sqrt{N}$, with $N$ stated in every caption; tables use
+the compact form $x(e)$, where $e$ is that error in units of the last digit of
+$x$, so $0.843(32)$ means $0.843\pm0.032$. Near the transition the distribution
+over realisations is bimodal and a mean is uninformative; there we report the
+fraction in each mode, and the spread rather than the standard error.}
+
+\rev{\emph{Classifying the phase.} For a pair we use the occupancy $\phi$: the
+fraction of post-burn-in steps on which the mean participation propensity
+$(p_A+p_B)/2$ exceeds $p^{*}/2$, with $p^{*}$ the saddle-node value of
+Eq.~\eqref{eq:rcrit}. It is bounded in $[0,1]$, the cut sitting midway between
+the absorbing state at $p=0$ and the participation at which the coupled branch is
+born, and a realisation counts as coupled when $\phi>0.75$, solitary when
+$\phi<0.25$. Two windows are used, and the difference matters. Where $\phi$ is a
+time average it is taken over the whole post-burn-in trajectory; where the
+question is which state a realisation \emph{ended} in --- the bimodality of
+Sec.~\ref{sec:bimodality} and the recovery experiments after it --- it is taken
+over the final $20\%$, which turns it into a classifier of the end state and is
+why almost no realisation there lands between the two modes. The window is
+stated with each measurement. For a network we classify each edge rather than
+each run: an edge is coupled when its time-averaged interaction rate $w$ exceeds
+$10\epsilon^{2}$, ten times the rate at which two independently exploring
+endpoints coincide, which is the only activity a fully collapsed edge can have.
+We write $f_c$ for the fraction of coupled edges and take as order parameter
+$S$, the largest connected component of the coupled subgraph as a fraction of
+$n$. Both cuts are tested in Sec.~\ref{sec:netnumerics}, which also shows the
+distribution of per-edge rates the network cut is taken from.}
+
+\rev{\emph{Supplementary material.} The two widest parameter scans --- the
+sensitivity of the pair and of the network to each parameter in turn --- are
+reference tables rather than arguments, and are given in full as
+\supptab{I} and \supptab{II} of the supplementary material accompanying this
+paper. The text quotes only the entries the argument uses.}
+
+\subsection[Status of the results]{\rev{Status of the results}}
+\label{sec:status}
+
+\rev{The paper mixes three kinds of statement, and conflating them is easy
+because they appear in the same equations. \emph{Exact} results follow from
+rules (i)--(vi) and from the algebra of the deterministic map those rules define,
+with no approximation; they are as good as the model. \emph{Mean-field} results
+replace a fluctuating belief by its mean, or a graph by a locally tree-like one,
+or both; they are predictions whose accuracy has to be measured.
+\emph{Numerical} results are measurements, with the number of realisations
+stated. Table~\ref{tab:status} assigns each result to one of the three. In short:
+the pair phase boundary is exact and confirmed, the network and group thresholds
+are mean-field and quantitatively off in a direction we can explain and measure,
+and the transition is located but its critical behaviour is not characterised.}
+
+\begin{table*}[t]
+\caption{\rev{Status of each quantitative result. ``Exact'' means a consequence
+of the rules and of the algebra of the deterministic map they define, with no
+approximation; ``mean-field'' means a fluctuating belief has been replaced by its
+mean, or a graph treated as locally tree-like, so that the statement is a
+prediction about the dynamics whose accuracy must be measured; ``numerical''
+means measured, with $N$ the number of independent realisations.}}
+\label{tab:status}
+\begin{ruledtabular}
+\begin{tabular}{p{0.28\textwidth}lp{0.40\textwidth}}
+result & status & qualification \\
+\colrule
+Participation $p_j=x_{I_j}^{a_j}$, Eq.~\eqref{eq:reachprob};
+  policy $x^{*}_{I_j}$, Eq.~\eqref{eq:policy}
+  & exact & consequences of rules (i)--(v); Eq.~\eqref{eq:policy} is myopically
+    optimal given $\hat p$, not optimal over trajectories \\
+Pair saddle-node $p^{*}$, $R_c$, Eq.~\eqref{eq:rcrit}; validity $a\le1/c$,
+  Eq.~\eqref{eq:validity}
+  & exact & tangency of the symmetric deterministic return map \\
+Attention division $1/(k+a)$, Eq.~\eqref{eq:select}
+  & exact & for priorities drawn afresh per offer, which is the network rule;
+    the correction when they are not is Eq.~\eqref{eq:qstat} \\
+Critical degree $k_c$, Eq.~\eqref{eq:kc}; group degree $d_c$,
+  Eqs.~\eqref{eq:dc} and \eqref{eq:dclin}
+  & exact tangency, mean-field dynamics & the tangency is exact for the mean map;
+    that a coupled state \emph{exists} for $k<k_c$ does not imply the dynamics
+    stays in it. For $m\ge3$ it does not, and on a network at $\epsilon=0$ it
+    does not at any cost \\
+Percolation threshold, Eqs.~\eqref{eq:mr} and \eqref{eq:cavity}
+  & mean-field & configuration-model and locally tree-like; overestimates the
+    stationary threshold by $\simeq1.9$ (cavity) and $\simeq1.3$
+    (Molloy--Reed). Locating that threshold needs runs of $6.4\times10^{6}$
+    steps; shorter runs understate it (Sec.~\ref{sec:netnumerics}) \\
+Refresh correction $q$, Eq.~\eqref{eq:qstat}
+  & approximate & stationary flux balance for a singly-committed agent \\
+Occupancy $\phi$, tail indices $\alpha$, bimodality, recovery fractions,
+  $k_{\min}$, $H^{*}$
+  & numerical & pair; $N$ given in each caption \\
+Coupled-edge fraction, $S$, degree-resolved survival, collapse times
+  & numerical & network and hypergraph; $N$ given in each caption \\
+Membership of the directed-percolation class
+  & untested analogy & used only to predict the \emph{sign} of the mean-field
+    error; no exponents measured, no scaling collapse attempted \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\section{Results}
+\label{sec:results}
+
+\del{Unless stated otherwise, simulations use $\tau_{\rm mem}=200$, symmetric
+agents, and $\ge 10^5$ steps after a $20\%$ burn-in. We quantify the phase by
+the \emph{occupancy} $\phi$, the fraction of time with $p>p^*/2$.}
+\rev{Parameters and protocol are those of Sec.~\ref{sec:methods}: symmetric
+agents, $\tau_{\rm mem}=200$ and $2\times10^5$ steps after a $20\%$ burn-in
+unless stated otherwise, and the phase quantified by the occupancy $\phi$.}
 
 \subsection{Validation}
 
@@ -273,40 +512,62 @@ $\alpha=1+1/\max_j(L_j-1)$. Asymmetric pairs sit on the prediction,
 $(L_A,L_B)=(2,3)$ giving $\alpha=1.500$ and $(2,5)$ giving $1.250$, both stable
 across four decades of the tail; symmetric pairs approach from below ($L=2$
 gives $1.82$ at the $90$th percentile, drifting to $1.94$ deeper in), as the
-logarithmic correction at $a_A=a_B$ requires. The mean interevent time diverges
+logarithmic correction at $a_A=a_B$ requires. \rev{These are Hill estimates on
+the top $5\%$ of $4\times10^{6}$ interevent times drawn from the exact
+coarse-grained model of Ref.~\cite{oliveira2009}; over eight independent
+realisations the estimates are $1.4959(16)$ for $(2,3)$ and
+$1.2500(8)$ for $(2,5)$, so the agreement with the prediction is far
+outside the statistical error.} The mean interevent time diverges
 with the observation window as $T^{2-\alpha}$, so for $\alpha\le2$ the
 interaction has no characteristic timescale.
 
 \subsection{Modelling the partner's model}
+\label{sec:levels}
 
-Level-2 agents remain coupled well below the level-1 threshold. At $L=3$ a
-level-1 pair collapses to the solitary phase for every $R_I\le 0.99$, whereas a
-level-2 pair remains coupled down to $R_I=0.90$. The effect is markedly
+Level-2 agents remain coupled well below the level-1 threshold. \rev{Over $40$
+independent realisations per point at $\tau_{\rm mem}=50$ and $\epsilon=0$, the
+fraction of realisations ending coupled at $L=3$ is $0.00$ for level-1 pairs at
+every $R_I\le0.98$ and $0.05$ at $R_I=0.99$, rising to $0.97$ only at
+$R_I=1.00$, whereas level-2 pairs end coupled in every realisation at every
+$R_I\ge0.86$, the lowest value we ran. At $L=2$ the level-1 boundary measured
+the same way lies between $R_I=0.86$ ($0.00$ coupled) and $R_I=0.88$ ($0.97$),
+above the saddle-node value $R_c=0.8332$; the offset is the same metastability
+quantified in Sec.~\ref{sec:survival}, since at $\tau_{\rm mem}=50$ the mean
+collapse time is only $4.7\times10^{3}$ steps.}
+\del{At $L=3$ a level-1 pair collapses to the solitary phase for every
+$R_I\le 0.99$, whereas a level-2 pair remains coupled down to $R_I=0.90$.}
+The effect is markedly
 asymmetric in a way that inverts the $\max_j$ rule of the non-adaptive
 model: at $L=3$ and $R_I\in\{0.94,0.96,0.98\}$, pairs of
 level-1 agents collapse while a level-2/level-1 pair remains coupled
-(Table~\ref{tab:asym}). In the non-adaptive model the more distracted agent sets
+(Fig.~\ref{fig:levels}). \rev{The outcome is deterministic at this operating
+point: all $40$ realisations agree in every bar of Fig.~\ref{fig:levels}, and
+the only quantity that distinguishes promoting one agent from promoting both is
+the participation propensity $\bar p$.} In the
+non-adaptive model the more distracted agent sets
 the exponent; in the adaptive model the more sophisticated agent sets the phase.
 
-\begin{table}[b]
-\caption{Asymmetric pairing at $L=3$, $\tau_{\rm mem}=50$. A single level-2
-agent holds the pair in the coupled phase.}
-\label{tab:asym}
-\begin{ruledtabular}
-\begin{tabular}{ccll}
-$R_I$ & levels $(A,B)$ & phase & occupancy \\
-\colrule
-0.94 & (1,1) & solitary & 0.000 \\
-0.94 & (2,1) & coupled  & 0.942 \\
-0.96 & (1,1) & solitary & 0.000 \\
-0.96 & (2,1) & coupled  & 0.961 \\
-0.98 & (1,1) & solitary & 0.000 \\
-0.98 & (2,1) & coupled  & 0.980 \\
-\end{tabular}
-\end{ruledtabular}
-\end{table}
+\begin{figure}[b]
+\includegraphics[width=\columnwidth]{fig_levels.pdf}
+\caption{\rev{Asymmetric pairing at $L=3$, $\tau_{\rm mem}=50$, $\epsilon=0$,
+$2\times10^{5}$ steps, $N=40$ independent realisations per bar. Bars are grouped
+by the value $R_I$ of the interaction and, within a group, by the modelling
+levels $(A,B)$ of the two agents. A single
+level-2 agent holds the pair in the coupled phase. (a) Fraction of realisations
+ending coupled, $\phi>3/4$; (b) occupancy $\phi$; (c) time-averaged
+participation propensity $\bar p$. The axis runs a little below zero so that a
+bar of height zero still shows its outline: the level-1 pairs $(1,1)$ collapse
+in every realisation, at every $R_I$. The outcome is otherwise deterministic,
+all $40$ realisations agreeing, so the error bars are invisible except on
+$\bar p$ --- and $\bar p$ is the only thing promoting the second agent changes,
+which is the content of the $(2,1)$ against $(2,2)$ comparison. The column headed
+``occupancy'' in the corresponding table of the first submission was in fact
+$\bar p$; the two are shown separately here.}}
+\label{fig:levels}
+\end{figure}
 
 \subsection{Persistence across silence}
+\label{sec:silence}
 
 We next decouple the rate of \emph{opportunity} from willingness by allowing an
 interaction to be possible only with probability $\nu$ per step, and by making
@@ -330,21 +591,24 @@ no information is what makes rare interaction viable.
 \begin{table}[t]
 \caption{Occupancy at $L=3$, $R_I=0.99$, level 2, with the partner's action
 unobservable between interactions. Left: silence decays the estimate. Right:
-the estimate is held.}
+the estimate is held. \rev{Mean $\pm$ standard error over $N=40$ independent
+realisations of $2\times10^{5}$ steps each; the first submission reported a
+single realisation per entry.}}
 \label{tab:hold}
 \begin{ruledtabular}
 \begin{tabular}{ccccc}
  & \multicolumn{2}{c}{decaying} & \multicolumn{2}{c}{held} \\
 $1/\nu$ & $\tau_{\rm mem}=50$ & $5000$ & $\tau_{\rm mem}=50$ & $5000$ \\
 \colrule
-10  & 0.843 & 0.000 & 1.000 & 1.000 \\
-100 & 0.756 & 0.000 & 1.000 & 1.000 \\
-333 & 0.755 & 0.000 & 1.000 & 1.000 \\
+10 & $0.849(1)$ & $0.000(1)$ & $1.000(1)$ & $1.000(1)$ \\
+100 & $0.760(1)$ & $0.000(1)$ & $1.000(1)$ & $1.000(1)$ \\
+333 & $0.755(1)$ & $0.000(1)$ & $1.000(1)$ & $1.000(1)$ \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
 \subsection{Loss of universality}
+\label{sec:universality}
 
 Away from $R_c$ the adaptive system is not scale-free: it polarises to
 $\tau=1$ in the coupled phase and $\tau\to\infty$ in the solitary one, with
@@ -363,27 +627,41 @@ Crucially, the exponent measured in the window is \emph{not} given by
 $\alpha=1+1/\max_j(L_j-1)$. Because the transition is sharp, $\phi$ cannot be
 tuned through $R_I$; varying only the noise realisation at a fixed operating
 point, however, spreads $\phi$ over a wide range, and $\alpha$ tracks it
-(Table~\ref{tab:occ}). The correlation between $\phi$ and $\alpha$ is $+0.70$ at
-$L=2$ and $+0.76$ at $L=6$; the two $\alpha(\phi)$ curves nearly coincide,
-while the non-adaptive prediction would require $2.00$ and $1.20$ respectively.
+(Table~\ref{tab:occ}). The correlation between $\phi$ and $\alpha$ is
+\rev{$+0.67$, with a $95\%$ bootstrap interval of $+0.56$ to $+0.78$ over $45$
+realisations, at $L=2$, and $+0.79$ $(+0.70,+0.88)$ over $50$ at
+$L=6$}\del{ $+0.70$ at $L=2$ and $+0.76$ at $L=6$}; the two $\alpha(\phi)$ curves
+nearly coincide, \rev{agreeing to $0.25$ and $0.23$ in the two ranges of $\phi$
+for which both are measured,} while the non-adaptive prediction would require
+$2.00$ and $1.20$ respectively\rev{, a separation of $0.80$}.
 
-\begin{table}[b]
+\begin{table*}[t]
 \caption{Tail index versus occupancy at fixed operating points, varying only the
-random seed. Rows at $\phi=1$ have ${\rm CV}\simeq0.76$ and are not heavy-tailed;
-their fitted indices are reported for completeness only.}
+random seed. Rows at $\phi=1$ have ${\rm CV}\lesssim0.8$ and are not
+heavy-tailed; their fitted indices are reported for completeness only.
+\rev{Sixty realisations of $1.2\times10^{6}$ steps were run at each operating
+point, of which $45$ and $50$ produced the $\ge2000$ interevent times the tail
+fit requires; the rest are in the solitary phase and are discarded. The interval
+on the correlation is a $95\%$ bootstrap interval over realisations, and the
+last two rows are means over the realisations in that range of $\phi$, with
+their standard errors.}}
 \label{tab:occ}
 \begin{ruledtabular}
 \begin{tabular}{lcc}
  & $L=2$, $c=0.35$ & $L=6$, $c=0.10$ \\
 \colrule
 $1+1/\max_j(L_j{-}1)$ & 2.00 & 1.20 \\
-${\rm corr}(\phi,\alpha)$ & $+0.70$ & $+0.76$ \\
+\rev{realisations $N$} & \rev{45} & \rev{50} \\
+${\rm corr}(\phi,\alpha)$ & \rev{$+0.67$} \del{$+0.70$} & \rev{$+0.79$} \del{$+0.76$} \\
+\rev{\quad $95\%$ interval} & \rev{$(+0.56,+0.78)$} & \rev{$(+0.70,+0.88)$} \\
 $\alpha$ at $\phi\simeq0.22$ & 1.79 & --- \\
-$\alpha$ at $\phi\simeq0.68$ & 4.59 & 4.32 \\
-$\alpha$ at $\phi=1.00$ & 4.62--4.65 & 4.37--4.42 \\
+$\alpha$ \rev{for $0.35\le\phi<0.8$}\del{ at $\phi\simeq0.68$}
+  & \rev{4.51(2)} \del{4.59} & \rev{4.26(2)} \del{4.32} \\
+$\alpha$ \rev{for $\phi\ge0.8$}\del{ at $\phi=1.00$}
+  & \rev{4.60(1)} \del{4.62--4.65} & \rev{4.37(1)} \del{4.37--4.42} \\
 \end{tabular}
 \end{ruledtabular}
-\end{table}
+\end{table*}
 
 We conclude that $\alpha$ is not an order parameter of the adaptive system. The
 occupancy $\phi$ is the natural replacement: bounded, directly measured, and
@@ -392,26 +670,171 @@ statistics appearing as a symptom of intermediate $\phi$ rather than as its
 definition.
 
 \subsection{Bimodality and irreversibility}
+\label{sec:bimodality}
 
-At fixed parameters ($L=2$, $c=0.35$, $R_I=0.8428$, $\epsilon=10^{-2}$) the
-outcome over $140$ realisations is strongly bimodal: $45$ end with $\phi<0.25$,
-$93$ with $\phi>0.75$, and only $2$ in between.
+At fixed parameters ($L=2$, $c=0.35$, $R_I=0.8428$, $\epsilon=10^{-2}$,
+\rev{$\tau_{\rm mem}=200$, $\hat p(0)=p^{*}$, $3\times10^{5}$ steps, occupancy
+on the final $20\%$)} the outcome over \rev{$1000$}\del{ $140$} realisations is
+strongly bimodal: \rev{$264$}\del{ $45$} end with $\phi<0.25$,
+\rev{$718$}\del{ $93$} with $\phi>0.75$, and only \rev{$18$}\del{ $2$} in
+between. \rev{The Wilson intervals on the two modes are $0.238$--$0.292$ and
+$0.689$--$0.745$; the $140$ realisations of the first submission gave
+$45$, $93$ and $2$, which these contain.}
 
 The outcome is nevertheless not fixed by early noise. Classifying the final
 phase from a trajectory prefix barely exceeds the majority-class baseline of
-$0.679$: accuracies are $0.679$, $0.693$, $0.693$, $0.714$, $0.736$ and $0.836$
-for prefixes of $1$, $3$, $10$, $30$, $60$ and $120\times10^3$ steps. The first
+\rev{$0.726$}\del{ $0.679$}: accuracies are \rev{$0.726$, $0.746$, $0.758$,
+$0.776$, $0.804$ and $0.870$}\del{ $0.679$, $0.693$, $0.693$, $0.714$, $0.736$
+and $0.836$}
+for prefixes of $1$, $3$, $10$, $30$, $60$ and $120\times10^3$ steps.
+\rev{Those are in-sample optima, with the threshold chosen on the same data it
+is scored on. Fitting the threshold on a random half of the realisations and
+scoring it on the other half, averaged over $400$ splits, gives
+$0.726\pm0.014$, $0.743\pm0.015$, $0.757\pm0.013$, $0.772\pm0.013$,
+$0.801\pm0.013$ and $0.867\pm0.011$, so the in-sample figures are not
+appreciably optimistic.} The first
 $10^4$ steps carry essentially no information. Collapse is a rare event
 available throughout the trajectory rather than a bifurcation resolved at the
 outset.
 
-Collapse is, however, irreversible without intervention: none of the $45$
-collapsed realisations recovered when left alone. Promoting agents to level 2 at
-the midpoint recovers $35.6\%$ of them, whereas pairs of level-2 agents run from
-$t=0$ on the same seeds never collapse at all (Table~\ref{tab:rescue}).
+Collapse is, however, irreversible without intervention: none of the
+\rev{$264$}\del{ $45$}
+collapsed realisations recovered when left alone\rev{, a $95\%$ upper bound of
+$1.4\%$ on the spontaneous recovery probability over the second half of a
+$3\times10^{5}$-step run}. Promoting agents to level 2 at
+the midpoint recovers \rev{$33.7\%$ ($89$ of $264$, $95\%$ confidence interval
+$28.3$--$39.6\%$)}\del{ $35.6\%$} of them, whereas pairs of level-2 agents run
+from $t=0$ on the same seeds never collapse at all (Table~\ref{tab:rescue}).
 Promoting both agents is worth nothing over promoting one: recovery is driven by
 a single agent participating against the advice of its own estimate, and the
 partner need only be able to respond.
+
+\subsection[Collapse as a rare event: survival and first-passage times]{\rev{Collapse as a rare event: survival and first-passage times}}
+\label{sec:survival}
+
+\rev{That collapse is available throughout the trajectory can be made
+quantitative, and doing so also settles how much of what we report depends on how
+long we ran. We declare a pair collapsed at the first step from which its
+participation propensity stays below $p^{*}/2$ for a whole memory time --- the
+occupancy criterion turned into a sustained first-passage condition, so that
+single-step excursions do not count --- and record that time $T_c$. Most
+realisations have not collapsed when a run ends, so the sample is right-censored
+and the mean is estimated by the censored exponential maximum likelihood,
+$\langle T_c\rangle=(\text{total exposure})/(\text{number of collapses})$, whose
+relative standard error is $1/\sqrt{k}$ with $k$ the number of collapses.}
+
+\rev{At the reference point ($L=2$, $c=0.35$, $R_I=0.8428$, $\epsilon=10^{-2}$,
+$\tau_{\rm mem}=200$), $114$ of $500$ realisations collapse within
+$2\times10^{5}$ steps and $\langle T_c\rangle=(7.8\pm0.7)\times10^{5}$ steps.
+The escape is memoryless, by three independent tests. The survival curve is
+exponential [Fig.~\ref{fig:survival}(a)]. The observed first-passage times are
+spread almost uniformly across the run, with a coefficient of variation of
+$0.54$ against the $1/\sqrt{3}=0.577$ expected of an exponential law seen
+through a window short compared with its mean. And a single rate, fitted to all
+run lengths at once, reproduces the fraction collapsed over a factor of $32$ in
+run length: $0.032$, $0.048$, $0.100$, $0.200$, $0.396$, $0.620$ measured
+against $0.029$, $0.057$, $0.111$, $0.210$, $0.377$, $0.611$ predicted
+[Fig.~\ref{fig:survival}(b)]. Collapse is a Poisson event with a constant
+hazard, not a bifurcation resolved at the outset --- which is what the prefix
+classification above showed indirectly.}
+
+\rev{Two things follow, one about the model and one about the measurements. The
+coupled phase near the transition is metastable, with a lifetime that rises very
+steeply as the belief noise is reduced: $\langle T_c\rangle$ is
+$9.2\times10^{2}$, $4.7\times10^{3}$, $3.2\times10^{4}$ and $9.0\times10^{5}$
+steps at $\tau_{\rm mem}=25$, $50$, $100$, $200$, and no collapse at all occurs
+in $250$ runs of $2\times10^{5}$ steps at $\tau_{\rm mem}=400$ or $800$, bounding
+$\langle T_c\rangle>5\times10^{7}$ [Fig.~\ref{fig:survival}(c)]. Three decades of
+lifetime for one decade of memory time is the signature of a noise-activated
+escape, whose rate is exponentially small in the number of observations the
+estimate averages; with four usable points we do not fit the functional form. It
+is the same mechanism that displaces the network threshold in
+Sec.~\ref{sec:networks}. The measurement consequence is that an occupancy taken
+over a finite run is not a stationary quantity here: the same operating point
+gives $\phi=0.988$ at $T=2.5\times10^{4}$ and $\phi=0.649$ at $T=8\times10^{5}$,
+while $\langle T_c\rangle$ stays at $(8\text{--}10)\times10^{5}$ throughout
+(\supptab{I}). The lifetime is run-length independent and the occupancy is not,
+so we state the run length with every occupancy we quote and never compare
+occupancies measured over different lengths.}
+
+\rev{\supptab{I} collects the sensitivity of these quantities to the parameters.
+The initial belief matters exactly as bistability requires and not otherwise:
+runs started below the unstable fixed point of $\mathcal{F}$, at $p=0.521$ here,
+collapse without exception; runs started above it agree to three digits for
+$\hat p(0)=0.70$, $0.85$ and $1.00$; and only the marginal value $0.50$, just
+under the boundary, gives a mixture. The exploration rate acts in two opposite
+directions: at $\epsilon=0$ the solitary state is strictly absorbing and $77\%$
+of realisations end there, while raising $\epsilon$ to $0.03$ suppresses collapse
+altogether, since exploration also feeds the estimate that sustains
+participation. The intermittent window of Sec.~\ref{sec:universality} therefore
+sits between the two, at small but nonzero $\epsilon$. The remaining parameters
+$c$ and $L$ are absent because they enter only through $R_c$ and $p^{*}$; the
+test of their effect is whether the measured boundary moves with them as
+Eq.~\eqref{eq:rcrit} says, and Sec.~\ref{sec:boundary} reports that it does.}
+
+\begin{figure*}[t]
+\includegraphics[width=\textwidth]{fig_survival.pdf}
+\caption{\rev{Escape from the coupled state is a rare event with a constant
+hazard. Reference point $L=2$, $c=0.35$, $R_I=0.8428$, $\epsilon=10^{-2}$,
+$\tau_{\rm mem}=200$. Symbols are measurements throughout; dashed lines are the
+exponential law with $\langle T_c\rangle$ taken from the censored maximum
+likelihood. (a) Probability that the collapse time exceeds $t$, over $N=500$
+independent realisations. (b) Probability that it does not exceed the run
+length, against that run length, $N=250$ per point, compared with the single
+rate pooled over all six lengths; error bars are binomial. (c) Mean collapse
+time against the memory time, $N=250$ per point; open triangles are lower
+bounds at $\tau_{\rm mem}=400$ and $800$, where no realisation collapsed.}}
+\label{fig:survival}
+\end{figure*}
+
+\subsection[The phase boundary in c and L]{\rev{The phase boundary in $c$ and
+$L$}}
+\label{sec:boundary}
+
+\rev{Neither the cost $c$ nor the queue length $L$ enters the pair dynamics
+except through $R_c$ and $p^{*}$, Eq.~\eqref{eq:rcrit}, so the way to test their
+effect is to ask whether the measured boundary moves with them as that equation
+says. Table~\ref{tab:boundary} scans $R_I$ across $R_c$ for six $(L,c)$, covering
+a factor of five in $c$ and both queue lengths for which the bifurcation is
+interior at these costs, with $40$ realisations of $2\times10^{5}$ steps at
+each of $9$ values of $R_I$ spanning $R_c-0.02$ to $R_c+0.08$.}
+
+\rev{The agreement is sharper than we expected. Below $R_c$ not one realisation
+of the $40$ is coupled, at any of the six parameter pairs and at every offset
+down to $R_c-0.005$; at $R_c$ itself none is coupled either; and by $R_c+0.010$
+the coupled fraction is between $0.82$ and $1.00$. Because the coupled state is
+metastable the boundary still has to be defined operationally, and we take the
+$R_I$ at which half the realisations are still coupled at the end of the run.
+It exceeds $R_c$ by $0.0026$ to $0.0078$ while $R_c$ itself moves from $0.694$
+to $0.965$ across the six rows, so Eq.~\eqref{eq:rcrit} is confirmed to better
+than $1\%$ over a range of $0.27$ in $R_c$. The small positive offset is the
+finite-time one of Sec.~\ref{sec:survival}: just above $R_c$ the two fixed points
+have barely separated and the lifetime is short, so a run of $2\times10^{5}$
+steps cannot see a coupled state that does not survive that long. For the
+sensitivity question the conclusion is that $c$ and $L$ act on the pair only
+through Eq.~\eqref{eq:rcrit}, which is why \supptab{I} leaves them out.}
+
+\begin{table}[t]
+\caption{\rev{Measured phase boundary against Eq.~\eqref{eq:rcrit}. For each
+$(L,c)$, $R_I$ is scanned over $9$ values spanning $R_c-0.02$ to $R_c+0.08$
+with $N=40$ realisations of $2\times10^{5}$ steps each, at
+$\tau_{\rm mem}=200$, $\epsilon=10^{-2}$, $\hat p(0)=0.85$. $R_{1/2}$ is the
+value of $R_I$ at which half the realisations are still coupled at the end of the
+run.}}
+\label{tab:boundary}
+\begin{ruledtabular}
+\begin{tabular}{ccccccc}
+$L$ & $c$ & $R_c$ & $p^{*}$ & $N$ & $R_{1/2}$ & $R_{1/2}-R_c$ \\
+\colrule
+2 & 0.20 & 0.6944 & 0.4472 & 40 & 0.7022 & +0.0078 \\
+2 & 0.35 & 0.8332 & 0.5916 & 40 & 0.8408 & +0.0076 \\
+2 & 0.50 & 0.9142 & 0.7071 & 40 & 0.9200 & +0.0058 \\
+3 & 0.10 & 0.7772 & 0.3420 & 40 & 0.7811 & +0.0038 \\
+3 & 0.20 & 0.9052 & 0.5429 & 40 & 0.9085 & +0.0033 \\
+3 & 0.30 & 0.9651 & 0.7114 & 40 & 0.9678 & +0.0026 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
 
 \subsection{Patience, not reachability}
 
@@ -428,15 +851,21 @@ an agent still chooses to participate, taking $\hat s=\hat p$. At $k=1$ the
 agent participates only if it already believes its partner participates
 $\gtrsim 46\%$ of the time --- a condition a collapsed pair fails by
 construction. Increasing $k$ alone is insufficient, and increasing the lookahead
-$H$ alone changes nothing at all: recovery is flat at $48.5\%$ for
-$H\in\{10,\ldots,1000\}$ at $k=1$. Only when a long commitment is combined with
+$H$ alone changes nothing at all: recovery is flat at \rev{$35.7\%$}\del{
+$48.5\%$} for
+$H\in\{10,\ldots,1000\}$ at $k=1$\rev{, at both $\gamma=0.97$ and
+$\gamma=0.999$}. Only when a long commitment is combined with
 a discount horizon $1/(1-\gamma)$ long enough to see past it does the threshold
 collapse to zero, and then every collapsed realisation recovers.
 
 \begin{table}[t]
 \caption{Smallest belief $\hat p$ at which the agent still participates
 (left), and measured recovery of the collapsed realisations (right), versus
-commitment length $k$ and discount $\gamma$. Recovery is $48.5\%$ in every cell
+commitment length $k$ and discount $\gamma$. \rev{The left half is a property of
+the rollout and is deterministic; the right half is measured over the $N=70$
+realisations, out of $400$, that collapsed as level-1 pairs, with a $95\%$
+Wilson interval of $25.5$--$47.4\%$ on every cell but the last, which has
+$94.8$--$100\%$.} Recovery is \rev{$35.7\%$}\del{ $48.5\%$} in every cell
 but one.}
 \label{tab:noreturn}
 \begin{ruledtabular}
@@ -444,20 +873,25 @@ but one.}
  & \multicolumn{2}{c}{$\min \hat p$} & \multicolumn{2}{c}{recovered} \\
 $k$ & $\gamma=0.97$ & $\gamma=0.999$ & $\gamma=0.97$ & $\gamma=0.999$ \\
 \colrule
-1    & 0.463 & 0.458 & $48.5\%$ & $48.5\%$ \\
-10   & 0.458 & 0.453 & $48.5\%$ & $48.5\%$ \\
-100  & 0.428 & 0.313 & $48.5\%$ & $48.5\%$ \\
-1000 & 0.428 & $10^{-6}$ & $48.5\%$ & $100\%$ \\
+1    & 0.463 & 0.458 & \rev{$35.7\%$} & \rev{$35.7\%$} \\
+10   & 0.458 & 0.453 & \rev{$35.7\%$} & \rev{$35.7\%$} \\
+100  & 0.428 & 0.313 & \rev{$35.7\%$} & \rev{$35.7\%$} \\
+1000 & 0.428 & $10^{-6}$ & \rev{$35.7\%$} & $100\%$ \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
-The residual $48.5\%$ is not policy-driven: it is the fraction of realisations
+The residual \rev{$35.7\%$}\del{ $48.5\%$} is not policy-driven: it is the
+fraction of realisations
 in which exploration lifts $\hat p$ above the participation threshold and the
 agent latches. No state is beyond recovery; the cap measures the reluctance of a
-short-horizon agent to persist without evidence. The baselines in
+short-horizon agent to persist without evidence. \rev{The collapsed subsets
+behind Tables~\ref{tab:rescue} and~\ref{tab:noreturn} are different, coming from
+runs of $3\times10^{5}$ and $2\times10^{5}$ steps, so the two are not the same
+measurement; they do agree, $33.7\%$ $(28.3$--$39.6)$ against $35.7\%$
+$(25.5$--$47.4)$ for the same intervention.}\del{ The baselines in
 Tables~\ref{tab:rescue} and~\ref{tab:noreturn} come from runs of different
-length with different collapsed subsets and are not directly comparable.
+length with different collapsed subsets and are not directly comparable.}
 
 \subsection{Endogenous commitment}
 
@@ -488,30 +922,42 @@ $\tau_{\rm mem} = 100, 200, 400$; the value $2.00$ at $\tau_{\rm mem} = 25, 50$
 is an upper bound set by the resolution of the $H$ ladder).
 
 These predict the simulation. At $\tau_{\rm mem}=200$, so $H^{*}\simeq300$, an
-agent choosing its own commitment length recovers $48.5\%$ of collapsed
+agent choosing its own commitment length recovers \rev{$35.7\%$}\del{ $48.5\%$}
+of collapsed
 realisations at $\gamma \le 0.995$ ($H \le 200$) and $100\%$ at $\gamma=0.999$
-($H=1000$), while the fixed $k=1$ control stays at $48.5\%$ throughout. Judging recovery by interaction rate instead --- unbiased, since $\phi$ exceeds
+($H=1000$), while the fixed $k=1$ control stays at \rev{$35.7\%$}\del{ $48.5\%$}
+throughout. \rev{These are the same $70$ collapsed realisations as
+Table~\ref{tab:noreturn}, so the two experiments are directly comparable; the
+$95\%$ Wilson intervals are $25.5$--$47.4\%$ and $94.8$--$100\%$.}
+Judging recovery by interaction rate instead --- unbiased, since $\phi$ exceeds
 $1/2$ whenever one agent is latched whatever its partner does --- moves the
-baseline to $72.7\%$ but leaves the contrast unchanged, with the mean rate
-rising from $0.368$ to $0.639$ and the partner's payoff from $0.642$ to $0.734$
+baseline to \rev{$70.0\%$ $(58.5$--$79.5)$}\del{ $72.7\%$} but leaves the
+contrast unchanged, with the mean rate
+rising from \rev{$0.277$ to $0.616$}\del{ $0.368$ to $0.639$} and the partner's
+payoff from \rev{$0.610$ to $0.725$}\del{ $0.642$ to $0.734$}
 against a solitary $\langle x_O\rangle=0.5$. The recoveries are genuine.
 
 The agent that restores the interaction is not the one that gains most from it:
-the committing agent earns $0.62$--$0.70$ against its partner's $0.68$--$0.76$,
-the difference being the unreciprocated offers it absorbs.
+the committing agent earns \rev{$0.665$}\del{ $0.62$--$0.70$} against its
+partner's \rev{$0.725$}\del{ $0.68$--$0.76$},
+the difference being the unreciprocated offers it absorbs \rev{(before the
+recovery the two earn $0.589$ and $0.610$, so the intervention costs the
+committing agent the smaller share of what it creates)}.
 
 \begin{table}[t]
-\caption{Intervention on the $45$ realisations that collapsed as level-1 pairs,
-with promotion at the midpoint of the run.}
+\caption{Intervention on the \rev{$264$}\del{ $45$} realisations that collapsed
+as level-1 pairs, with promotion at the midpoint of the run. \rev{The interval
+is the $95\%$ Wilson interval on the recovered fraction; the mean final
+occupancy is given with its standard error.}}
 \label{tab:rescue}
 \begin{ruledtabular}
 \begin{tabular}{lcc}
 intervention & recovered & mean final $\phi$ \\
 \colrule
-none (control)            & $0.0\%$   & 0.020 \\
-agent $A$ $\to$ level 2   & $35.6\%$  & 0.369 \\
-both $\to$ level 2        & $35.6\%$  & 0.369 \\
-level 2 from $t=0$        & $100\%$   & 1.000 \\
+none (control)            & $0.0\%$ \rev{$(0.0$--$1.4)$}     & \rev{0.026(2)} \\
+agent $A$ $\to$ level 2   & \rev{$33.7\%$ $(28.3$--$39.6)$}  & \rev{0.350(29)} \\
+both $\to$ level 2        & \rev{$33.7\%$ $(28.3$--$39.6)$}  & \rev{0.350(29)} \\
+level 2 from $t=0$        & $100\%$ \rev{$(98.6$--$100)$}    & 1.000 \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
@@ -572,19 +1018,33 @@ component of the coupled subgraph as a fraction of $n$
 
 \begin{figure*}[t]
 \includegraphics[width=\textwidth]{fig_percolation.pdf}
-\caption{Percolation of the solitary phase. (a) Giant component $S$ of the
-coupled subgraph against the cost $c$ of an unreciprocated offer
-($n=600$, $\langle k\rangle=4$, three realisations, $4\times10^4$ steps). At
-$c=0.020$ all three carry the same coupled edge fraction but only the local rule
-fragments. (b) Converged runs ($4\times10^5$ steps) place the transition between
-$c=0.020$ and $c=0.030$; Eq.~\eqref{eq:cavity} predicts $c_c\simeq0.062$.}
+\caption{Percolation of the solitary phase. \rev{All panels: $n=600$,
+$\langle k\rangle=4$, $R_I=0.95$, $4\times10^{5}$ steps, $N=24$ independent
+realisations per point, error bars the standard error over realisations.}
+(a) Giant component $S$ of the coupled subgraph against the cost $c$ of an
+unreciprocated offer. \rev{At $c=0.025$ the three rules carry the same coupled
+edge fraction $f_c$, to within $0.006$, but only the local rule fragments.}
+\rev{(b) Distribution $P(w)$ of the per-edge interaction rate $w$, pooled over
+realisations of $LS(\ell=1)$. A collapsed edge executes only when both endpoints
+explore, which places it near $10^{-4}$; a coupled edge executes two orders of
+magnitude more often. The classification cut $10\epsilon^{2}$, dotted, lies in
+the gap between the two bands.} \rev{(c) Coupled edge fraction $f_c$ and $S$ on
+the randomized network, with the two mean-field thresholds marked, Molloy--Reed
+(MR, dotted) and cavity (dash-dotted): the transition lies between $c=0.025$ and
+$c=0.030$, against $c_c=0.041$ from Eq.~\eqref{eq:mr} and $c_c=0.062$ from
+Eq.~\eqref{eq:cavity}.}
+\del{(b) Converged runs ($4\times10^5$ steps) place the transition between
+$c=0.020$ and $c=0.030$; Eq.~\eqref{eq:cavity} predicts $c_c\simeq0.062$.}}
 \label{fig:percolation}
 \end{figure*}
 
-\begin{table}[t]
+\begin{table*}[t]
 \caption{Coupled edge fraction and giant component $S$ of the coupled subgraph,
-at $R_I=0.95$, $n=600$, $\langle k\rangle = 4$, averaged over three
-realisations.}
+at $R_I=0.95$, $n=600$, $\langle k\rangle = 4$, \rev{$4\times10^{5}$ steps,
+mean $\pm$ standard error over $N=24$ independent realisations. The first
+submission reported three realisations of $4\times10^{4}$ steps; the transition
+has moved from between $c=0.020$ and $0.030$ to between $c=0.025$ and $0.030$,
+and the row at which the growth rules separate has moved with it.}}
 \label{tab:percolation}
 \begin{ruledtabular}
 \begin{tabular}{lcccccc}
@@ -592,37 +1052,212 @@ realisations.}
  & \multicolumn{2}{c}{$BA(m=2)$} \\
 $c$ & edges & $S$ & edges & $S$ & edges & $S$ \\
 \colrule
-0.002 & 0.988 & 1.000 & 0.990 & 1.000 & 0.940 & 1.000 \\
-0.010 & 0.950 & 1.000 & 0.955 & 1.000 & 0.874 & 1.000 \\
-0.020 & 0.686 & \textbf{0.569} & 0.689 & \textbf{0.976} & 0.605 & 0.967 \\
-0.030 & 0.183 & 0.006 & 0.178 & 0.006 & 0.165 & 0.007 \\
-0.070 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+0.002 & $0.990(1)$ & $1.000(1)$ & $0.992(1)$ & $1.000(1)$ & $0.949(3)$ & $1.000(1)$ \\
+0.010 & $0.955(2)$ & $0.973(13)$ & $0.960(2)$ & $1.000(1)$ & $0.877(4)$ & $1.000(1)$ \\
+0.015 & $0.899(2)$ & $0.843(32)$ & $0.904(2)$ & $1.000(1)$ & $0.804(4)$ & $1.000(1)$ \\
+0.020 & $0.840(2)$ & $0.882(22)$ & $0.849(2)$ & $1.000(1)$ & $0.728(4)$ & $0.996(1)$ \\
+0.025 & $0.517(2)$ & $0.227(20)$ & $0.522(2)$ & $0.831(5)$ & $0.466(3)$ & $0.735(10)$ \\
+0.030 & $0.123(2)$ & $0.010(1)$ & $0.122(2)$ & $0.009(1)$ & $0.109(2)$ & $0.009(1)$ \\
+0.045 & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ \\
+0.070 & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ \\
 \end{tabular}
 \end{ruledtabular}
-\end{table}
+\end{table*}
 
-The solitary phase percolates between $c=0.02$ and $c=0.03$, and the
-interesting behaviour is at the lower edge. There the two networks have
+The solitary phase percolates between \rev{$c=0.025$ and $c=0.030$}\del{ $c=0.02$
+and $c=0.03$}, and the
+interesting behaviour is at the lower edge. \rev{There the two networks have
+statistically identical coupled edge fractions, $0.517(2)$ against
+$0.522(2)$ over $24$ realisations each, and degree-resolved survival that
+agrees to within $0.011$ in every degree bin (Table~\ref{tab:degree}), yet
+entirely different connectivity: the triadic-closure network has
+$S=0.227\pm0.020$ and $36.3$ components of three nodes or more, while its
+randomization retains $S=0.831\pm0.005$ in $9.8$ components. The same contrast
+appears one step earlier, at $c=0.020$, in weaker form --- $S=0.882\pm0.022$
+against $1.000$ at coupled edge fractions $0.840$ and $0.849$ --- so it is not an
+artefact of one value of $c$.}\del{ There the two networks have
 statistically identical coupled edge fractions, $0.686$ against $0.689$, and
 identical degree-resolved survival, yet entirely different connectivity: the
 triadic-closure network has $S=0.569$, thirteen components of size three or
 more and a second of $99$ nodes, while its randomization is essentially intact
-at $S=0.976$. Local structure does not determine which relations survive; it
+at $S=0.976$.} Local structure does not determine which relations survive; it
 determines how their failure is arranged. Under triadic closure the coupled phase fragments into separated
 clusters, whereas at identical degrees without local structure it thins while
 staying connected. The split between local and non-local rules that governs the
 emergence of communities~\cite{bianconi2014} thus reappears as a split in the
 way the solitary phase invades.
 
-Survival falls monotonically with degree --- the fraction of a node's relations
-that remain coupled at $c=0.020$ is $0.856$, $0.704$, $0.539$ and $0.346$ for
-degrees near $2$, $4$, $8$ and $16$ --- and the two networks agree to within
-$0.01$ at every degree. This follows directly from the attention constraint:
+Survival falls monotonically with degree --- \rev{the fraction of a node's
+relations that remain coupled at $c=0.020$ is $0.972$, $0.889$, $0.726$ and
+$0.457$ for degrees near $2$, $4$, $8$ and $16$}\del{ the fraction of a node's
+relations that remain coupled at $c=0.020$ is $0.856$, $0.704$, $0.539$ and
+$0.346$ for degrees near $2$, $4$, $8$ and $16$} --- and \rev{the two networks
+agree to within $0.03$ at every degree and to within $0.01$ for $k\lesssim8$;
+at $c=0.025$, where their connectivities differ most, they agree to within
+$0.011$ at every degree (Table~\ref{tab:degree})}\del{ the two networks agree to
+within $0.01$ at every degree}. This follows directly from the attention
+constraint:
 $\hat p \simeq P(\text{active})/k$, so a relation is sustainable only while
 $k \lesssim P(\text{active})(R_I+c)/c$. High degree is a liability rather than a
 protection, because what an agent competes for is its partner's attention, and
 the coincidence of the two curves shows the effect to be independent of
 topology.
+
+\begin{table}[t]
+\caption{\rev{Degree-resolved survival: the fraction of a node's relations that
+remain coupled, for nodes of degree $k$ in $[b,2b)$, at $n=600$,
+$\langle k\rangle=4$, $R_I=0.95$, $4\times10^{5}$ steps, mean $\pm$ standard
+error over $N$ realisations. The three growth rules agree, so the effect is a
+property of the attention constraint and not of the topology; what differs
+between them is how the failures are arranged, not which relations fail.}}
+\label{tab:degree}
+\begin{ruledtabular}
+\begin{tabular}{lccccc}
+ & $N$ & $b=2$ & $4$ & $8$ & $16$ \\
+\colrule
+\multicolumn{6}{l}{$c=0.020$} \\
+$LS(\ell=1)$ & 24 & $0.972(1)$ & $0.889(2)$ & $0.726(3)$ & $0.457(9)$ \\
+randomized & 24 & $0.973(1)$ & $0.898(2)$ & $0.737(4)$ & $0.485(6)$ \\
+$BA(m=2)$ & 24 & $0.891(4)$ & $0.791(3)$ & $0.688(3)$ & $0.464(8)$ \\
+\colrule
+\multicolumn{6}{l}{$c=0.025$} \\
+$LS(\ell=1)$ & 24 & $0.677(3)$ & $0.531(3)$ & $0.370(4)$ & $0.240(6)$ \\
+randomized & 24 & $0.688(3)$ & $0.527(4)$ & $0.379(4)$ & $0.241(5)$ \\
+$BA(m=2)$ & 24 & $0.616(3)$ & $0.503(4)$ & $0.379(4)$ & $0.240(5)$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+
+\subsection[Realisations, error bars, finite size and robustness]{\rev{Realisations, error bars, finite size and robustness}}
+\label{sec:netnumerics}
+
+\rev{The numbers above come from $24$ independent realisations per point --- a
+fresh graph as well as fresh dynamics, since the growth rule draws from the same
+seeded stream --- with runs of $4\times10^{5}$ steps, ten times longer than in
+the first submission. What follows is what that buys: a test of the edge
+classification, the behaviour with system size, and the dependence on run length
+and initial condition. None of it changes the mechanism; it changes how much of
+the mechanism we are entitled to claim.}
+
+\rev{\emph{The coupled-edge criterion.} Calling an edge coupled above a rate of
+$10\epsilon^{2}$ is not a cut through a smooth distribution. The per-edge rates
+are bimodal [Fig.~\ref{fig:percolation}(b)]: a solitary edge executes only when
+both endpoints explore, which places it between $10^{-5}$ and $2\times10^{-4}$,
+while a coupled edge executes between $10^{-3}$ and $3\times10^{-2}$. The region
+between is empty deep in either phase and holds only $14\%$ of edges at
+$c=0.025$, in the middle of the transition. Moving the cut across that gap leaves
+the order parameter alone: \supptab{III} varies it over the decade from
+$3\times10^{-4}$ to $3\times10^{-3}$, with $10\epsilon^{2}$ at the centre, and
+$S$ moves by less than $0.012$ in the coupled phase and stays below $0.011$ in
+the solitary one. Outside that decade it fails, and it is worth saying how. At a
+cut of $\epsilon^{2}$ the exploration floor percolates by itself, giving a
+spurious $S=0.499\pm0.013$ at $c=0.070$ where no edge is coupled; at
+$5\times10^{-3}$ the cut starts deleting coupled edges, and $S$ at $c=0.020$
+falls from $1.000$ to $0.849(8)$.}
+
+\rev{\emph{System size.} \supptab{IV} and Fig.~\ref{fig:finitesize} repeat the
+measurement at $n=300$ to $4800$. The randomized network shows no size
+dependence at all: $S$ is $1.000$ for $c\le0.020$, $0.82$--$0.83$ at $c=0.025$
+and of order $1/n$ at $c=0.030$, at every size. The transition therefore sits
+between $c=0.025$ and $c=0.030$ independently of $n$, and what vanishes above it
+is a giant component rather than merely a large one: the largest coupled cluster
+at $c=0.030$ holds between six and ten nodes at every size.
+
+Under triadic closure the size dependence is strong, and it runs the other way.
+At $c=0.020$, $S$ falls from $0.936(24)$ at $n=300$ to $0.370(77)$ at
+$n=4800$, and at $c=0.025$ from $0.305(22)$ to $0.049(8)$; over that
+range $S\sim n^{-0.17}$, $n^{-0.32}$ and $n^{-0.66}$ at $c=0.015$, $0.020$ and
+$0.025$. The coupled edge fraction meanwhile matches the randomization to within
+$0.005$ at every size and every cost, so nothing about \emph{which} relations
+fail is changing. We read this as the coupled subgraph of the locally structured
+network ceasing to percolate in the large-system limit at costs where its
+randomization still percolates: local structure lowers the percolation threshold
+of the solitary phase rather than rearranging a fixed amount of damage at one
+size. We put it no more strongly, since five sizes are enough to show that the
+effect grows with $n$ and not enough to fit a critical exponent, which we do not
+attempt. What the argument needs is the negative statement: the contrast in
+Table~\ref{tab:percolation} is not an artefact of $n=600$.}
+
+\rev{\emph{Run length and initial condition.} The coupled state is metastable
+here as for a pair, and \supptab{II} makes the consequence explicit. The coupled
+edge fraction rises with the length of the run at every $c$ near the transition,
+and at $c=0.025$ is still rising after $1.6\times10^{6}$ steps; the giant
+component follows, $0.020(1)$ after $2.5\times10^{4}$ steps, $0.831(5)$ after
+$4\times10^{5}$ and $0.982(2)$ after $1.6\times10^{6}$. A threshold read off a
+run of any finite length is therefore a \emph{lower} bound on the stationary one.
+The drift is not a memory of the initial condition: starting every belief at
+$\hat p(0)=0.10$ rather than $0.85$ changes no entry in the second block of
+\supptab{II} beyond its error bar, so at $\epsilon=10^{-2}$ the network relaxes
+to the same state from either side, with no hysteresis at this run length. What
+is slow is the relaxation itself.}
+
+\rev{Pushing the runs to $6.4\times10^{6}$ steps, sixteen times the length used
+elsewhere, shows where this stops. At $c=0.025$ the coupled edge fraction climbs
+to $0.841(4)$ and $S$ to $0.998(1)$; at $c=0.030$ to $0.415(5)$ and $0.603(29)$,
+so what looks solitary after $4\times10^{5}$ steps ($S=0.009(1)$) is a
+percolating coupled phase that had not yet formed. At $c=0.035$, by contrast, the
+coupled fraction is $0.004(1)$ at $1.6\times10^{6}$ steps and $0.003(1)$ at
+$6.4\times10^{6}$ --- flat, and therefore stationary --- and at $c=0.045$ and
+$0.062$ nothing survives. The stationary transition is thus bracketed between
+$c=0.030$, still rising at the longest run, and $c=0.035$, where it has stopped,
+giving $c_c\simeq0.032$ against the $c_c\simeq0.027$ that $4\times10^{5}$ steps
+suggest. Part of what the first submission attributed to fluctuations was the
+length of the runs.}
+
+\rev{\emph{Sensitivity.} The lower block of \supptab{II} varies $\epsilon$,
+$\tau_{\rm mem}$, $R_I$ and $L$ one at a time about the reference point, and one
+of the four matters far more than Eq.~\eqref{eq:kc} allows for. The exploration
+rate does not move the transition; it decides whether there is a coupled phase at
+all. At $\epsilon=0$ no edge is coupled at any $c$ in the table, including
+$c=0.010$, where $k_c=22$ leaves a coupled state comfortably available at
+$\langle k\rangle=4$; at $\epsilon=3\times10^{-3}$ the coupled phase survives
+only to $c=0.015$; at $\epsilon=3\times10^{-2}$ and $10^{-1}$ nine tenths of the
+edges are coupled at every $c$ up to $0.030$. Equation~\eqref{eq:kc} treats
+exploration as a small tax on the attention budget, replacing $c(k+a)$ by
+$c(k+a)(1-\epsilon)^{-k}$ and moving the predicted threshold from $0.064$ to
+$0.062$. The measurement says it does something else: it is what stops a belief
+from spiralling downward, which a treatment that replaces the belief by its mean
+cannot see. That, rather than a general appeal to fluctuations, is why the
+mean-field threshold is wrong here, and it is the network counterpart of the
+intermittent window existing only at $\epsilon>0$.
+
+The other three behave as the theory requires. Raising $R_I$ raises the coupled
+fraction at every $c$; raising $L$ lowers it sharply, $k_c$ at $c=0.020$ falling
+from $10$ at $L=2$ to $4$ at $L=3$ and $1$ at $L=4$ while the measured fraction
+at $c=0.010$ falls from $0.960(2)$ to $0.385(3)$ to $0.000$. The memory time acts
+mainly through the relaxation rate, a longer memory meaning a slower approach to
+the stationary state at fixed run length: the coupled fraction at $c=0.025$ falls
+from $0.966(4)$ at $\tau_{\rm mem}=50$ to $0.267(1)$ at $400$, then rises to
+$0.450(2)$ at $800$. That is not monotone, and we do not interpret it beyond
+noting that at a fixed number of steps memory time and run length are not
+independent.}
+
+\rev{\emph{Relaxation and the network collapse time.} The edge-level analogue of
+the pair collapse time of Sec.~\ref{sec:survival} is not well defined, for a
+reason worth recording: the interevent times of a coupled edge are heavy-tailed,
+so a silence of any fixed length occurs in the coupled phase too, and a death
+criterion built from one measures the criterion rather than the dynamics. The
+global execution rate does not have that problem. Below the transition it is
+stationary --- the executed-edge fraction in the last window of a
+$4\times10^{5}$-step run differs from the first by between $-3\%$ and $+13\%$ at
+every $c\le0.025$, in all three growth rules --- and above it the decay has a
+measurable half-life: $(8.1\pm0.1)\times10^{4}$ steps at $c=0.030$,
+$(5.9\pm0.2)\times10^{3}$ at $c=0.045$ and $2\times10^{3}$ at $c=0.070$, ending
+at the exploration floor in each case. That is the network counterpart of
+Fig.~\ref{fig:survival}(c).}
+
+\begin{figure*}[t]
+\includegraphics[width=\textwidth]{fig_finitesize.pdf}
+\caption{\rev{The network transition with system size. (a) Giant component of
+the coupled subgraph against $c$ on the randomized network at five sizes; (b)
+the same for triadic closure, $LS(\ell=1)$; (c) distribution of $S$ over the
+$N=24$ realisations
+at $c=0.025$, $n=600$, where the two rules differ most. Error bars in (a) and
+(b) are standard errors over realisations, $N$ as in
+\supptab{IV}.}}
+\label{fig:finitesize}
+\end{figure*}
 
 \subsection{Analytic percolation threshold}
 
@@ -661,30 +1296,76 @@ k\rangle$, the cavity equation closes on a locally tree-like graph as
   \label{eq:cavity}
 \end{equation}
 with a giant component iff $b=\sum_k q_k\,\mathbb{E}[(m-1)\mathbf{1}\{m\le
-k_c\}]/\phi>1$, $m=1+\mathrm{Bin}(k-1,\phi)$. Setting $\phi=1$ recovers
-\eqref{eq:mr}, which is therefore an upper bound. Exploration at rate $\epsilon$
+k_c\}]/\phi>1$, $m=1+\mathrm{Bin}(k-1,\phi)$. \del{Setting $\phi=1$ recovers \eqref{eq:mr},
+which is therefore an upper bound.} \rev{Setting $\phi=1$ recovers
+Eq.~\eqref{eq:mr}. That limit ignores that a node whose relations have already
+failed divides its attention among the survivors only, so it underestimates how
+many relations remain sustainable and yields the more conservative threshold: for
+the degree distributions used here Eq.~\eqref{eq:mr} gives $c_c=0.041$ against
+$c_c=0.062$ from Eq.~\eqref{eq:cavity}. Both lie above the measured threshold, so
+both overestimate the extent of the coupled phase; Eq.~\eqref{eq:cavity} is the
+looser of the two and is the one quoted below. (The first submission stated the
+relation between the two the other way round; the numbers above are the
+correction.)} Exploration at rate $\epsilon$
 sets $x=1$ and hence wins the selection, consuming the attention slot with
 probability $1-(1-\epsilon)^k$; including it replaces $c(k+a)$ by
 $c(k+a)(1-\epsilon)^{-k}$ in \eqref{eq:kc}.
 
 Equation~\eqref{eq:kc} reproduces the measured degree dependence: survival falls
 monotonically with $k$, and $k_c=10.8$ at $c=0.020$ sits where the measured
-survival halves. The threshold itself, however, is a mean-field upper bound. On
+survival halves \rev{($0.726(3)$ at $k\simeq8$ and $0.457(9)$ at
+$k\simeq16$)}. The threshold itself, however, is a mean-field upper bound. On
 the randomized network, where the tree-like assumption holds,
-Eq.~\eqref{eq:cavity} gives $c_c\simeq0.062$ against a measured $c_c\simeq0.025$
---- long runs place the transition sharply between $c=0.020$ (coupled fraction
-$0.825$, $S=0.997$) and $c=0.030$ ($0.106$, $S=0.007$). The discrepancy is the
+Eq.~\eqref{eq:cavity} gives $c_c\simeq0.062$ against a measured
+\rev{$c_c\simeq0.032$. That measurement takes some care, because the coupled
+phase forms slowly: after $4\times10^{5}$ steps the transition appears to lie
+between $c=0.025$ and $c=0.030$, but after $6.4\times10^{6}$ steps $c=0.030$ is
+percolating and still growing while $c=0.035$ has stopped changing, which
+brackets the stationary threshold between the two (Sec.~\ref{sec:netnumerics}).
+Equation~\eqref{eq:mr} gives $c_c=0.041$, so the two mean-field estimates
+overestimate by factors of $1.9$ and $1.3$}\del{
+$c_c\simeq0.025$ --- long runs place the transition sharply between $c=0.020$
+(coupled fraction $0.825$, $S=0.997$) and $c=0.030$ ($0.106$, $S=0.007$)}. The
+discrepancy is the
 expected one: a mean-field treatment cannot capture fluctuation-driven escape
 into an absorbing state, and that escape is precisely the stag-hunt mechanism,
 the runaway in which a falling $\hat p$ lowers $X$, which reduces the offers
 received, which lowers $\hat p$ again. Relations that \eqref{eq:kc} declares
 viable are destroyed by it.
 
+\rev{The measurements of Sec.~\ref{sec:netnumerics} make this specific,
+replacing an appeal to fluctuations by a statement about two rates.
+Equation~\eqref{eq:kc} asks whether a coupled fixed point exists; the dynamics
+answers a different question, whether a relation in that state stays there. The
+escape rate is now measured directly for a pair (Sec.~\ref{sec:survival}) ---
+finite, exponentially small in $\tau_{\rm mem}$, and independent of how long one
+watches --- and the return rate is set by exploration, since two agents must
+explore in the same step. What is stationary is the balance of the two, and $c$
+enters by setting the first.}
+
+\rev{Removing the second makes the point unambiguous. At $\epsilon=0$ there is no
+return, and the coupled phase decays away at \emph{every} cost we tested, down to
+$c=5\times10^{-4}$, where Eq.~\eqref{eq:kc} gives $k_c=450$ and a degree-four
+node is nowhere near the mean-field boundary: the executed-edge fraction falls
+from $4.0\times10^{-3}$ to $0.7\times10^{-3}$ within $8\times10^{3}$ steps and
+never recovers, while at $\epsilon=10^{-3}$ it settles at $3.9\times10^{-3}$ and
+stays. The threshold in $c$ is therefore not where a coupled state ceases to
+exist, but where the lifetime of a relation falls below the time exploration
+needs to rebuild it --- which no treatment that replaces a belief by its mean can
+locate. Equation~\eqref{eq:kc} remains exact as a statement about existence, and
+remains the right predictor of the \emph{degree} dependence, a statement about
+attention rather than noise.}
+
 Two points follow. Convergence near the transition is slow and directional:
-over $2\times10^4$ to $3.2\times10^5$ steps the coupled fraction \emph{rises}
-from $0.488$ to $0.802$ at $c=0.020$ while \emph{falling} from $0.165$ to
-$0.082$ at $c=0.030$, so thresholds from short runs are biased toward the
-initial condition. And the truncation in \eqref{eq:mr} acts at the \emph{top}
+\rev{the coupled fraction rises with the length of the run at every $c$ near the
+transition, and the drift is not a memory of the initial condition, both as
+shown in Sec.~\ref{sec:netnumerics}. A threshold read off a run of given length
+is therefore a \emph{lower} bound on the stationary one, and a weak one near the
+transition: the giant component at $c=0.025$ is $0.020(1)$ after
+$2.5\times10^{4}$ steps and $0.982(2)$ after $1.6\times10^{6}$.}\del{ Over $2\times10^4$ to $3.2\times10^5$ steps the
+coupled fraction \emph{rises} from $0.488$ to $0.802$ at $c=0.020$ while
+\emph{falling} from $0.165$ to $0.082$ at $c=0.030$, so thresholds from short
+runs are biased toward the initial condition.} And the truncation in \eqref{eq:mr} acts at the \emph{top}
 of the degree distribution. For $p_k\sim k^{-\gamma}$ with
 $2<\gamma<3$ the second moment diverges and the network is robust to random
 removal, but the removal here is targeted at high degree --- the one attack to
@@ -697,15 +1378,30 @@ hubs, and the familiar contrast between robustness to failure and fragility to
 targeted attack acquires an endogenous form.
 
 The overestimate is also the expected behaviour of the approximation rather than
-a defect peculiar to this model. Absorbing-state transitions in noisy spatial
-coordination games belong to the directed-percolation class, whose upper
-critical dimension is four~\cite{hinrichsen2000}, and mean-field treatments
-systematically overestimate the extent of the ordered phase below it. We have
-measured no exponents and make no claim of membership in that class.
+a defect peculiar to this model. \rev{Directed percolation enters here as an
+analogy and nothing more. The model has the two ingredients that define the class
+--- a single absorbing state and a fluctuating active phase --- and for such
+models a mean-field treatment is known to overestimate the ordered phase below
+the upper critical dimension four~\cite{hinrichsen2000}, so the direction of our
+discrepancy is the expected one. That is the entire content of the appeal.
+Nothing here tests membership: we measure no critical exponents and attempt no
+finite-size scaling, and the substrate is a network rather than a lattice of
+definite dimension, so it is not even clear that the below-threshold values are
+the relevant ones. Establishing a universality class would need an
+order-parameter scaling collapse and at least two independently determined
+exponents; we do neither, and every statement we make concerns the location and
+discontinuous character of the transition, not its critical behaviour.}
 
-We report the transition location but claim no exponent: $n=600$ with three
-realisations is too small, and the agents here are all level 1, the network
-analogue of the self-model being left for future work.
+\rev{We report the transition location but claim no exponent. The campaign
+behind Sec.~\ref{sec:netnumerics} --- five system sizes from $n=300$ to
+$n=4800$, $8$ to $24$ realisations each, run lengths to $1.6\times10^{6}$ steps
+--- is enough to bracket the transition and to show that the bracket does not
+move with system size, and it is not enough to extract a critical exponent or to
+collapse an order parameter, which we do not attempt. The agents here are also
+all level~1, the network analogue of the self-model being left for future
+work.}\del{ We report the transition location but claim no exponent: $n=600$
+with three realisations is too small, and the agents here are all level 1, the
+network analogue of the self-model being left for future work.}
 
 \section{Groups and hypergraphs}
 \label{sec:groups}
@@ -713,7 +1409,11 @@ analogue of the self-model being left for future work.
 Many joint activities are not pairwise. A meeting takes place only if everybody
 turns up, which makes the interacting task a hyperedge rather than an edge.
 Structures encoding interactions among three or more units, and the dynamics
-they support, are reviewed in Ref.~\cite{battiston2020}. Encoding group
+they support, are reviewed in Ref.~\cite{battiston2020}. \rev{Their behavioural
+side --- how interactions involving more than two people shape collective human
+outcomes, and how much more fragile coordination becomes when everybody has to be
+present at once --- is reviewed in Ref.~\cite{battiston2025}, and the group limit
+we obtain below is a queueing-theoretic instance of exactly that fragility.} Encoding group
 interactions on hypergraphs is by now a standard device for evolutionary games
 in particular, where it changes the replicator dynamics and supplies a mechanism
 for the survival of cooperation~\cite{alvarez2021,perc2013}; what follows
@@ -755,7 +1455,12 @@ and we make no claim that it is the operative one.
 
 Simulation confirms Eq.~\eqref{eq:dc} at $m=2$: the fraction of groups that
 remain coupled falls from $1.000$ at $d=1$ to $0.309$ at $d=16$, straddling
-$d_c=10.76$. At $m=3$ it fails. Equation~\eqref{eq:dc} gives $d_c=1.60$ and so
+$d_c=10.76$. \rev{Over $N=12$ independent hypergraph realisations the sequence
+is $1.000$, $0.969(3)$, $0.765(5)$, $0.538(4)$, $0.310(2)$ at
+$d=1,2,4,8,16$ (Table~\ref{tab:hyper}), the parenthesis giving the standard
+error in the last digit.} At $m=3$ it fails. \rev{The coupled fraction is
+$0.031(5)$ at $d=1$ and falls to $0.015(1)$ at $d=16$; at $m=4$ no
+group survives in any realisation.} Equation~\eqref{eq:dc} gives $d_c=1.60$ and so
 permits $d=1$, and the fixed point is genuinely there --- solving
 \eqref{eq:hyper} at $m=3$, $d=1$, $c=0.020$ gives a stable root $X=0.862$
 against an unstable one at $X=0.363$, and the simulation begins exactly on it,
@@ -770,17 +1475,41 @@ coordination probability itself falls as the $m$th power. Both effects push the
 same way, and neither is visible to a mean-field treatment that asks only
 whether a fixed point exists. The diagnosis is confirmed by suppressing the
 noise: lengthening $\tau_{\rm mem}$, which reduces the variance of the belief
-estimate, restores a nonzero meeting rate ($0$ at $\tau_{\rm mem}=200$ rising to
-$0.006$ at $2\times10^4$ for $c=0.020$, and surviving already at
-$\tau_{\rm mem}=10^3$ for $c=0.005$, where $d_c=4.08$ leaves a wider margin).
+estimate, restores a nonzero meeting rate \rev{($N=12$: the mean rate at $m=3$, $d=1$ is
+$0.0000(1)$ at $\tau_{\rm mem}=200$, $10^3$ and $5\times10^3$ and
+$0.0060(1)$ at $2\times10^4$ for $c=0.020$, while at $c=0.005$, where
+$d_c=4.08$ leaves a wider margin, it is already $0.0058(1)$ at
+$\tau_{\rm mem}=10^3$ and rises to $0.0081(1)$ at $2\times10^{4}$)}\del{
+($0$ at $\tau_{\rm mem}=200$ rising to $0.006$ at $2\times10^4$ for $c=0.020$,
+and surviving already at $\tau_{\rm mem}=10^3$ for $c=0.005$, where $d_c=4.08$
+leaves a wider margin)}.
 
 The rescue is only partial --- the recovered rates remain an order of magnitude
 below the mean-field value --- so the conclusion is qualitative rather than
-quantitative. The $\sim2.3$ discrepancy found in the pairwise network case
-becomes, for $m\ge3$, a failure of kind: Eq.~\eqref{eq:dc} predicts viable
+quantitative. The \rev{factor-of-$2$}\del{ $\sim2.3$} discrepancy found in the pairwise
+network case becomes, for $m\ge3$, a failure of kind: Eq.~\eqref{eq:dc} predicts viable
 groups that the dynamics destroys. Group coordination is fragile not because
 coordinated states fail to exist, but because the absorbing state is reachable
 through any one participant.
+
+\begin{table}[t]
+\caption{\rev{Fraction of groups that remain coupled, at $R_I=0.95$, $c=0.020$,
+$\tau_{\rm mem}=200$, $\epsilon=10^{-2}$, $4\times10^{4}$ steps, mean $\pm$
+standard error over $N=12$ independent $d$-regular $m$-uniform hypergraphs of
+$240$ agents. The critical group degree of Eq.~\eqref{eq:dc} is $d_c=10.76$,
+$1.60$ and $0.67$ for $m=2,3,4$. It describes $m=2$ and fails at $m\ge3$, where
+groups that the criterion admits are destroyed by fluctuations.}}
+\label{tab:hyper}
+\begin{ruledtabular}
+\begin{tabular}{cccccc}
+$m$ & $d=1$ & $2$ & $4$ & $8$ & $16$ \\
+\colrule
+2 & $1.000(1)$ & $0.969(3)$ & $0.765(5)$ & $0.538(4)$ & $0.310(2)$ \\
+3 & $0.031(5)$ & $0.021(2)$ & $0.019(2)$ & $0.016(2)$ & $0.015(1)$ \\
+4 & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ & $0.000(1)$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
 
 \subsection{Reward proportional to group size}
 
@@ -827,11 +1556,14 @@ probability
   \label{eq:qstat}
 \end{equation}
 equal to $0.207$ at $\epsilon=10^{-2}$ rather than the $1/2$ that a freshly
-drawn priority would give. The measured meeting rate at $m=2$, $d=1$ is $0.0465$
+drawn priority would give. The measured meeting rate at $m=2$, $d=1$ is
+\rev{$0.0463(1)$ over $N=12$ realisations}\del{ $0.0465$}
 against $q^2=0.0427$, where the fresh-priority value $1/4$ is wrong by a factor
 of five. Replacing $\hat p$ by $q^{m-1}$ in the viability condition moves the
-ceiling to $m_{\max}=4$, and the simulations have $m=2$ robust, $m=3$ marginal
-at a rate of $10^{-3}$, and $m\ge4$ extinct.
+ceiling to $m_{\max}=4$, and the simulations have $m=2$ robust
+\rev{($0.0463(1)$)}, $m=3$ marginal
+at a rate of $10^{-3}$ \rev{($0.0010(1)$)}, and $m\ge4$ extinct
+\rev{($0.0000(1)$ at $m=4,6,8,10$)}.
 
 The correction matters here because a singly-committed agent has one priority to
 refresh; an agent holding many selects the largest, which is refreshed often, so
@@ -842,69 +1574,106 @@ it by less than the existence criterion promises. What bounds the group is not
 the worth of the occasion but the rate at which everybody is free at once.
 
 \section{Conclusions}
+\label{sec:conclusions}
 
 Letting agents choose the priority of a task that requires someone else turns a
 stochastic process into a system with a phase transition, and the transition
-organises everything else.
+organises everything else. \rev{Where the non-adaptive queueing models deliver
+one number, an interevent exponent from a small family of universality classes,
+the adaptive model delivers a phase diagram, and the exponent survives only as a
+symptom of where the system sits on it.}
 
 \emph{Its nature.} The coupled and solitary phases are separated by a
 saddle-node bifurcation, Eqs.~\eqref{eq:rcrit}, \eqref{eq:kc} and
 \eqref{eq:dc}, obtained in closed form in all three settings. It is
-discontinuous --- at $R_c$ a pair of fixed points is created at finite
-participation --- and the solitary phase is absorbing, since an agent that stops
-offering never observes one and so never revises. Together these give the asymmetry that is the
-paper's practical content: the conditions that sustain joint activity are not
-the conditions that restore it. None of our collapsed pairs recovered
-spontaneously; recovery required unilateral persistence for
-$0.74\,\tau_{\rm mem}$, and only an agent valuing the future beyond
-$1.5\,\tau_{\rm mem}$ adopts it. A relation is cheap to keep and expensive to
-rebuild, and the price is set by how long it takes to be forgotten rather than
-by how unfavourable the present looks.
+discontinuous\del{ --- at $R_c$ a pair of fixed points is created at finite
+participation ---} and the solitary phase is absorbing\del{, since an agent that
+stops offering never observes one and so never revises}.
+\del{Together these give the asymmetry that is the paper's practical content:
+the conditions that sustain joint activity are not the conditions that restore
+it.}
+\del{None of our collapsed pairs recovered spontaneously; recovery required
+unilateral persistence for $0.74\,\tau_{\rm mem}$, and only an agent valuing the
+future beyond $1.5\,\tau_{\rm mem}$ adopts it.}
+\rev{The conditions that sustain joint activity are not the conditions that
+restore it: no collapsed pair recovered spontaneously, recovery requires
+unilateral persistence for $0.74\,\tau_{\rm mem}$, and only an agent valuing the
+future beyond $1.5\,\tau_{\rm mem}$ pays it.}
+A relation is cheap to keep and expensive to
+rebuild, \del{and the price is}\rev{at a price} set by how long it takes to be
+forgotten\del{ rather than by how unfavourable the present looks}.
 
 \emph{What it costs the established picture.} Heavy-tailed interevent times are
-not generic once participation is chosen. Away from the transition the dynamics
-polarises to $\tau=1$ or $\tau\to\infty$; scale-free statistics survive only in
-a narrow window near the bifurcation, and only if agents retain a nonzero rate
-of uninformed exploration, without which no window exists at all. Within the window the exponent tracks the
-fraction of time spent coupled rather than the queue lengths, so the family
-$\alpha=1+1/\max_j(L_j-1)$ does not survive. We propose phase occupancy,
-bounded and directly measurable, in its place. Read the other way, exponents
+not generic once participation is chosen.
+\del{Away from the transition the dynamics polarises to $\tau=1$ or
+$\tau\to\infty$; scale-free statistics survive only in a narrow window near the
+bifurcation, and only if agents retain a nonzero rate of uninformed exploration,
+without which no window exists at all.}
+\del{Within the window the exponent tracks the fraction of time spent coupled
+rather than the queue lengths, so the family}
+\rev{They survive only in a narrow window at the bifurcation and only at nonzero
+exploration, and there the exponent tracks the fraction of time spent coupled
+rather than the queue lengths, so}
+$\alpha=1+1/\max_j(L_j-1)$ does not survive. We propose phase occupancy\del{,
+bounded and directly measurable,} in its place\rev{;}\del{.} \del{Read}\rev{read}
+the other way, exponents
 close to that family in correspondence data are evidence that the priority
 assignment there is close to exogenous.
 
 \emph{On networks and in groups.} Attention divides as $1/(k+a)$, fixing a
 critical degree $k_c$ beyond which no coupled state exists, and the solitary
 phase percolates by Molloy--Reed with the second moment truncated at $k_c$ ---
-the intentional-attack calculation~\cite{cohen2001} with no attacker. High
-degree is a liability, because what one competes for is the partner's attention,
-so a scale-free contact structure is maximally exposed to a collapse it
-generates internally. Local structure does not change \emph{which} relations
+the intentional-attack calculation~\cite{cohen2001} with no attacker\rev{, which
+makes a scale-free contact structure maximally exposed}.
+\del{High degree is a liability, because what one competes for is the partner's
+attention, so a scale-free contact structure is maximally exposed to a collapse
+it generates internally.}
+Local structure \del{does not change \emph{which} relations
 survive, but it changes how their failure is arranged, fragmenting the coupled
-phase into clusters rather than thinning it uniformly. For activities requiring
+phase into clusters rather than thinning it uniformly}\rev{decides how the
+failures are arranged rather than which relations fail}. For activities requiring
 $m$ participants the critical degree falls as the $(m-1)$th root, giving a
 maximum group size that a reward proportional to $m$ raises but cannot remove.
+\rev{Both the finite capacity for keeping ties active and the decay of ties
+whose rhythm is interrupted have been measured in communication
+records~\cite{miritello2013,dunbar1992,saramaki2014,navarro2017}; here they are
+$k_c$ and the memory-timescale condition, derived rather than posited.}
 
-\emph{Relevance for human dynamics.} The transition makes contact with
-quantities that have been measured, rather than only with exponents. A finite
-capacity for keeping ties active is $k_c$, observed directly in communication
-records~\cite{miritello2013,dunbar1992,saramaki2014}; here it is derived rather
-than posited. The decay of ties whose rhythm is interrupted beyond a
-characteristic multiple of their own frequency~\cite{navarro2017} is the
-empirical form of our memory-timescale condition, and the most promising
-quantitative test. Both are statements about the coupled phase and its boundary
-rather than about the tail of an interevent distribution, which suggests that
-the phase structure, not the exponent, is what the data have been describing.
+\del{\emph{Relevance for human dynamics.} The transition makes contact with
+quantities that have been measured, rather than only with exponents.}
+\del{A finite capacity for keeping ties active is $k_c$, observed directly in
+communication records; here it is derived rather than posited.}
+\del{The decay of ties whose rhythm is interrupted beyond a characteristic
+multiple of their own frequency is the empirical form of our memory-timescale
+condition, and the most promising quantitative test.}
+\del{Both are statements about the coupled phase and its boundary rather than
+about the tail of an interevent distribution, which suggests that the phase
+structure, not the exponent, is what the data have been describing.}
 
-\emph{Provenance and limitations.} Several results were reached while examining
-a different hypothesis, that experience is a property of systems whose preferred
-states are reachable only through another system they do not fully control;
-nothing in Secs.~\ref{sec:model}--\ref{sec:groups} depends on it. The
-critical points are mean-field: the percolation threshold exceeds the measured
-one by a factor $\simeq2.3$, and for $m\ge3$ it fails qualitatively, predicting
-viable groups that fluctuations destroy. Both are the expected behaviour of a
-mean-field treatment of an absorbing-state transition~\cite{hinrichsen2000},
-but we measure no exponents and claim no universality class. Convergence near
-the transition is slow and directional. Finally, the commitment length is chosen
+\rev{\emph{What is established and what is not.} Exact and confirmed: the pair
+phase boundary and its validity condition. Measured and robust: the
+discontinuous, absorbing character of the transition; the price of recovery in
+units of $\tau_{\rm mem}$; the decay of relation survival with degree; and the
+fact that the coupled phase on a network is sustained by exploration rather than
+merely perturbed by it. Preliminary: the location of the network threshold,
+which still moves with run length and which the mean-field estimates overshoot
+by factors of $1.9$ and $1.3$; anything concerning critical behaviour, since we
+measure no exponent and attempt no scaling collapse; and the group results at
+$m\ge3$, where the mean-field criterion fails qualitatively and what replaces it
+is a mechanism rather than a theory.}
+
+\emph{Provenance\del{ and limitations}.} Several results were reached while
+examining a different hypothesis, that experience is a property of systems whose
+preferred states are reachable only through another system they do not fully
+control; nothing in Secs.~\ref{sec:model}--\ref{sec:groups} depends on it.
+\del{The critical points are mean-field: the percolation threshold exceeds the
+measured one by a factor $\simeq2.3$; and for $m\ge3$ it fails qualitatively,
+predicting viable groups that fluctuations destroy.}
+\del{Both are the expected behaviour of a mean-field treatment of an
+absorbing-state transition, but we measure no exponents and claim no
+universality class.}
+\del{Convergence near the transition is slow and directional.}
+\del{Finally, the}\rev{The} commitment length is chosen
 from a fixed menu, the recovery constants use a memory time that agents
 attribute to their partners, and the network analogue of the partner-modelling
 agent is not implemented.
@@ -940,6 +1709,15 @@ I. Kondor, and A.-L. Barab\'asi, Phys. Rev. E \href{https://doi.org/10.1103/Phys
 Critical Phenomena} (Oxford University Press, New York, 1971).
 
 \bibitem{naor1969} P. Naor, Econometrica \href{https://doi.org/10.2307/1909200}{\textbf{37}, 15 (1969)}.
+
+\rev{\bibitem{jusup2022} M. Jusup, P. Holme, K. Kanazawa, M. Takayasu,
+I. Romi\'c, Z. Wang, S. Ge\v{c}ek, T. Lipi\'c, B. Podobnik, L. Wang, W. Luo,
+T. Klanj\v{s}\v{c}ek, J. Fan, S. Boccaletti, and M. Perc, Phys. Rep.
+\href{https://doi.org/10.1016/j.physrep.2021.10.005}{\textbf{948}, 1 (2022)}.}
+
+\rev{\bibitem{perc2010} M. Perc and A. Szolnoki, BioSystems
+\href{https://doi.org/10.1016/j.biosystems.2009.10.003}{\textbf{99}, 109
+(2010)}.}
 
 \bibitem{miritello2013} G. Miritello, R. Lara, M. Cebri\'an, and E. Moro,
 Sci. Rep. \href{https://doi.org/10.1038/srep01950}{\textbf{3}, 1950 (2013)}.
@@ -1003,6 +1781,10 @@ Y. Moreno, M. Perc, and V. Latora, Nat. Hum. Behav. \href{https://doi.org/10.103
 
 \bibitem{perc2013} M. Perc, J. G\'omez-Garde\~nes, A. Szolnoki, L. M. Flor\'ia,
 and Y. Moreno, J. R. Soc. Interface \href{https://doi.org/10.1098/rsif.2012.0997}{\textbf{10}, 20120997 (2013)}.
+
+\rev{\bibitem{battiston2025} F. Battiston, V. Capraro, F. Karimi, S. Lehmann,
+A. B. Migliano, O. Sadekar, A. S\'anchez, and M. Perc, Nat. Hum. Behav.
+\href{https://doi.org/10.1038/s41562-025-02373-5}{\textbf{9}, 2441 (2025)}.}
 
 \bibitem{dunbar1995} R. I. M. Dunbar, N. D. C. Duncan, and D. Nettle,
 Hum. Nat. \href{https://doi.org/10.1007/BF02734136}{\textbf{6}, 67 (1995)}.

@@ -20,3 +20,10 @@ __pycache__/
 # submission artefacts (not tracked)
 cover_letter.*
 submission*.zip
+
+# simulation output (regenerable; see coupled/README.md)
+coupled/results_net/
+coupled/results_*.json
+manuscript_clean.tex
+manuscript_cleanNotes.bib
+supplementaryNotes.bib
