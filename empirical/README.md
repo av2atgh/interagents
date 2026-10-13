@@ -20,7 +20,7 @@ answered if the recipient writes back within 7 days and before the sender
 writes again. High-c = thread-opening message proposing a meeting, call, meal
 or game (regex; ~65-70% precision on a hand-checked sample of 40).
 
-## First-pass results (2026-10-13)
+## First-pass results (2026-10-13; full write-up in `REPORT.md`)
 
 | test | prediction | result |
 |---|---|---|
