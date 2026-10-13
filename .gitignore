@@ -27,3 +27,6 @@ coupled/results_*.json
 manuscript_clean.tex
 manuscript_cleanNotes.bib
 supplementaryNotes.bib
+
+# empirical data (downloaded / regenerable; see empirical/README.md)
+empirical/data/
